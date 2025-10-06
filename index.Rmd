@@ -2,7 +2,7 @@
 title: "Inserm Workshop 282 - practical"
 author: "Benoît Lepage"
 date: "`r Sys.Date()`"
-site: bookdown::bookdown_site
+site: "bookdown::bookdown_site"
 output:
   bookdown::gitbook: 
     config:
