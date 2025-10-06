@@ -1,0 +1,34 @@
+---
+title: "Inserm Workshop 282 - practical"
+author: "Benoît Lepage"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output:
+  bookdown::gitbook: 
+    config:
+        sharing:
+            facebook: false
+            twitter: false
+#   #bookdown::pdf_book: default
+documentclass: book
+geometry: margin=0.79in
+bibliography: [references_formationR.bib]
+biblio-style: apalike
+description: "Inserm Workshop 282 - practical"
+link-citations: yes
+github-repo: Inserm_workshop_282
+---
+
+<!-- If you need PDF output, uncomment bookdown::pdf_book above in YAML. You will need a LaTeX installation, e.g., https://yihui.name/tinytex/ -->
+
+```{r required, include=FALSE}
+library(r2symbols)
+```
+
+
+# Chapitre numero ouno 
+
+blah
+
+## Paragraphe Ouno
+blah
