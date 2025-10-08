@@ -1,5 +1,5 @@
 ---
-title: "Inserm Workshop 282 - practical"
+title: "Inserm Workshop 282 - practical session"
 author: "Benoît Lepage"
 date: "`r Sys.Date()`"
 site: "bookdown::bookdown_site"
@@ -14,7 +14,7 @@ documentclass: book
 geometry: margin=0.79in
 bibliography: [references_formationR.bib]
 biblio-style: apalike
-description: "Inserm Workshop 282 - practical"
+description: "Inserm Workshop 282 - practical session"
 link-citations: yes
 github-repo: Inserm_workshop_282
 ---
@@ -26,9 +26,11 @@ library(r2symbols)
 ```
 
 
-# Chapitre numero ouno 
+# Introduction  
 
-blah
+We will use the following [data set](), you can download the data and import it in R.
 
-## Paragraphe Ouno
-blah
+## Data generating system
+The data was generated from the following data generating system. 
+
+
