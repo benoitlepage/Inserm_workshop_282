@@ -1,0 +1,107 @@
+# Applying the CMAverse 
+
+If we use the `CMAverse` package with the `df` data set, we can estimate the Average Total Effect ($ATE$) and the Controlled direct effects (setting the mediator to 0) ($CDE(M=0)$).
+
+\begin{align*}
+ATE &= \mathbb{E}(Y_{A=1}) - \mathbb{E}(Y_{A=0}) \\
+CDE(M=0) &= \mathbb{E}(Y_{A=1,M=0}) - \mathbb{E}(Y_{A=0,M=0}) 
+\end{align*}
+
+In case of intermediate confounders affected by the exposure, the estimation based on regression coefficients cannot be used to estimate CDE and other direct and indirect effects. We need to use a g-computation, an IPTW estimator or a double-robust estimator.
+
+## Estimation by "parametric" g-computation
+For example, we can estimate the two estimands ATE and CDE(M=0) on a risk difference scale as described below. In order to get estimates on the risk difference scale, the `yreg` argument needs to be set to `"linear"`.
+
+In order to estimate CDE(M=0) by parametric g-computation, we need: 
+
+  - a model of the outcome (note that the `exposure*mediator` interaction is correctly included)
+  - a model of each of the intermediate confounder (2 models in our example).
+  
+Using those 3 models, we can simulated counterfactual values (under $\{A=1,M=0\}$ and $\{A=0,M=0\}$) exactly as what we did in the introduction chapter to simulate the data set `df`.
+
+In the results, the model of the mediator is not needed for the CDE, but it is needed to estimate the interventional (stochastic) direct and indirect effects.
+
+Note that for the model of the intermediate confounder `occupation`, physical activity (`phys`) was not included as a predictor whereas it was present in the corresponding equation of the data-generating system: Can this "misspecification" result in some bias? (I don't know the answer, it might be interesting to test on simulations).
+
+```{r CMAverse_ex1, echo=TRUE, message=FALSE, warning=FALSE}
+library(CMAverse)
+set.seed(1234)
+gformula_death_RD <- cmest(data = df, 
+                           model = "gformula", # for parametric g-computation
+                           outcome = "death", # outcome variable
+                           exposure = "edu", # exposure variable
+                           mediator = "smoking", # mediator
+                           basec = c("sex",     
+                                     "low_par_edu"), # baseline confounders
+                           postc = c("phys", 
+                                     "occupation"), # intermediate confounders 
+                           EMint = TRUE, # exposures*mediator interaction
+                           mreg = list("logistic"), # g(M=1|L1,A,L0)
+                           yreg = "linear",# Qbar.L2 = P(Y=1|M,L1,A,L0) 
+                           postcreg = list("logistic", "logistic"), 
+                           astar = 0,
+                           a = 1,
+                           mval = list(0), # do(M=0) to estimate CDE(M=0)
+                           estimation = "imputation", # if model= gformula
+                           inference = "bootstrap",
+                           boot.ci.type = "per", # percentiles, other option: "bca"
+                           nboot = 2) # use a large number of bootstrap samples
+summary(gformula_death_RD)
+```
+
+The ATE = 0.1978 and the CDE(M=0) = 0.0716.
+
+
+## Estimation by MSM estimated by IPTW
+The CDE(M=0) can also by estimated using Marginal structural models (MSM) estimated by IPTW.
+
+In order to get estimations by IPTW, the `model` argument needs to be set to `msm`.
+
+The `cmest` function will estimate:
+
+  - a MSM for the outcome (depending only on the exposure and the mediator). Confounding is handled by weighting. This MSM can be used to estimate the controlled direct effect.
+  
+  \begin{align*}
+    \mathbb{E}(Y_{A=a,M=m}) &= \beta_0 + \beta_{A_{educ}} \times a + \beta_{M_{smoking}} \times m + \beta_{A \star M} \times (a \times m) \\
+    CDE(M=m) &= \mathbb{E}(Y_{A=1,M=m}) - \mathbb{E}(Y_{A=0,M=m}) = \beta_{A_{educ}} + \beta_{A \star M} \times m
+  \end{align*}
+  
+  - the weights $sw = sw_A \times sw_M$ is needed to handle confounding in the MSM of the outcome, where $sw_A$ is a weight balancing parents of the exposure $A$ and $sw_M$ is a weight balancing parents of the mediator. To calculate those weights, we need to specify the numerator and denominator for the mediator's weight with the `wmnomreg` and `wmdenomreg` arguments. The denominator for the exposure's weight is specified with the `ereg` argument.
+  
+  \begin{align*}
+    sw = sw_A \times sw_M = \frac{P(A_i)}{P(A_i \mid L(0))} \times \frac{P(M_i \mid A)}{P(M_i \mid L(0),A,L(1))}
+  \end{align*}
+  
+
+An MSM of the mediator is also estimated (depending only on the exposure, confounding is handled by weighting). This MSM is not useful to estimate the CDE, but is needed to estimated the "interventional" or "stochastic" natural direct and indirect effects.
+
+```{r CMAverse_ex2, echo=TRUE, message=FALSE, warning=FALSE}
+set.seed(1234)
+iptw_death_RD <- cmest(data = df, 
+                       model = "msm", # using MSM estimated by IPTW
+                       outcome = "death", # outcome variable
+                       exposure = "edu", # exposure variable
+                       mediator = "smoking", # mediator
+                       basec = c("sex",     
+                                 "low_par_edu"), # baseline confounders
+                       postc = c("phys", 
+                                 "occupation"), # intermediate confounders 
+                       EMint = TRUE, # exposures*mediator interaction
+                       ereg = "logistic", # exposure regression model g(A=1|L(0))
+                       mreg = list("logistic"), # g(M=1|L1,A,L0)
+                       yreg = "linear",# Qbar.L2 = P(Y=1|M,L1,A,L0) 
+                       postcreg = list("logistic", "logistic"), # Qbar.L1 = P(L1=1|A,L0)
+                       wmnomreg = list("logistic"), #g(M=1|A) wgt nominator
+                       wmdenomreg = list("logistic"), # g(M=1|L1,A,L(0)) wgt denominator
+                       astar = 0,
+                       a = 1,
+                       mval = list(0), # do(M=0) to estimate CDE_m
+                       estimation = "imputation", # if model= gformula
+                       inference = "bootstrap",
+                       boot.ci.type = "per", # for percentile, other option: "bca"
+                       nboot = 2) # we should use a large number of bootstrap samples
+
+summary(iptw_death_RD)
+```
+
+Applying an IPTW estimator using the `CMAverse`, the ATE = 0.1873 and the CDE(M=0) = 0.0704.

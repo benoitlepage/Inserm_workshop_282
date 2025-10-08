@@ -37,6 +37,46 @@
 }{% if KOMA class
   \KOMAoptions{parskip=half}}
 \makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
@@ -62,6 +102,39 @@
 % Set default figure placement to htbp
 \def\fps@figure{htbp}
 \makeatother
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
+  \fi
+  % set entry spacing
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
@@ -76,6 +149,13 @@
   pdfcreator={LaTeX via pandoc}}
 
 \title{Inserm Workshop 282 - practical session}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Mediation analyses with the ltmle and medoutcon packages}
 \author{Benoît Lepage}
 \date{2025-10-08}
 
@@ -88,14 +168,1362 @@
 }
 \chapter{Introduction}\label{introduction}
 
-We will use the following \href{}{data set}, you can download the data and import it in R.
+\begin{figure}
+
+{\centering \includegraphics[width=0.3\linewidth]{./images/url} 
+
+}
+
+\caption{QR code towards the github repository of the workshop}\label{fig:qrcode}
+\end{figure}
+
+We will use the following \href{https://github.com/benoitlepage/Inserm_workshop_282/blob/main/data/df.csv}{data set}, you can download the data and import it in R.
+
+For example, you can create a R project folder for this practical session, add a ``data'' folder and copy-paste the ``df.csv'' file in the data folder.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{read.csv2}\NormalTok{(}\StringTok{"data/df.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 \section{Data generating system}\label{data-generating-system}
 
-The data was generated from the following data generating system.
+The data generating mechanism is defined by the following set of structural equations, where:
 
-\chapter{Chapitre souivant}\label{chapitre-souivant}
+\begin{itemize}
+\tightlist
+\item
+  baseline confounders are sex (\(L(0)_{sex}\), 0 for women, 1 for men) and low parental education level (\(L(0)_{low.par.edu}\), 0 for no, 1 for yes),
+\item
+  the exposure of interest is the individual's educational level (\(A_{edu}\), 0 for high, 1 for low),
+\item
+  2 intermediate confounders affected by the exposure: physical activity (\(L(1)_{phys}\), 0 for no, 1 for yes) and occupation (\(L(1)_{occupation}\), 0 for non-manual, 1 for manual),
+\item
+  the mediator of interest is smoking (\(M_{smoking}\), 0 for no, 1 for yes),
+\item
+  the outcome \(Y\) can be death (0 for no, 1 for yes) or a continuous functional score (higher values correspond to higher function).
+\end{itemize}
 
-blah
+\[
+\begin{array}{lll}
+  L(0)_{sex}         &=& f\left(U_{sex}\right) \\
+  L(0)_{low.par.edu} &=& f\left(L(0)_{sex}, U_{low.par.edu}\right) \\
+  A_{edu}            &=& f\left(L(0)_{sex}, L(0)_{low.par.edu}, U_{edu}\right) \\
+  L(1)_{phys}        &=& f\left(L(0)_{sex}, L(0)_{low.par.edu}, A_{edu}, U_{L(1)_{phys}}\right) \\
+  L(1)_{occupation}  &=& f\left(L(0)_{sex}, L(0)_{low.par.edu}, A_{edu}, L(1)_{phys}, U_{L(1)_{occupation}}\right) \\
+  M_{smoking}        &=& f\left(L(0)_{sex}, L(0)_{low.par.edu}, A_{edu}, L(1)_{phys}, L(1)_{occupation}, U_{M_{smoking}}\right) \\
+  Y                  &=& f\left(L(0)_{sex}, L(0)_{low.par.edu}, A_{edu}, L(1)_{phys}, L(1)_{occupation}, M_{smoking}, U_Y \right) \\
+\end{array}\]
+
+\begin{figure}
+
+{\centering \includegraphics[width=1\linewidth]{./images/DAG_M1} 
+
+}
+
+\caption{Causal model 1}\label{fig:figDAGM1}
+\end{figure}
+
+Data were simulated using simple logistic and linear models.
+
+Note that an ``exposure - mediator'' interaction term is included in the equations to simulate the binary and quantitative outcomes. This will have to be considered during the estimations (in case of exposure-mediator interaction, the results will depend on the choice of estimands: pure or total indirect and direct effects).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# The following function can be used to simulate data.frames and estimate}
+\DocumentationTok{\#\# the "true" Average total effect and controlled direct effects}
+\NormalTok{GenerateData.CDE }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(N, }
+                             \AttributeTok{inter =} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, N), }\CommentTok{\# presence of A*M interaction}
+                             \AttributeTok{psi =} \ConstantTok{FALSE}\NormalTok{) \{ }\CommentTok{\# FALSE = simulate data.fame only}
+  \DocumentationTok{\#\#\# rexpit function}
+\NormalTok{  rexpit }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{ (x) }\FunctionTok{rbinom}\NormalTok{(}\FunctionTok{length}\NormalTok{(x), }\DecValTok{1}\NormalTok{, }\FunctionTok{plogis}\NormalTok{(x))}
+  
+  \DocumentationTok{\#\#\# baseline confounders L0}
+\NormalTok{  sex }\OtherTok{\textless{}{-}} \FunctionTok{rbinom}\NormalTok{(N, }\AttributeTok{size =} \DecValTok{1}\NormalTok{, }\AttributeTok{prob =} \FloatTok{0.45}\NormalTok{) }\CommentTok{\# 0 = women; 1 = men}
+\NormalTok{  low\_par\_edu }\OtherTok{\textless{}{-}} \FunctionTok{rexpit}\NormalTok{(}\FunctionTok{qlogis}\NormalTok{(}\FloatTok{0.7}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ sex) }\CommentTok{\# low parent education}
+  
+  \DocumentationTok{\#\#\# exposure A: low educational level = 1}
+\NormalTok{  edu }\OtherTok{\textless{}{-}} \FunctionTok{rexpit}\NormalTok{(}\FunctionTok{qlogis}\NormalTok{(}\FloatTok{0.5}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{0.8}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ sex  }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\DecValTok{2}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ low\_par\_edu)}
+\NormalTok{  edu0 }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{, N)}
+\NormalTok{  edu1 }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, N)}
+  
+  \DocumentationTok{\#\#\# intermediate counfounders L1}
+  \CommentTok{\# physical activity: 1 = yes ; 0 = no}
+\NormalTok{  phys }\OtherTok{\textless{}{-}} \FunctionTok{rexpit}\NormalTok{(}\FunctionTok{qlogis}\NormalTok{(}\FloatTok{0.6}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ sex  }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{0.8}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ low\_par\_edu }\SpecialCharTok{+}
+                   \FunctionTok{log}\NormalTok{(}\FloatTok{0.7}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ edu)}
+\NormalTok{  phys0 }\OtherTok{\textless{}{-}} \FunctionTok{rexpit}\NormalTok{(}\FunctionTok{qlogis}\NormalTok{(}\FloatTok{0.6}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ sex  }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{0.8}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ low\_par\_edu }\SpecialCharTok{+}
+                    \FunctionTok{log}\NormalTok{(}\FloatTok{0.7}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ edu0)}
+\NormalTok{  phys1 }\OtherTok{\textless{}{-}} \FunctionTok{rexpit}\NormalTok{(}\FunctionTok{qlogis}\NormalTok{(}\FloatTok{0.6}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ sex  }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{0.8}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ low\_par\_edu }\SpecialCharTok{+}
+                    \FunctionTok{log}\NormalTok{(}\FloatTok{0.7}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ edu1)}
+  
+  \CommentTok{\# occupation: 1 = manual; 0 = non{-}manual}
+\NormalTok{  occupation }\OtherTok{\textless{}{-}} \FunctionTok{rexpit}\NormalTok{(}\FunctionTok{qlogis}\NormalTok{(}\FloatTok{0.5}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.3}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ sex  }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.2}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ low\_par\_edu }\SpecialCharTok{+} 
+                   \FunctionTok{log}\NormalTok{(}\FloatTok{2.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ edu }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\DecValTok{2}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ phys) }
+\NormalTok{  occupation0 }\OtherTok{\textless{}{-}} \FunctionTok{rexpit}\NormalTok{(}\FunctionTok{qlogis}\NormalTok{(}\FloatTok{0.5}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.3}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ sex  }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.2}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ low\_par\_edu }\SpecialCharTok{+} 
+                          \FunctionTok{log}\NormalTok{(}\FloatTok{2.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ edu0 }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\DecValTok{2}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ phys0)  }
+\NormalTok{  occupation1 }\OtherTok{\textless{}{-}} \FunctionTok{rexpit}\NormalTok{(}\FunctionTok{qlogis}\NormalTok{(}\FloatTok{0.5}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.3}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ sex  }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.2}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ low\_par\_edu }\SpecialCharTok{+} 
+                          \FunctionTok{log}\NormalTok{(}\FloatTok{2.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ edu1 }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\DecValTok{2}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ phys1) }
+  
+  \DocumentationTok{\#\#\# mediator}
+\NormalTok{  smoking }\OtherTok{\textless{}{-}} \FunctionTok{rexpit}\NormalTok{(}\FunctionTok{qlogis}\NormalTok{(}\FloatTok{0.3}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.8}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ sex  }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ low\_par\_edu }\SpecialCharTok{+} 
+                      \FunctionTok{log}\NormalTok{(}\DecValTok{2}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ edu }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{0.7}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ phys }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.8}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ occupation) }
+\NormalTok{  smoking0 }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{, N)}
+\NormalTok{  smoking1 }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, N)}
+\NormalTok{  smoking\_tot0 }\OtherTok{\textless{}{-}} \FunctionTok{rexpit}\NormalTok{(}\FunctionTok{qlogis}\NormalTok{(}\FloatTok{0.3}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.8}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ sex  }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ low\_par\_edu }\SpecialCharTok{+} 
+                           \FunctionTok{log}\NormalTok{(}\DecValTok{2}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ edu0 }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{0.7}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ phys0 }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.8}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ occupation0) }
+\NormalTok{  smoking\_tot1 }\OtherTok{\textless{}{-}} \FunctionTok{rexpit}\NormalTok{(}\FunctionTok{qlogis}\NormalTok{(}\FloatTok{0.3}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.8}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ sex  }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ low\_par\_edu }\SpecialCharTok{+} 
+                           \FunctionTok{log}\NormalTok{(}\DecValTok{2}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ edu1 }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{0.7}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ phys1 }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.8}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ occupation1) }
+                     
+  
+  \DocumentationTok{\#\#\# outcomes}
+\NormalTok{  death }\OtherTok{\textless{}{-}} \FunctionTok{rexpit}\NormalTok{(}\FunctionTok{qlogis}\NormalTok{(}\FloatTok{0.05}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ sex  }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.6}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ low\_par\_edu }\SpecialCharTok{+} 
+                    \FunctionTok{log}\NormalTok{(}\FloatTok{1.7}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ edu }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{0.8}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ phys }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ occupation }\SpecialCharTok{+} 
+                    \FunctionTok{log}\NormalTok{(}\FloatTok{2.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ smoking }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ edu }\SpecialCharTok{*}\NormalTok{ smoking }\SpecialCharTok{*}\NormalTok{ inter)}
+\NormalTok{  death00 }\OtherTok{\textless{}{-}} \FunctionTok{rexpit}\NormalTok{(}\FunctionTok{qlogis}\NormalTok{(}\FloatTok{0.05}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ sex  }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.6}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ low\_par\_edu }\SpecialCharTok{+} 
+                      \FunctionTok{log}\NormalTok{(}\FloatTok{1.7}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ edu0 }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{0.8}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ phys0 }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ occupation0 }\SpecialCharTok{+} 
+                      \FunctionTok{log}\NormalTok{(}\FloatTok{2.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ smoking0 }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ edu0 }\SpecialCharTok{*}\NormalTok{ smoking0 }\SpecialCharTok{*}\NormalTok{ inter)}
+\NormalTok{  death01 }\OtherTok{\textless{}{-}} \FunctionTok{rexpit}\NormalTok{(}\FunctionTok{qlogis}\NormalTok{(}\FloatTok{0.05}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ sex  }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.6}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ low\_par\_edu }\SpecialCharTok{+} 
+                      \FunctionTok{log}\NormalTok{(}\FloatTok{1.7}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ edu0 }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{0.8}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ phys0 }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ occupation0 }\SpecialCharTok{+} 
+                      \FunctionTok{log}\NormalTok{(}\FloatTok{2.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ smoking1 }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ edu0 }\SpecialCharTok{*}\NormalTok{ smoking1 }\SpecialCharTok{*}\NormalTok{ inter)}
+\NormalTok{  death10 }\OtherTok{\textless{}{-}} \FunctionTok{rexpit}\NormalTok{(}\FunctionTok{qlogis}\NormalTok{(}\FloatTok{0.05}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ sex  }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.6}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ low\_par\_edu }\SpecialCharTok{+} 
+                      \FunctionTok{log}\NormalTok{(}\FloatTok{1.7}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ edu1 }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{0.8}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ phys1 }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ occupation1 }\SpecialCharTok{+} 
+                      \FunctionTok{log}\NormalTok{(}\FloatTok{2.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ smoking0 }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ edu1 }\SpecialCharTok{*}\NormalTok{ smoking0 }\SpecialCharTok{*}\NormalTok{ inter)}
+\NormalTok{  death11 }\OtherTok{\textless{}{-}} \FunctionTok{rexpit}\NormalTok{(}\FunctionTok{qlogis}\NormalTok{(}\FloatTok{0.05}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ sex  }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.6}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ low\_par\_edu }\SpecialCharTok{+} 
+                      \FunctionTok{log}\NormalTok{(}\FloatTok{1.7}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ edu1 }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{0.8}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ phys1 }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ occupation1 }\SpecialCharTok{+} 
+                      \FunctionTok{log}\NormalTok{(}\FloatTok{2.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ smoking1 }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ edu1 }\SpecialCharTok{*}\NormalTok{ smoking1 }\SpecialCharTok{*}\NormalTok{ inter)}
+\NormalTok{  death\_tot0 }\OtherTok{\textless{}{-}} \FunctionTok{rexpit}\NormalTok{(}\FunctionTok{qlogis}\NormalTok{(}\FloatTok{0.05}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ sex  }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.6}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ low\_par\_edu }\SpecialCharTok{+} 
+                         \FunctionTok{log}\NormalTok{(}\FloatTok{1.7}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ edu0 }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{0.8}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ phys0 }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ occupation0 }\SpecialCharTok{+} 
+                         \FunctionTok{log}\NormalTok{(}\FloatTok{2.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ smoking\_tot0 }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ edu0 }\SpecialCharTok{*}\NormalTok{ smoking\_tot0 }\SpecialCharTok{*}\NormalTok{ inter)}
+\NormalTok{  death\_tot1 }\OtherTok{\textless{}{-}} \FunctionTok{rexpit}\NormalTok{(}\FunctionTok{qlogis}\NormalTok{(}\FloatTok{0.05}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ sex  }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.6}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ low\_par\_edu }\SpecialCharTok{+} 
+                         \FunctionTok{log}\NormalTok{(}\FloatTok{1.7}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ edu1 }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{0.8}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ phys1 }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ occupation1 }\SpecialCharTok{+} 
+                         \FunctionTok{log}\NormalTok{(}\FloatTok{2.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ smoking\_tot1 }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\FloatTok{1.5}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ edu1 }\SpecialCharTok{*}\NormalTok{ smoking\_tot1 }\SpecialCharTok{*}\NormalTok{ inter)}
+
+\NormalTok{  score }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(N, }\AttributeTok{mean =} \DecValTok{50} \SpecialCharTok{+} \DecValTok{5} \SpecialCharTok{*}\NormalTok{ sex  }\SpecialCharTok{{-}}\DecValTok{5} \SpecialCharTok{*}\NormalTok{ low\_par\_edu }\SpecialCharTok{+} 
+                   \SpecialCharTok{{-}}\DecValTok{10} \SpecialCharTok{*}\NormalTok{ edu }\SpecialCharTok{+} \DecValTok{8} \SpecialCharTok{*}\NormalTok{ phys }\SpecialCharTok{{-}}\DecValTok{7} \SpecialCharTok{*}\NormalTok{ occupation }\SpecialCharTok{+} 
+                   \SpecialCharTok{{-}}\DecValTok{15} \SpecialCharTok{*}\NormalTok{ smoking }\SpecialCharTok{+} \SpecialCharTok{{-}}\DecValTok{8} \SpecialCharTok{*}\NormalTok{ edu }\SpecialCharTok{*}\NormalTok{ smoking }\SpecialCharTok{*}\NormalTok{ inter, }
+                 \AttributeTok{sd =} \DecValTok{15}\NormalTok{)}
+\NormalTok{  score00 }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(N, }\AttributeTok{mean =} \DecValTok{50} \SpecialCharTok{+} \DecValTok{5} \SpecialCharTok{*}\NormalTok{ sex  }\SpecialCharTok{{-}}\DecValTok{5} \SpecialCharTok{*}\NormalTok{ low\_par\_edu }\SpecialCharTok{+} 
+                     \SpecialCharTok{{-}}\DecValTok{10} \SpecialCharTok{*}\NormalTok{ edu0 }\SpecialCharTok{+} \DecValTok{8} \SpecialCharTok{*}\NormalTok{ phys0 }\SpecialCharTok{{-}}\DecValTok{7} \SpecialCharTok{*}\NormalTok{ occupation0 }\SpecialCharTok{+} 
+                     \SpecialCharTok{{-}}\DecValTok{15} \SpecialCharTok{*}\NormalTok{ smoking0 }\SpecialCharTok{+} \SpecialCharTok{{-}}\DecValTok{8} \SpecialCharTok{*}\NormalTok{ edu0 }\SpecialCharTok{*}\NormalTok{ smoking0 }\SpecialCharTok{*}\NormalTok{ inter,}
+                   \AttributeTok{sd =} \DecValTok{15}\NormalTok{)}
+\NormalTok{  score01 }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(N, }\AttributeTok{mean =} \DecValTok{50} \SpecialCharTok{+} \DecValTok{5} \SpecialCharTok{*}\NormalTok{ sex  }\SpecialCharTok{{-}}\DecValTok{5} \SpecialCharTok{*}\NormalTok{ low\_par\_edu }\SpecialCharTok{+} 
+                     \SpecialCharTok{{-}}\DecValTok{10} \SpecialCharTok{*}\NormalTok{ edu0 }\SpecialCharTok{+} \DecValTok{8} \SpecialCharTok{*}\NormalTok{ phys0 }\SpecialCharTok{{-}}\DecValTok{7} \SpecialCharTok{*}\NormalTok{ occupation0 }\SpecialCharTok{+} 
+                     \SpecialCharTok{{-}}\DecValTok{15} \SpecialCharTok{*}\NormalTok{ smoking1 }\SpecialCharTok{+} \SpecialCharTok{{-}}\DecValTok{8} \SpecialCharTok{*}\NormalTok{ edu0 }\SpecialCharTok{*}\NormalTok{ smoking1 }\SpecialCharTok{*}\NormalTok{ inter,}
+                   \AttributeTok{sd =} \DecValTok{15}\NormalTok{)  }
+\NormalTok{  score10 }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(N, }\AttributeTok{mean =} \DecValTok{50} \SpecialCharTok{+} \DecValTok{5} \SpecialCharTok{*}\NormalTok{ sex  }\SpecialCharTok{{-}}\DecValTok{5} \SpecialCharTok{*}\NormalTok{ low\_par\_edu }\SpecialCharTok{+} 
+                     \SpecialCharTok{{-}}\DecValTok{10} \SpecialCharTok{*}\NormalTok{ edu1 }\SpecialCharTok{+} \DecValTok{8} \SpecialCharTok{*}\NormalTok{ phys1 }\SpecialCharTok{{-}}\DecValTok{7} \SpecialCharTok{*}\NormalTok{ occupation1 }\SpecialCharTok{+} 
+                     \SpecialCharTok{{-}}\DecValTok{15} \SpecialCharTok{*}\NormalTok{ smoking0 }\SpecialCharTok{+} \SpecialCharTok{{-}}\DecValTok{8} \SpecialCharTok{*}\NormalTok{ edu1 }\SpecialCharTok{*}\NormalTok{ smoking0 }\SpecialCharTok{*}\NormalTok{ inter,}
+                   \AttributeTok{sd =} \DecValTok{15}\NormalTok{)   }
+\NormalTok{  score11 }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(N, }\AttributeTok{mean =} \DecValTok{50} \SpecialCharTok{+} \DecValTok{5} \SpecialCharTok{*}\NormalTok{ sex  }\SpecialCharTok{{-}}\DecValTok{5} \SpecialCharTok{*}\NormalTok{ low\_par\_edu }\SpecialCharTok{+} 
+                     \SpecialCharTok{{-}}\DecValTok{10} \SpecialCharTok{*}\NormalTok{ edu1 }\SpecialCharTok{+} \DecValTok{8} \SpecialCharTok{*}\NormalTok{ phys1 }\SpecialCharTok{{-}}\DecValTok{7} \SpecialCharTok{*}\NormalTok{ occupation1 }\SpecialCharTok{+} 
+                     \SpecialCharTok{{-}}\DecValTok{15} \SpecialCharTok{*}\NormalTok{ smoking1 }\SpecialCharTok{+} \SpecialCharTok{{-}}\DecValTok{8} \SpecialCharTok{*}\NormalTok{ edu1 }\SpecialCharTok{*}\NormalTok{ smoking1 }\SpecialCharTok{*}\NormalTok{ inter, }
+                   \AttributeTok{sd =} \DecValTok{15}\NormalTok{)   }
+\NormalTok{  score\_tot0 }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(N, }\AttributeTok{mean =} \DecValTok{50} \SpecialCharTok{+} \DecValTok{5} \SpecialCharTok{*}\NormalTok{ sex  }\SpecialCharTok{{-}}\DecValTok{5} \SpecialCharTok{*}\NormalTok{ low\_par\_edu }\SpecialCharTok{+} 
+                        \SpecialCharTok{{-}}\DecValTok{10} \SpecialCharTok{*}\NormalTok{ edu0 }\SpecialCharTok{+} \DecValTok{8} \SpecialCharTok{*}\NormalTok{ phys0 }\SpecialCharTok{{-}}\DecValTok{7} \SpecialCharTok{*}\NormalTok{ occupation0 }\SpecialCharTok{+} 
+                        \SpecialCharTok{{-}}\DecValTok{15} \SpecialCharTok{*}\NormalTok{ smoking\_tot0 }\SpecialCharTok{+} \SpecialCharTok{{-}}\DecValTok{8} \SpecialCharTok{*}\NormalTok{ edu0 }\SpecialCharTok{*}\NormalTok{ smoking\_tot0 }\SpecialCharTok{*}\NormalTok{ inter, }
+                      \AttributeTok{sd =} \DecValTok{15}\NormalTok{)}
+\NormalTok{  score\_tot1 }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(N, }\AttributeTok{mean =} \DecValTok{50} \SpecialCharTok{+} \DecValTok{5} \SpecialCharTok{*}\NormalTok{ sex  }\SpecialCharTok{{-}}\DecValTok{5} \SpecialCharTok{*}\NormalTok{ low\_par\_edu }\SpecialCharTok{+} 
+                        \SpecialCharTok{{-}}\DecValTok{10} \SpecialCharTok{*}\NormalTok{ edu1 }\SpecialCharTok{+} \DecValTok{8} \SpecialCharTok{*}\NormalTok{ phys1 }\SpecialCharTok{{-}}\DecValTok{7} \SpecialCharTok{*}\NormalTok{ occupation1 }\SpecialCharTok{+} 
+                        \SpecialCharTok{{-}}\DecValTok{15} \SpecialCharTok{*}\NormalTok{ smoking\_tot1 }\SpecialCharTok{+} \SpecialCharTok{{-}}\DecValTok{8} \SpecialCharTok{*}\NormalTok{ edu1 }\SpecialCharTok{*}\NormalTok{ smoking\_tot1 }\SpecialCharTok{*}\NormalTok{ inter, }
+                      \AttributeTok{sd =} \DecValTok{15}\NormalTok{)}
+                   
+  
+  \ControlFlowTok{if}\NormalTok{ (psi }\SpecialCharTok{==} \ConstantTok{FALSE}\NormalTok{) \{}
+    \FunctionTok{return}\NormalTok{(}\AttributeTok{data.sim =} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{subjid =} \DecValTok{1}\SpecialCharTok{:}\NormalTok{N,}
+                                 \AttributeTok{sex =}\NormalTok{ sex, }
+                                 \AttributeTok{low\_par\_edu =}\NormalTok{ low\_par\_edu,}
+                                 \AttributeTok{edu =}\NormalTok{ edu,}
+                                 \AttributeTok{phys =}\NormalTok{ phys,}
+                                 \AttributeTok{occupation =}\NormalTok{ occupation,}
+                                 \AttributeTok{smoking =}\NormalTok{ smoking,}
+                                 \AttributeTok{death =}\NormalTok{ death,}
+                                 \AttributeTok{score =}\NormalTok{ score))}
+\NormalTok{  \} }\ControlFlowTok{else}\NormalTok{ \{}
+    \FunctionTok{return}\NormalTok{(}\AttributeTok{Psi =} \FunctionTok{list}\NormalTok{(}\AttributeTok{EY00\_death =} \FunctionTok{mean}\NormalTok{(death00),}
+                      \AttributeTok{EY01\_death =} \FunctionTok{mean}\NormalTok{(death01),}
+                      \AttributeTok{EY10\_death =} \FunctionTok{mean}\NormalTok{(death10),}
+                      \AttributeTok{EY11\_death =} \FunctionTok{mean}\NormalTok{(death11),}
+                      \AttributeTok{EY0\_death =} \FunctionTok{mean}\NormalTok{(death\_tot0), }
+                      \AttributeTok{EY1\_death =} \FunctionTok{mean}\NormalTok{(death\_tot1),}
+                      \AttributeTok{ATE\_death =} \FunctionTok{mean}\NormalTok{(death\_tot1) }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(death\_tot0),}
+                      \AttributeTok{CDE0\_death =} \FunctionTok{mean}\NormalTok{(death10) }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(death00),}
+                      \AttributeTok{CDE1\_death =} \FunctionTok{mean}\NormalTok{(death11) }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(death01),}
+                      \AttributeTok{EY00\_score =} \FunctionTok{mean}\NormalTok{(score00),}
+                      \AttributeTok{EY01\_score =} \FunctionTok{mean}\NormalTok{(score01),}
+                      \AttributeTok{EY10\_score =} \FunctionTok{mean}\NormalTok{(score10),}
+                      \AttributeTok{EY11\_score =} \FunctionTok{mean}\NormalTok{(score11),}
+                      \AttributeTok{EY0\_score =} \FunctionTok{mean}\NormalTok{(score\_tot0),}
+                      \AttributeTok{EY1\_score =} \FunctionTok{mean}\NormalTok{(score\_tot1),}
+                      \AttributeTok{ATE\_score =} \FunctionTok{mean}\NormalTok{(score\_tot1) }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(score\_tot0),}
+                      \AttributeTok{CDE0\_score =} \FunctionTok{mean}\NormalTok{(score10) }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(score00),}
+                      \AttributeTok{CDE1\_score =} \FunctionTok{mean}\NormalTok{(score11) }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(score01)))}
+\NormalTok{  \}}
+\NormalTok{\}}
+
+
+\DocumentationTok{\#\# Simulate the data.frame df }
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{1234}\NormalTok{)}
+\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{GenerateData.CDE}\NormalTok{(}\AttributeTok{N =} \DecValTok{10000}\NormalTok{, }\AttributeTok{inter =} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{10000}\NormalTok{), }\AttributeTok{psi =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      subjid           sex          low_par_edu          edu        
+##  Min.   :    1   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000  
+##  1st Qu.: 2501   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000  
+##  Median : 5000   Median :0.0000   Median :1.0000   Median :1.0000  
+##  Mean   : 5000   Mean   :0.4488   Mean   :0.7329   Mean   :0.5953  
+##  3rd Qu.: 7500   3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:1.0000  
+##  Max.   :10000   Max.   :1.0000   Max.   :1.0000   Max.   :1.0000  
+##       phys          occupation       smoking           death       
+##  Min.   :0.0000   Min.   :0.000   Min.   :0.0000   Min.   :0.0000  
+##  1st Qu.:0.0000   1st Qu.:0.000   1st Qu.:0.0000   1st Qu.:0.0000  
+##  Median :1.0000   Median :1.000   Median :1.0000   Median :0.0000  
+##  Mean   :0.5579   Mean   :0.744   Mean   :0.5842   Mean   :0.2561  
+##  3rd Qu.:1.0000   3rd Qu.:1.000   3rd Qu.:1.0000   3rd Qu.:1.0000  
+##  Max.   :1.0000   Max.   :1.000   Max.   :1.0000   Max.   :1.0000  
+##      score       
+##  Min.   :-49.40  
+##  1st Qu.: 15.18  
+##  Median : 30.37  
+##  Mean   : 30.48  
+##  3rd Qu.: 45.67  
+##  Max.   : 97.00
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Calculate the "true" estimands for:}
+\DocumentationTok{\#\#  {-} the Average total effect: ATE = E(Y\_0) {-} E(Y\_1)}
+\DocumentationTok{\#\#  {-} the controlled direct effect CDE(M=m), setting the mediator to M=m}
+\DocumentationTok{\#\#    CDE(M=0) = E(Y\_10) {-} E(Y\_00)}
+\DocumentationTok{\#\#    CDE(M=1) = E(Y\_11) {-} E(Y\_01)}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{1234}\NormalTok{)}
+\NormalTok{true }\OtherTok{\textless{}{-}} \FunctionTok{GenerateData.CDE}\NormalTok{(}\AttributeTok{N =} \DecValTok{10000}\NormalTok{, }\AttributeTok{inter =} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\FloatTok{1e6}\NormalTok{), }\AttributeTok{psi =} \ConstantTok{TRUE}\NormalTok{) }\CommentTok{\# CHANGE N TO 1e6 ++++++++++}
+\NormalTok{true}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $EY00_death
+## [1] 0.096781
+## 
+## $EY01_death
+## [1] 0.209633
+## 
+## $EY10_death
+## [1] 0.163479
+## 
+## $EY11_death
+## [1] 0.416236
+## 
+## $EY0_death
+## [1] 0.153527
+## 
+## $EY1_death
+## [1] 0.332711
+## 
+## $ATE_death
+## [1] 0.179184
+## 
+## $CDE0_death
+## [1] 0.066698
+## 
+## $CDE1_death
+## [1] 0.206603
+## 
+## $EY00_score
+## [1] 48.78223
+## 
+## $EY01_score
+## [1] 33.57381
+## 
+## $EY10_score
+## [1] 36.85815
+## 
+## $EY11_score
+## [1] 13.95586
+## 
+## $EY0_score
+## [1] 41.77577
+## 
+## $EY1_score
+## [1] 21.84661
+## 
+## $ATE_score
+## [1] -19.92916
+## 
+## $CDE0_score
+## [1] -11.92408
+## 
+## $CDE1_score
+## [1] -19.61794
+\end{verbatim}
+
+\chapter{Applying the CMAverse}\label{applying-the-cmaverse}
+
+If we use the \texttt{CMAverse} package with the \texttt{df} data set, we can estimate the Average Total Effect (\(ATE\)) and the Controlled direct effects (setting the mediator to 0) (\(CDE(M=0)\)).
+
+\begin{align*}
+ATE &= \mathbb{E}(Y_{A=1}) - \mathbb{E}(Y_{A=0}) \\
+CDE(M=0) &= \mathbb{E}(Y_{A=1,M=0}) - \mathbb{E}(Y_{A=0,M=0}) 
+\end{align*}
+
+In case of intermediate confounders affected by the exposure, the estimation based on regression coefficients cannot be used to estimate CDE and other direct and indirect effects. We need to use a g-computation, an IPTW estimator or a double-robust estimator.
+
+\section{Estimation by ``parametric'' g-computation}\label{estimation-by-parametric-g-computation}
+
+For example, we can estimate the two estimands ATE and CDE(M=0) on a risk difference scale as described below. In order to get estimates on the risk difference scale, the \texttt{yreg} argument needs to be set to \texttt{"linear"}.
+
+In order to estimate CDE(M=0) by parametric g-computation, we need:
+
+\begin{itemize}
+\tightlist
+\item
+  a model of the outcome (note that the \texttt{exposure*mediator} interaction is correctly included)
+\item
+  a model of each of the intermediate confounder (2 models in our example).
+\end{itemize}
+
+Using those 3 models, we can simulated counterfactual values (under \(\{A=1,M=0\}\) and \(\{A=0,M=0\}\)) exactly as what we did in the introduction chapter to simulate the data set \texttt{df}.
+
+In the results, the model of the mediator is not needed for the CDE, but it is needed to estimate the interventional (stochastic) direct and indirect effects.
+
+Note that for the model of the intermediate confounder \texttt{occupation}, physical activity (\texttt{phys}) was not included as a predictor whereas it was present in the corresponding equation of the data-generating system: Can this ``misspecification'' result in some bias? (I don't know the answer, it might be interesting to test on simulations).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(CMAverse)}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{1234}\NormalTok{)}
+\NormalTok{gformula\_death\_RD }\OtherTok{\textless{}{-}} \FunctionTok{cmest}\NormalTok{(}\AttributeTok{data =}\NormalTok{ df, }
+                           \AttributeTok{model =} \StringTok{"gformula"}\NormalTok{, }\CommentTok{\# for parametric g{-}computation}
+                           \AttributeTok{outcome =} \StringTok{"death"}\NormalTok{, }\CommentTok{\# outcome variable}
+                           \AttributeTok{exposure =} \StringTok{"edu"}\NormalTok{, }\CommentTok{\# exposure variable}
+                           \AttributeTok{mediator =} \StringTok{"smoking"}\NormalTok{, }\CommentTok{\# mediator}
+                           \AttributeTok{basec =} \FunctionTok{c}\NormalTok{(}\StringTok{"sex"}\NormalTok{,     }
+                                     \StringTok{"low\_par\_edu"}\NormalTok{), }\CommentTok{\# baseline confounders}
+                           \AttributeTok{postc =} \FunctionTok{c}\NormalTok{(}\StringTok{"phys"}\NormalTok{, }
+                                     \StringTok{"occupation"}\NormalTok{), }\CommentTok{\# intermediate confounders }
+                           \AttributeTok{EMint =} \ConstantTok{TRUE}\NormalTok{, }\CommentTok{\# exposures*mediator interaction}
+                           \AttributeTok{mreg =} \FunctionTok{list}\NormalTok{(}\StringTok{"logistic"}\NormalTok{), }\CommentTok{\# g(M=1|L1,A,L0)}
+                           \AttributeTok{yreg =} \StringTok{"linear"}\NormalTok{,}\CommentTok{\# Qbar.L2 = P(Y=1|M,L1,A,L0) }
+                           \AttributeTok{postcreg =} \FunctionTok{list}\NormalTok{(}\StringTok{"logistic"}\NormalTok{, }\StringTok{"logistic"}\NormalTok{), }
+                           \AttributeTok{astar =} \DecValTok{0}\NormalTok{,}
+                           \AttributeTok{a =} \DecValTok{1}\NormalTok{,}
+                           \AttributeTok{mval =} \FunctionTok{list}\NormalTok{(}\DecValTok{0}\NormalTok{), }\CommentTok{\# do(M=0) to estimate CDE(M=0)}
+                           \AttributeTok{estimation =} \StringTok{"imputation"}\NormalTok{, }\CommentTok{\# if model= gformula}
+                           \AttributeTok{inference =} \StringTok{"bootstrap"}\NormalTok{,}
+                           \AttributeTok{boot.ci.type =} \StringTok{"per"}\NormalTok{, }\CommentTok{\# percentiles, other option: "bca"}
+                           \AttributeTok{nboot =} \DecValTok{2}\NormalTok{) }\CommentTok{\# use a large number of bootstrap samples}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(gformula\_death\_RD)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Causal Mediation Analysis
+## 
+## # Outcome regression:
+## 
+## Call:
+## glm(formula = death ~ edu + smoking + edu * smoking + sex + low_par_edu + 
+##     phys + occupation, family = gaussian(), data = getCall(x$reg.output$yreg)$data, 
+##     weights = getCall(x$reg.output$yreg)$weights)
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) -0.0006107  0.0128884  -0.047   0.9622    
+## edu          0.0585572  0.0128876   4.544 5.59e-06 ***
+## smoking      0.1122164  0.0130604   8.592  < 2e-16 ***
+## sex          0.0633703  0.0084086   7.536 5.25e-14 ***
+## low_par_edu  0.0652140  0.0094112   6.929 4.49e-12 ***
+## phys        -0.0168476  0.0084636  -1.991   0.0466 *  
+## occupation   0.0413486  0.0097641   4.235 2.31e-05 ***
+## edu:smoking  0.1484815  0.0170875   8.689  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for gaussian family taken to be 0.1671299)
+## 
+##     Null deviance: 1905.1  on 9999  degrees of freedom
+## Residual deviance: 1670.0  on 9992  degrees of freedom
+## AIC: 10499
+## 
+## Number of Fisher Scoring iterations: 2
+## 
+## 
+## # Mediator regressions: 
+## 
+## Call:
+## glm(formula = smoking ~ edu + sex + low_par_edu + phys + occupation, 
+##     family = binomial(), data = getCall(x$reg.output$mreg[[1L]])$data, 
+##     weights = getCall(x$reg.output$mreg[[1L]])$weights)
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(>|z|)    
+## (Intercept) -0.85996    0.06143 -13.998   <2e-16 ***
+## edu          0.70047    0.04402  15.911   <2e-16 ***
+## sex          0.62499    0.04365  14.318   <2e-16 ***
+## low_par_edu  0.41552    0.04772   8.707   <2e-16 ***
+## phys        -0.38703    0.04418  -8.761   <2e-16 ***
+## occupation   0.59325    0.04946  11.993   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 13578  on 9999  degrees of freedom
+## Residual deviance: 12685  on 9994  degrees of freedom
+## AIC: 12697
+## 
+## Number of Fisher Scoring iterations: 4
+## 
+## 
+## # Regressions for mediator-outcome confounders affected by the exposure: 
+## 
+## Call:
+## glm(formula = phys ~ edu + sex + low_par_edu, family = binomial(), 
+##     data = getCall(x$reg.output$postcreg[[1L]])$data, weights = getCall(x$reg.output$postcreg[[1L]])$weights)
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)  0.38815    0.04765   8.145 3.78e-16 ***
+## edu         -0.34545    0.04205  -8.215  < 2e-16 ***
+## sex          0.43714    0.04124  10.599  < 2e-16 ***
+## low_par_edu -0.19185    0.04689  -4.092 4.28e-05 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 13729  on 9999  degrees of freedom
+## Residual deviance: 13519  on 9996  degrees of freedom
+## AIC: 13527
+## 
+## Number of Fisher Scoring iterations: 4
+## 
+## 
+## 
+## Call:
+## glm(formula = occupation ~ edu + sex + low_par_edu, family = binomial(), 
+##     data = getCall(x$reg.output$postcreg[[2L]])$data, weights = getCall(x$reg.output$postcreg[[2L]])$weights)
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)  0.37498    0.05083   7.378 1.61e-13 ***
+## edu          0.85924    0.04734  18.150  < 2e-16 ***
+## sex          0.36173    0.04783   7.562 3.97e-14 ***
+## low_par_edu  0.09333    0.05217   1.789   0.0736 .  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 11377  on 9999  degrees of freedom
+## Residual deviance: 10977  on 9996  degrees of freedom
+## AIC: 10985
+## 
+## Number of Fisher Scoring iterations: 4
+## 
+## 
+## # Effect decomposition on the mean difference scale via the g-formula approach
+##  
+## Direct counterfactual imputation estimation with 
+##  bootstrap standard errors, percentile confidence intervals and p-values 
+##  
+##                Estimate Std.error   95% CIL 95% CIU  P.val    
+## cde           0.0715898 0.0102149 0.0648080   0.079 <2e-16 ***
+## rpnde         0.1415395 0.0124769 0.1284949   0.145 <2e-16 ***
+## rtnde         0.1735670 0.0166478 0.1519051   0.174 <2e-16 ***
+## rpnie         0.0242051 0.0002929 0.0222740   0.023 <2e-16 ***
+## rtnie         0.0562325 0.0038779 0.0460777   0.051 <2e-16 ***
+## te            0.1977720 0.0163549 0.1745726   0.197 <2e-16 ***
+## rintref       0.0699497 0.0022620 0.0636869   0.067 <2e-16 ***
+## rintmed       0.0320275 0.0041709 0.0234102   0.029 <2e-16 ***
+## cde(prop)     0.3619816 0.0210889 0.3711416   0.399 <2e-16 ***
+## rintref(prop) 0.3536883 0.0188551 0.3395706   0.365 <2e-16 ***
+## rintmed(prop) 0.1619413 0.0100660 0.1340541   0.148 <2e-16 ***
+## rpnie(prop)   0.1223887 0.0122998 0.1133772   0.130 <2e-16 ***
+## rpm           0.2843301 0.0022338 0.2609549   0.264 <2e-16 ***
+## rint          0.5156296 0.0087890 0.4871483   0.499 <2e-16 ***
+## rpe           0.6380184 0.0210889 0.6005255   0.629 <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (cde: controlled direct effect; rpnde: randomized analogue of pure natural direct effect; rtnde: randomized analogue of total natural direct effect; rpnie: randomized analogue of pure natural indirect effect; rtnie: randomized analogue of total natural indirect effect; te: total effect; rintref: randomized analogue of reference interaction; rintmed: randomized analogue of mediated interaction; cde(prop): proportion cde; rintref(prop): proportion rintref; rintmed(prop): proportion rintmed; rpnie(prop): proportion rpnie; rpm: randomized analogue of overall proportion mediated; rint: randomized analogue of overall proportion attributable to interaction; rpe: randomized analogue of overall proportion eliminated)
+## 
+## Relevant variable values: 
+## $a
+## [1] 1
+## 
+## $astar
+## [1] 0
+## 
+## $mval
+## $mval[[1]]
+## [1] 0
+\end{verbatim}
+
+The ATE = 0.1978 and the CDE(M=0) = 0.0716.
+
+\section{Estimation by MSM estimated by IPTW}\label{estimation-by-msm-estimated-by-iptw}
+
+The CDE(M=0) can also by estimated using Marginal structural models (MSM) estimated by IPTW.
+
+In order to get estimations by IPTW, the \texttt{model} argument needs to be set to \texttt{msm}.
+
+The \texttt{cmest} function will estimate:
+
+\begin{itemize}
+\tightlist
+\item
+  a MSM for the outcome (depending only on the exposure and the mediator). Confounding is handled by weighting. This MSM can be used to estimate the controlled direct effect.
+\end{itemize}
+
+\begin{align*}
+    \mathbb{E}(Y_{A=a,M=m}) &= \beta_0 + \beta_{A_{educ}} \times a + \beta_{M_{smoking}} \times m + \beta_{A \star M} \times (a \times m) \\
+    CDE(M=m) &= \mathbb{E}(Y_{A=1,M=m}) - \mathbb{E}(Y_{A=0,M=m}) = \beta_{A_{educ}} + \beta_{A \star M} \times m
+  \end{align*}
+
+\begin{itemize}
+\tightlist
+\item
+  the weights \(sw = sw_A \times sw_M\) is needed to handle confounding in the MSM of the outcome, where \(sw_A\) is a weight balancing parents of the exposure \(A\) and \(sw_M\) is a weight balancing parents of the mediator. To calculate those weights, we need to specify the numerator and denominator for the mediator's weight with the \texttt{wmnomreg} and \texttt{wmdenomreg} arguments. The denominator for the exposure's weight is specified with the \texttt{ereg} argument.
+\end{itemize}
+
+\begin{align*}
+    sw = sw_A \times sw_M = \frac{P(A_i)}{P(A_i \mid L(0))} \times \frac{P(M_i \mid A)}{P(M_i \mid L(0),A,L(1))}
+  \end{align*}
+
+An MSM of the mediator is also estimated (depending only on the exposure, confounding is handled by weighting). This MSM is not useful to estimate the CDE, but is needed to estimated the ``interventional'' or ``stochastic'' natural direct and indirect effects.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{1234}\NormalTok{)}
+\NormalTok{iptw\_death\_RD }\OtherTok{\textless{}{-}} \FunctionTok{cmest}\NormalTok{(}\AttributeTok{data =}\NormalTok{ df, }
+                       \AttributeTok{model =} \StringTok{"msm"}\NormalTok{, }\CommentTok{\# using MSM estimated by IPTW}
+                       \AttributeTok{outcome =} \StringTok{"death"}\NormalTok{, }\CommentTok{\# outcome variable}
+                       \AttributeTok{exposure =} \StringTok{"edu"}\NormalTok{, }\CommentTok{\# exposure variable}
+                       \AttributeTok{mediator =} \StringTok{"smoking"}\NormalTok{, }\CommentTok{\# mediator}
+                       \AttributeTok{basec =} \FunctionTok{c}\NormalTok{(}\StringTok{"sex"}\NormalTok{,     }
+                                 \StringTok{"low\_par\_edu"}\NormalTok{), }\CommentTok{\# baseline confounders}
+                       \AttributeTok{postc =} \FunctionTok{c}\NormalTok{(}\StringTok{"phys"}\NormalTok{, }
+                                 \StringTok{"occupation"}\NormalTok{), }\CommentTok{\# intermediate confounders }
+                       \AttributeTok{EMint =} \ConstantTok{TRUE}\NormalTok{, }\CommentTok{\# exposures*mediator interaction}
+                       \AttributeTok{ereg =} \StringTok{"logistic"}\NormalTok{, }\CommentTok{\# exposure regression model g(A=1|L(0))}
+                       \AttributeTok{mreg =} \FunctionTok{list}\NormalTok{(}\StringTok{"logistic"}\NormalTok{), }\CommentTok{\# g(M=1|L1,A,L0)}
+                       \AttributeTok{yreg =} \StringTok{"linear"}\NormalTok{,}\CommentTok{\# Qbar.L2 = P(Y=1|M,L1,A,L0) }
+                       \AttributeTok{postcreg =} \FunctionTok{list}\NormalTok{(}\StringTok{"logistic"}\NormalTok{, }\StringTok{"logistic"}\NormalTok{), }\CommentTok{\# Qbar.L1 = P(L1=1|A,L0)}
+                       \AttributeTok{wmnomreg =} \FunctionTok{list}\NormalTok{(}\StringTok{"logistic"}\NormalTok{), }\CommentTok{\#g(M=1|A) wgt nominator}
+                       \AttributeTok{wmdenomreg =} \FunctionTok{list}\NormalTok{(}\StringTok{"logistic"}\NormalTok{), }\CommentTok{\# g(M=1|L1,A,L(0)) wgt denominator}
+                       \AttributeTok{astar =} \DecValTok{0}\NormalTok{,}
+                       \AttributeTok{a =} \DecValTok{1}\NormalTok{,}
+                       \AttributeTok{mval =} \FunctionTok{list}\NormalTok{(}\DecValTok{0}\NormalTok{), }\CommentTok{\# do(M=0) to estimate CDE\_m}
+                       \AttributeTok{estimation =} \StringTok{"imputation"}\NormalTok{, }\CommentTok{\# if model= gformula}
+                       \AttributeTok{inference =} \StringTok{"bootstrap"}\NormalTok{,}
+                       \AttributeTok{boot.ci.type =} \StringTok{"per"}\NormalTok{, }\CommentTok{\# for percentile, other option: "bca"}
+                       \AttributeTok{nboot =} \DecValTok{2}\NormalTok{) }\CommentTok{\# we should use a large number of bootstrap samples}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   |                                                                              |                                                                      |   0%
+\end{verbatim}
+
+\begin{verbatim}
+##   |                                                                              |===================================                                   |  50%
+\end{verbatim}
+
+\begin{verbatim}
+##   |                                                                              |======================================================================| 100%
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(iptw\_death\_RD)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Causal Mediation Analysis
+## 
+## # Outcome regression:
+## 
+## Call:
+## glm(formula = death ~ edu + smoking + edu * smoking, family = gaussian(), 
+##     data = getCall(x$reg.output$yreg)$data, weights = getCall(x$reg.output$yreg)$weights)
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) 0.082933   0.008865   9.355  < 2e-16 ***
+## edu         0.070447   0.012775   5.514 3.59e-08 ***
+## smoking     0.119740   0.012960   9.239  < 2e-16 ***
+## edu:smoking 0.142064   0.017184   8.267  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for gaussian family taken to be 0.1690611)
+## 
+##     Null deviance: 1880.9  on 9999  degrees of freedom
+## Residual deviance: 1689.9  on 9996  degrees of freedom
+## AIC: 10969
+## 
+## Number of Fisher Scoring iterations: 2
+## 
+## 
+## # Mediator regressions: 
+## 
+## Call:
+## glm(formula = smoking ~ edu, family = binomial(), data = getCall(x$reg.output$mreg[[1L]])$data, 
+##     weights = getCall(x$reg.output$mreg[[1L]])$weights)
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(>|z|)    
+## (Intercept) -0.11692    0.03149  -3.713 0.000205 ***
+## edu          0.78869    0.04174  18.895  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 13576  on 9999  degrees of freedom
+## Residual deviance: 13214  on 9998  degrees of freedom
+## AIC: 13197
+## 
+## Number of Fisher Scoring iterations: 4
+## 
+## 
+## # Mediator regressions for weighting (denominator): 
+## 
+## Call:
+## glm(formula = smoking ~ edu + sex + low_par_edu + phys + occupation, 
+##     family = binomial(), data = getCall(x$reg.output$wmdenomreg[[1L]])$data, 
+##     weights = getCall(x$reg.output$wmdenomreg[[1L]])$weights)
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(>|z|)    
+## (Intercept) -0.85996    0.06143 -13.998   <2e-16 ***
+## edu          0.70047    0.04402  15.911   <2e-16 ***
+## sex          0.62499    0.04365  14.318   <2e-16 ***
+## low_par_edu  0.41552    0.04772   8.707   <2e-16 ***
+## phys        -0.38703    0.04418  -8.761   <2e-16 ***
+## occupation   0.59325    0.04946  11.993   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 13578  on 9999  degrees of freedom
+## Residual deviance: 12685  on 9994  degrees of freedom
+## AIC: 12697
+## 
+## Number of Fisher Scoring iterations: 4
+## 
+## 
+## # Mediator regressions for weighting (nominator): 
+## 
+## Call:
+## glm(formula = smoking ~ edu, family = binomial(), data = getCall(x$reg.output$wmnomreg[[1L]])$data, 
+##     weights = getCall(x$reg.output$wmnomreg[[1L]])$weights)
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(>|z|)    
+## (Intercept) -0.13313    0.03151  -4.225 2.39e-05 ***
+## edu          0.81446    0.04178  19.493  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 13578  on 9999  degrees of freedom
+## Residual deviance: 13192  on 9998  degrees of freedom
+## AIC: 13196
+## 
+## Number of Fisher Scoring iterations: 4
+## 
+## 
+## # Exposure regression for weighting: 
+## 
+## Call:
+## glm(formula = edu ~ sex + low_par_edu, family = binomial(), data = getCall(x$reg.output$ereg)$data, 
+##     weights = getCall(x$reg.output$ereg)$weights)
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)  0.02910    0.04186   0.695    0.487    
+## sex         -0.23178    0.04154  -5.580 2.41e-08 ***
+## low_par_edu  0.63793    0.04599  13.871  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 13497  on 9999  degrees of freedom
+## Residual deviance: 13285  on 9997  degrees of freedom
+## AIC: 13291
+## 
+## Number of Fisher Scoring iterations: 4
+## 
+## 
+## # Effect decomposition on the mean difference scale via the marginal structural model
+##  
+## Direct counterfactual imputation estimation with 
+##  bootstrap standard errors, percentile confidence intervals and p-values 
+##  
+##               Estimate Std.error  95% CIL 95% CIU  P.val    
+## cde           0.070447  0.007889 0.067239   0.078 <2e-16 ***
+## rpnde         0.137886  0.005815 0.137662   0.145 <2e-16 ***
+## rtnde         0.164690  0.003025 0.168127   0.172 <2e-16 ***
+## rpnie         0.022592  0.002277 0.020573   0.024 <2e-16 ***
+## rtnie         0.049395  0.000512 0.050350   0.051 <2e-16 ***
+## te            0.187281  0.005303 0.188700   0.196 <2e-16 ***
+## rintref       0.067440  0.002075 0.067636   0.070 <2e-16 ***
+## rintmed       0.026803  0.002789 0.026718   0.030 <2e-16 ***
+## cde(prop)     0.376155  0.030641 0.356284   0.397 <2e-16 ***
+## rintref(prop) 0.360098  0.020701 0.345418   0.373 <2e-16 ***
+## rintmed(prop) 0.143118  0.018617 0.136462   0.161 <2e-16 ***
+## rpnie(prop)   0.120629  0.008677 0.109013   0.121 <2e-16 ***
+## rpm           0.263747  0.009939 0.257133   0.270 <2e-16 ***
+## rint          0.503216  0.039318 0.481879   0.535 <2e-16 ***
+## rpe           0.623845  0.030641 0.602550   0.644 <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (cde: controlled direct effect; rpnde: randomized analogue of pure natural direct effect; rtnde: randomized analogue of total natural direct effect; rpnie: randomized analogue of pure natural indirect effect; rtnie: randomized analogue of total natural indirect effect; te: total effect; rintref: randomized analogue of reference interaction; rintmed: randomized analogue of mediated interaction; cde(prop): proportion cde; rintref(prop): proportion rintref; rintmed(prop): proportion rintmed; rpnie(prop): proportion rpnie; rpm: randomized analogue of overall proportion mediated; rint: randomized analogue of overall proportion attributable to interaction; rpe: randomized analogue of overall proportion eliminated)
+## 
+## Relevant variable values: 
+## $a
+## [1] 1
+## 
+## $astar
+## [1] 0
+## 
+## $mval
+## $mval[[1]]
+## [1] 0
+\end{verbatim}
+
+Applying an IPTW estimator using the \texttt{CMAverse}, the ATE = 0.1873 and the CDE(M=0) = 0.0704.
+
+\chapter{Reminder - Estimate the ATE by g-computation}\label{reminder---estimate-the-ate-by-g-computation}
+
+G-computation can be used for the estimation of the total effect and two-way decomposition (CDE, marginal and conditional randomized direct and indirect effects). Analogs of the 3-way and 4-way decompositions are also given by the \texttt{CMAverse} package.
+
+\section{Estimation of the Average Total Effect (ATE)}\label{estimation-of-the-average-total-effect-ate}
+
+The following steps describe the implementation of the g-computation estimator of the average total effect \(\text{ATE} = \mathbb{E}(Y_{A=1}) - \mathbb{E}(Y_{A=0})\):
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Fit a logistic or a linear regression to estimate \(\overline{Q} = \mathbb{E}(Y \mid A, L(0))\)
+\item
+  Use this estimate to predict an outcome for each subject \(\hat{\overline{Q}}(A=0)_i\) and \(\hat{\overline{Q}}(A=1)_i\), by evaluating the regression fit \(\overline{Q}\) at \(A=0\) and \(A=1\) respectively
+\item
+  Plug the predicted outcomes in the g-formula and use the sample mean to estimate \(\Psi_{ATE}\)
+  \begin{equation}
+  \hat{\Psi}^{\text{ATE}}_{\text{gcomp}} = \frac{1}{n} \sum_{i=1}^n \left[ \hat{\overline{Q}}(A=1)_i - \hat{\overline{Q}}(A=0)_i \right]
+  \end{equation}
+\end{enumerate}
+
+For continuous outcomes, \(\overline{Q}(A=a)\) functions can be estimated using linear regressions. For binary outcomes, they can be estimated using logistic regressions.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# 0. Import data}
+\FunctionTok{rm}\NormalTok{(}\AttributeTok{list =} \FunctionTok{ls}\NormalTok{())}
+\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{read.csv2}\NormalTok{(}\StringTok{"data/df.csv"}\NormalTok{)}
+
+\DocumentationTok{\#\# 1. Estimate Qbar  }
+\NormalTok{Q\_tot\_death }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(death }\SpecialCharTok{\textasciitilde{}}\NormalTok{ edu }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ low\_par\_edu, }
+                   \AttributeTok{family =} \StringTok{"binomial"}\NormalTok{, }\AttributeTok{data =}\NormalTok{ df)}
+\NormalTok{Q\_tot\_score }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(score }\SpecialCharTok{\textasciitilde{}}\NormalTok{ edu }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ low\_par\_edu, }
+                   \AttributeTok{family =} \StringTok{"gaussian"}\NormalTok{, }\AttributeTok{data =}\NormalTok{ df)}
+
+\DocumentationTok{\#\# 2. Predict an outcome for each subject, setting A=0 and A=1}
+\CommentTok{\# prepare data sets used to predict the outcome under the counterfactual }
+\CommentTok{\# scenarios setting A=0 and A=1}
+\NormalTok{data\_Ais1 }\OtherTok{\textless{}{-}}\NormalTok{ data\_Ais0 }\OtherTok{\textless{}{-}}\NormalTok{ df}
+\NormalTok{data\_Ais1}\SpecialCharTok{$}\NormalTok{edu }\OtherTok{\textless{}{-}} \DecValTok{1}
+\NormalTok{data\_Ais0}\SpecialCharTok{$}\NormalTok{edu }\OtherTok{\textless{}{-}} \DecValTok{0}
+
+\CommentTok{\# predict values}
+\NormalTok{Y1\_death\_pred }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(Q\_tot\_death, }\AttributeTok{newdata =}\NormalTok{ data\_Ais1, }\AttributeTok{type =} \StringTok{"response"}\NormalTok{)}
+\NormalTok{Y0\_death\_pred }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(Q\_tot\_death, }\AttributeTok{newdata =}\NormalTok{ data\_Ais0, }\AttributeTok{type =} \StringTok{"response"}\NormalTok{)}
+
+\NormalTok{Y1\_score\_pred }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(Q\_tot\_score, }\AttributeTok{newdata =}\NormalTok{ data\_Ais1, }\AttributeTok{type =} \StringTok{"response"}\NormalTok{)}
+\NormalTok{Y0\_score\_pred }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(Q\_tot\_score, }\AttributeTok{newdata =}\NormalTok{ data\_Ais0, }\AttributeTok{type =} \StringTok{"response"}\NormalTok{)}
+
+\DocumentationTok{\#\# 3. Plug the predicted outcome in the gformula and use the sample mean }
+\DocumentationTok{\#\#    to estimate the ATE}
+\NormalTok{ATE\_death\_gcomp }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(Y1\_death\_pred) }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(Y0\_death\_pred)}
+\NormalTok{ATE\_death\_gcomp}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.1867172
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ATE\_score\_gcomp }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(Y1\_score\_pred) }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(Y0\_score\_pred)}
+\NormalTok{ATE\_score\_gcomp}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -19.75274
+\end{verbatim}
+
+A 95\% confidence interval can be estimated applying a bootstrap procedure. An example is given in the following code.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# set seed for reproducibility}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{1234}\NormalTok{)}
+\NormalTok{B }\OtherTok{\textless{}{-}} \DecValTok{10} \CommentTok{\# use a large number here (at least 200 to 1000)}
+
+\DocumentationTok{\#\# we will store estimates from each bootstrap sample in a data.frame:}
+\NormalTok{bootstrap\_estimates }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{matrix}\NormalTok{(}\ConstantTok{NA}\NormalTok{, }\AttributeTok{nrow =}\NormalTok{ B, }\AttributeTok{ncol =} \DecValTok{2}\NormalTok{))}
+\FunctionTok{colnames}\NormalTok{(bootstrap\_estimates) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"boot\_death\_est"}\NormalTok{, }\StringTok{"boot\_score\_est"}\NormalTok{)}
+\ControlFlowTok{for}\NormalTok{ (b }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{B)\{}
+  \CommentTok{\# sample the indices 1 to n with replacement}
+\NormalTok{  bootIndices }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(df), }\AttributeTok{replace=}\NormalTok{T)}
+\NormalTok{  bootData }\OtherTok{\textless{}{-}}\NormalTok{ df[bootIndices,]}
+
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{round}\NormalTok{(b}\SpecialCharTok{/}\DecValTok{100}\NormalTok{, }\DecValTok{0}\NormalTok{) }\SpecialCharTok{==}\NormalTok{ b}\SpecialCharTok{/}\DecValTok{100}\NormalTok{ ) }\FunctionTok{print}\NormalTok{(}\FunctionTok{paste0}\NormalTok{(}\StringTok{"bootstrap number "}\NormalTok{,b))}
+  
+\NormalTok{  Q\_tot\_death }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(death }\SpecialCharTok{\textasciitilde{}}\NormalTok{ edu }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ low\_par\_edu, }
+                   \AttributeTok{family =} \StringTok{"binomial"}\NormalTok{, }\AttributeTok{data =}\NormalTok{ bootData)}
+\NormalTok{  Q\_tot\_score }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(score }\SpecialCharTok{\textasciitilde{}}\NormalTok{ edu }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ low\_par\_edu, }
+                   \AttributeTok{family =} \StringTok{"gaussian"}\NormalTok{, }\AttributeTok{data =}\NormalTok{ bootData)}
+
+\NormalTok{  boot\_Ais1 }\OtherTok{\textless{}{-}}\NormalTok{ boot\_Ais0 }\OtherTok{\textless{}{-}}\NormalTok{ bootData}
+\NormalTok{  boot\_Ais1}\SpecialCharTok{$}\NormalTok{edu }\OtherTok{\textless{}{-}} \DecValTok{1}
+\NormalTok{  boot\_Ais0}\SpecialCharTok{$}\NormalTok{edu }\OtherTok{\textless{}{-}} \DecValTok{0}
+
+\NormalTok{  Y1\_death\_boot }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(Q\_tot\_death, }\AttributeTok{newdata =}\NormalTok{ boot\_Ais1, }\AttributeTok{type =} \StringTok{"response"}\NormalTok{)}
+\NormalTok{  Y0\_death\_boot }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(Q\_tot\_death, }\AttributeTok{newdata =}\NormalTok{ boot\_Ais0, }\AttributeTok{type =} \StringTok{"response"}\NormalTok{)}
+
+\NormalTok{  Y1\_score\_boot }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(Q\_tot\_score, }\AttributeTok{newdata =}\NormalTok{ boot\_Ais1, }\AttributeTok{type =} \StringTok{"response"}\NormalTok{)}
+\NormalTok{  Y0\_score\_boot }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(Q\_tot\_score, }\AttributeTok{newdata =}\NormalTok{ boot\_Ais0, }\AttributeTok{type =} \StringTok{"response"}\NormalTok{)}
+
+\NormalTok{  bootstrap\_estimates[b,}\StringTok{"boot\_death\_est"}\NormalTok{] }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(Y1\_death\_boot }\SpecialCharTok{{-}}\NormalTok{ Y0\_death\_boot)}
+\NormalTok{  bootstrap\_estimates[b,}\StringTok{"boot\_score\_est"}\NormalTok{] }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(Y1\_score\_boot }\SpecialCharTok{{-}}\NormalTok{ Y0\_score\_boot)}
+\NormalTok{\}}
+
+\NormalTok{IC95\_ATE\_death }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(ATE\_death\_gcomp }\SpecialCharTok{{-}} 
+                      \FunctionTok{qnorm}\NormalTok{(}\FloatTok{0.975}\NormalTok{) }\SpecialCharTok{*} \FunctionTok{sd}\NormalTok{(bootstrap\_estimates[,}\StringTok{"boot\_death\_est"}\NormalTok{]),}
+\NormalTok{                    ATE\_death\_gcomp }\SpecialCharTok{+} 
+                      \FunctionTok{qnorm}\NormalTok{(}\FloatTok{0.975}\NormalTok{) }\SpecialCharTok{*} \FunctionTok{sd}\NormalTok{(bootstrap\_estimates[,}\StringTok{"boot\_death\_est"}\NormalTok{]))}
+\NormalTok{IC95\_ATE\_death}
+
+\NormalTok{IC95\_ATE\_score }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(ATE\_score\_gcomp }\SpecialCharTok{{-}} 
+                      \FunctionTok{qnorm}\NormalTok{(}\FloatTok{0.975}\NormalTok{) }\SpecialCharTok{*} \FunctionTok{sd}\NormalTok{(bootstrap\_estimates[,}\StringTok{"boot\_score\_est"}\NormalTok{]),}
+\NormalTok{                    ATE\_score\_gcomp }\SpecialCharTok{+} 
+                      \FunctionTok{qnorm}\NormalTok{(}\FloatTok{0.975}\NormalTok{) }\SpecialCharTok{*} \FunctionTok{sd}\NormalTok{(bootstrap\_estimates[,}\StringTok{"boot\_score\_est"}\NormalTok{]))}
+                    
+\NormalTok{IC95\_ATE\_score}
+\end{Highlighting}
+\end{Shaded}
+
+\chapter{Estimate the ATE by TMLE}\label{estimate-the-ate-by-tmle}
+
+When estimating a mean counterfactual outcome using g-computation methods, we have to estimate some \(\bar{Q}\) functions (functions of the outcome conditional on the exposures and confounders, \(\bar{Q}=\mathbb{E}\left(Y\mid A,L(0)\right)\)). For example, the Average Total Effect (ATE) is defined as a marginal effect, estimated using the empirical mean of such \(\bar{Q}\) functions:
+\begin{equation*}
+\hat{\Psi}^{\text{ATE}}_{\text{gcomp}} = \frac{1}{n} \sum_{i=1}^n \left[ \hat{\overline{Q}}(A=1)_i - \hat{\overline{Q}}(A=0)_i \right]
+\end{equation*}
+
+Unless the \(\bar{Q}\) functions are not misspecified, its estimate is expected to be biased (and \(\bar{Q}\) are expected to be misspecified, especially if the set of baseline confounders \(L(0)\) is high dimensional, for example if it includes is a large number of variables or continuous variables). In order to improve the estimation of \(\bar{Q}(A,L)\), it is possible to use data-adaptive methods (machine learning algorithms) in order to optimize the bias-variance trade-off. However, this bias-variance trade-off would be optimized for the \(\bar{Q}\) functions, not for the ATE estimate \(\hat{\Psi}^\text{ATE}_\text{gcomp}\). If the \(\bar{Q}\) function is unknown and has to be estimated (preferably by data-adaptive methods), it can be shown that the g-computation estimate of \(\Psi^\text{ATE}\) is asymptotically biased.
+
+The Targeted Maximum Likelihood Estimation (TMLE) method has been developed as an asymptotically linear estimator, so that the estimation of any target parameter in any semiparametric statistical model is unbiased and efficient. In order to estimate a parameter \(\Psi(P_0)\), where \(P_0\) is an unknown probability distribution among a set \(\mathcal{M}\) of possible statistical models, the TMLE is described as a two-step procedure (\citeproc{ref-vanderlaan_book2011}{Laan and Rose 2011}):
+
+\begin{itemize}
+\tightlist
+\item
+  The first step is to obtain an initial estimate of the relevant part (\(\bar{Q}_0\) in our applications) of the probability distribution \(P_0\). Data adaptive methods (machine learning algorithms) can be used to optimize this first step.
+\item
+  The second step is to update the initial fit in order to ``target toward making an optimal bias-variance tradeoff for the parameter of interest'' \(\Psi(\bar{Q})\).
+\end{itemize}
+
+Several R packages have been developed in order to carry out TMLE estimation of causal effects. We will begin using the \texttt{ltmle} package, as it can be used to estimate ATE or CDE. More generally, this package can be used to estimate the counterfactual effects of repeated exposure in time-to-event settings. In the setting of mediation analysis, a controlled direct effect (CDE) corresponds to a sequence of counterfactual interventions on 2 ``exposure variables'': the initial exposure \(A\) and the mediator of interest \(M\). The package can also be used in simpler settings with only one binary or continuous outcome, measure only once at the end a the study.
+
+\section{TMLE for the ATE}\label{tmle-for-the-ate}
+
+In order to illustrate the TMLE procedure, the estimation of a mean counterfactual outcome, denoted \(\Psi(A=1) = \mathbb{E} \left[\bar{Q}(A=1,L(0))\right]\), will be described in detail, following the algorithm implemented in the \texttt{ltmle} package.
+
+The basic steps of the procedure are the following (\citeproc{ref-vanderlaan_book2011}{Laan and Rose 2011}):
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Estimate \(\bar{Q}_0\). Data-adaptive methods can be used here, the \texttt{ltmle} package relies on the \texttt{SuperLearner} package to fit and predict \(\hat{\bar{Q}}(A=1)\).
+\item
+  Estimate the treatment mechanism (propensity score) \(g(A=1 \mid L(0))\). Once again, data-adaptive methods can be used to improve the estimation.
+\item
+  The initial estimator of \(\bar{Q}_0(A=1)\) will be slightly modified using a parametric fluctuation model, in order to reduce the bias when estimating the ATE. For example, the following parametric model of \(\bar{Q}_0(A=1)\) and a ``clever covariate'' \(H = \frac{I(A=1)}{\hat{g}(A=1 \mid L(0))}\) can be applied:
+  \begin{equation*}
+   \text{logit} P(Y \mid \hat{\bar{Q}}, H) = \hat{\text{logit} \bar{Q}} + \varepsilon H
+  \end{equation*}
+  This parametric fluctuation model is chosen so that the derivative of its log-likelihood loss function is equal to the appropriate component of the efficient influence curve of the target parameter \(\Psi(A=1)\).
+\item
+  Modify the initial estimator of \(\bar{Q}_0(A=1)\) with the parametric fluctuation model (using the estimation \(\hat{\varepsilon}\) from the previous step). We denote \(\hat{\bar{Q}}^*(A=1)\) the updated value of \(\hat{\bar{Q}}(A=1)\)
+\item
+  Use the updated values \(\hat{\bar{Q}}^*(A=1)\) in the substitution estimator to estimate the target parameter \(\Psi(A=1)\) :
+  \begin{equation*}
+  \hat{\Psi}(A=1)_\text{TMLE} = \frac{1}{n} \sum_{i=1}^n \hat{\bar{Q}}^* (A=1,L(0)) 
+  \end{equation*}
+\item
+  Estimate the efficient influence curve \(D^*(Q_0,g_0)\) :
+  \begin{equation*}
+  D^*(Q_0,g_0) = \frac{I(A=1)}{g_0(A=1 \mid L(0))}(Y - \bar{Q}_0(A,L(O))) + \bar{Q}_0(A=1,L(0))  - \Psi(A=1)
+  \end{equation*}
+\end{enumerate}
+
+The variance of the target parameter can then be calculated using the variance of the efficient influence curve:
+\begin{equation*}
+\text{var} \hat{\Psi}(A=1)_\text{TMLE} = \frac{\text{var} \hat{D}^*}{n}
+\end{equation*}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{rm}\NormalTok{(}\AttributeTok{list =} \FunctionTok{ls}\NormalTok{())}
+\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{read.csv2}\NormalTok{(}\StringTok{"data/df.csv"}\NormalTok{)}
+
+\DocumentationTok{\#\# 1) Estimate Qbar and predict Qbar when the exposure ("education") is set to 1}
+\NormalTok{Q\_fit }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(death }\SpecialCharTok{\textasciitilde{}}\NormalTok{ edu }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ low\_par\_edu,}
+             \AttributeTok{family =} \StringTok{"binomial"}\NormalTok{, }\AttributeTok{data =}\NormalTok{ df)}
+\NormalTok{data\_A1 }\OtherTok{\textless{}{-}}\NormalTok{ df}
+\NormalTok{data\_A1}\SpecialCharTok{$}\NormalTok{edu }\OtherTok{\textless{}{-}} \DecValTok{1}
+
+\CommentTok{\# predict the Qvar function when setting the exposure to A=1, on the logit scale}
+\NormalTok{logitQ }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(Q\_fit, }\AttributeTok{newdata =}\NormalTok{ data\_A1, }\AttributeTok{type =} \StringTok{"link"}\NormalTok{)}
+
+\DocumentationTok{\#\# 2) Estimate the treatment mechanism}
+\NormalTok{g\_L }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(edu }\SpecialCharTok{\textasciitilde{}}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ low\_par\_edu,}
+           \AttributeTok{family =} \StringTok{"binomial"}\NormalTok{, }\AttributeTok{data =}\NormalTok{ df)}
+\CommentTok{\# predict the probabilities g(A=1 | L(0)) = P(A0\_PM2.5=1|L(0))}
+\NormalTok{g1\_L }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(g\_L, }\AttributeTok{type=}\StringTok{"response"}\NormalTok{)}
+
+\FunctionTok{head}\NormalTok{(g1\_L)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         1         2         3         4         5         6 
+## 0.6608369 0.6071248 0.6071248 0.4495011 0.6071248 0.6071248
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# It is useful to check the distribution of gA\_L, as values close to 0 or 1 are }
+\CommentTok{\# indicators of near positivity violation and can result in large variance for the }
+\CommentTok{\# estimation. }
+\CommentTok{\# In case of near positivity violation, gA\_L values can be truncated to decrease}
+\CommentTok{\# the variance (at the cost a increased bias).}
+\FunctionTok{summary}\NormalTok{(g1\_L)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.4495  0.5073  0.6071  0.5953  0.6608  0.6608
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# there is no positivity issues in this example.}
+
+\DocumentationTok{\#\# 3) Determine a parametric family of fluctuations of Qbar. }
+\CommentTok{\# The fluctuation model is a model of logitQbar and g(A=1|L(0)) }
+
+\CommentTok{\# The clever covariate H(A,L(0)) depends on g(A=1|L(0)):}
+\NormalTok{H }\OtherTok{\textless{}{-}}\NormalTok{ (df}\SpecialCharTok{$}\NormalTok{edu }\SpecialCharTok{==} \DecValTok{1}\NormalTok{) }\SpecialCharTok{/}\NormalTok{ g1\_L}
+
+\CommentTok{\# Update the initial fit Qbar from step 1.}
+\CommentTok{\# This is achieved by holding Qbar fixed (as intercept) while estimating the}
+\CommentTok{\# coefficient epsilon for H}
+
+\CommentTok{\# for example we could use the following fluctuation model (from the "Targeted }
+\CommentTok{\# Learning" book)}
+\NormalTok{update\_fit }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{death }\SpecialCharTok{\textasciitilde{}} \SpecialCharTok{{-}}\DecValTok{1} \SpecialCharTok{+} \FunctionTok{offset}\NormalTok{(logitQ) }\SpecialCharTok{+}\NormalTok{ H,}
+                  \AttributeTok{family =} \StringTok{"quasibinomial"}\NormalTok{)}
+\FunctionTok{coef}\NormalTok{(update\_fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##             H 
+## -1.658129e-05
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Qstar }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(update\_fit, }\AttributeTok{data =} \FunctionTok{data.frame}\NormalTok{(logitQ, H), }\AttributeTok{type =} \StringTok{"response"}\NormalTok{)}
+
+\CommentTok{\# In the ltmle package, the fluctuation parametric model is slightly different}
+\CommentTok{\# (but with the same purpose). The "clever covariate" H is scaled and used as a }
+\CommentTok{\# weight in the parametric quasi{-}logistic regression}
+\NormalTok{S1 }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(df))}
+\NormalTok{update\_fit\_ltmle }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{death }\SpecialCharTok{\textasciitilde{}} \SpecialCharTok{{-}}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ S1 }\SpecialCharTok{+} \FunctionTok{offset}\NormalTok{(logitQ),}
+                        \AttributeTok{family =} \StringTok{"quasibinomial"}\NormalTok{,}
+                        \AttributeTok{weights =} \FunctionTok{scale}\NormalTok{(H, }\AttributeTok{center =} \ConstantTok{FALSE}\NormalTok{))}
+\FunctionTok{coef}\NormalTok{(update\_fit\_ltmle)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           S1 
+## -2.80861e-05
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# 4) Update the initial estimate of Qbar using the fluctuation parametric model}
+\NormalTok{Qstar\_ltmle }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(update\_fit\_ltmle, }
+                       \AttributeTok{data =} \FunctionTok{data.frame}\NormalTok{(logitQ, H), }
+                       \AttributeTok{type =} \StringTok{"response"}\NormalTok{)}
+\FunctionTok{head}\NormalTok{(Qstar\_ltmle)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         1         2         3         4         5         6 
+## 0.3073922 0.4243074 0.4243074 0.3015693 0.4243074 0.4243074
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#         1         2         3         4         5         6 }
+\CommentTok{\# 0.2872412 0.3441344 0.3441344 0.2591356 0.3441344 0.3441344}
+
+\DocumentationTok{\#\# 5) Obtain the substition estimator of Psi\_Ais1}
+\NormalTok{Psi\_Ais1 }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(Qstar\_ltmle)}
+\NormalTok{Psi\_Ais1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.3306626
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# 5) Calculate standard errors based on the influence curve of the TMLE}
+\NormalTok{IC }\OtherTok{\textless{}{-}}\NormalTok{ H }\SpecialCharTok{*}\NormalTok{ (df}\SpecialCharTok{$}\NormalTok{death }\SpecialCharTok{{-}}\NormalTok{ Qstar\_ltmle) }\SpecialCharTok{+}\NormalTok{ Qstar\_ltmle }\SpecialCharTok{{-}}\NormalTok{ Psi\_Ais1}
+\FunctionTok{head}\NormalTok{(IC)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           1           2           3           4           5           6 
+## -0.48842639  0.09364473  0.09364473  1.52469745  0.09364473  1.04187255
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# the influence curve has a mean of 0}
+\FunctionTok{summary}\NormalTok{(IC)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## -0.69999 -0.48843 -0.02909  0.00000  0.09364  1.52470
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# The standard error of the target parameter Psi(A=1) can be estimated by :}
+\FunctionTok{sqrt}\NormalTok{(}\FunctionTok{var}\NormalTok{(IC)}\SpecialCharTok{/}\FunctionTok{nrow}\NormalTok{(df))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.006090826
+\end{verbatim}
+
+We can see that we can get the same output using the \texttt{ltmle} package (cf.~\texttt{?ltmle} to see how the function works):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{rm}\NormalTok{(}\AttributeTok{list =} \FunctionTok{ls}\NormalTok{())}
+\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{read.csv2}\NormalTok{(}\StringTok{"data/df.csv"}\NormalTok{)}
+
+\FunctionTok{library}\NormalTok{(ltmle)}
+
+\CommentTok{\# The Qform and gform arguments are defined from the DAG}
+\NormalTok{Qform }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{death=}\StringTok{"Q.kplus1 \textasciitilde{} sex + low\_par\_edu + edu"}\NormalTok{)}
+\NormalTok{gform }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"edu \textasciitilde{} sex + low\_par\_edu"}\NormalTok{)}
+
+\CommentTok{\# in the ltmle package, the data set should be formated so that the order of the }
+\CommentTok{\# columns corresponds to the time{-}ordering of the model}
+\NormalTok{data\_ltmle }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(df, }
+                     \AttributeTok{select =} \FunctionTok{c}\NormalTok{(sex, low\_par\_edu, edu, death))}
+
+\CommentTok{\# the counterfactual intervention is defined in the abar argument}
+\NormalTok{abar }\OtherTok{\textless{}{-}} \DecValTok{1}
+
+\NormalTok{Psi\_Ais1 }\OtherTok{\textless{}{-}} \FunctionTok{ltmle}\NormalTok{(data\_ltmle,}
+                  \AttributeTok{Anodes =} \StringTok{"edu"}\NormalTok{,}
+                  \AttributeTok{Ynodes =} \StringTok{"death"}\NormalTok{,}
+                  \AttributeTok{Qform =}\NormalTok{ Qform,}
+                  \AttributeTok{gform =}\NormalTok{ gform,}
+                  \AttributeTok{gbounds =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.01}\NormalTok{, }\DecValTok{1}\NormalTok{), }\CommentTok{\# by default, g function truncated at 0.01}
+                  \AttributeTok{abar =}\NormalTok{ abar,}
+                  \AttributeTok{SL.library =} \StringTok{"glm"}\NormalTok{,}
+                  \AttributeTok{variance.method =} \StringTok{"ic"}\NormalTok{)}
+
+\CommentTok{\# from the ltmle() function, we can get the point estimate, its standard error, }
+\CommentTok{\# 95\% confidence interval and the p{-}value for the null hypothesis.}
+\FunctionTok{summary}\NormalTok{(Psi\_Ais1, }\StringTok{"tmle"}\NormalTok{)}
+
+\CommentTok{\# The ltmle() function returns an object with several outputs.}
+\CommentTok{\# We can see that g functions are the same as in the previous manual calculation}
+\FunctionTok{head}\NormalTok{(Psi\_Ais1}\SpecialCharTok{$}\NormalTok{cum.g)}
+
+\CommentTok{\# we can get the estimation of the epsilon parameter from the fluctuation model}
+\NormalTok{Psi\_Ais1}\SpecialCharTok{$}\NormalTok{fit}\SpecialCharTok{$}\NormalTok{Qstar}
+
+\CommentTok{\# we can get the updated Qbar functions:}
+\FunctionTok{head}\NormalTok{(Psi\_Ais1}\SpecialCharTok{$}\NormalTok{Qstar)}
+
+\CommentTok{\# we can get the influence curve }
+\FunctionTok{head}\NormalTok{(Psi\_Ais1}\SpecialCharTok{$}\NormalTok{IC}\SpecialCharTok{$}\NormalTok{tmle)}
+\end{Highlighting}
+\end{Shaded}
+
+In practice, it is recommended to apply data-adaptive algorithms to estimate \(\bar{Q}\) and \(g\) functions: the \texttt{ltmle} package relies on the \texttt{SuperLearner} package. As indicated in the \href{https://cran.r-project.org/web/packages/SuperLearner/vignettes/Guide-to-SuperLearner.html}{Guide to SuperLearner},
+The \texttt{SuperLearner} is ``an algorithm that uses cross-validation to estimate the performance of multiple machine learning models, or the same model with different settings. It then creates an optimal weighted average of those models (ensemble learning) using the test data performance.''
+
+Here is an example for our estimation of the Average Total Effect (ATE).
+
+The \texttt{SuperLearner} package includes a set of algorithms with default parameters (showed by \texttt{listWrappers()}). Because the simulated data set only have 2 binary baseline variables, the set \(\mathcal{M}\) of possible statistical models is limited. In order to estimate the ATE, we will include a library with:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{SL.mean}, the null-model which only predict the marginal mean (it can be used as a reference for a bad model);
+\item
+  \texttt{SL.glm}, a glm using the main terms from the \texttt{Qform} and \texttt{gform} argument;
+\item
+  \texttt{SL.interaction.back}, a step-by-step backward GLM prodecure (based on the AIC), starting with all \(2 \times 2\) interactions between main terms. This function is customized from the \texttt{SL.step.interaction} available with the \texttt{ltmle} and \texttt{SuperLearner} packages, where the \texttt{direction} argument is set to \texttt{both} by default.
+\item
+  \texttt{SL.hal9001} fit the ``Highly Adaptive Lasso (HAL) algorithm. See the \href{https://cran.r-project.org/web//packages/hal9001/vignettes/intro_hal9001.html}{vignette} for more information on the HAL algorithm. One of its advantage is a very fast rate of convergence.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(SuperLearner)}
+\FunctionTok{library}\NormalTok{(hal9001)}
+\CommentTok{\# Below, we use the same ltmle() function than previously, }
+\CommentTok{\# and specify a family of algorithms to be used with the SuperLearner}
+
+\DocumentationTok{\#\# we can change the default argument of the SL.xgboost algorithm and the }
+\DocumentationTok{\#\# SL.step.interaction algorithm}
+
+\CommentTok{\# We can check how arguments are used in the pre{-}specified algorithms}
+\NormalTok{SL.step.interaction}
+\CommentTok{\# function (Y, X, newX, family, direction = "both", trace = 0, }
+\CommentTok{\#     k = 2, ...) }
+\CommentTok{\# \{}
+\CommentTok{\#     fit.glm \textless{}{-} glm(Y \textasciitilde{} ., data = X, family = family)}
+\CommentTok{\#     fit.step \textless{}{-} step(fit.glm, scope = Y \textasciitilde{} .\^{}2, direction = direction, }
+\CommentTok{\#         trace = trace, k = k)}
+\CommentTok{\#     pred \textless{}{-} predict(fit.step, newdata = newX, type = "response")}
+\CommentTok{\#     fit \textless{}{-} list(object = fit.step)}
+\CommentTok{\#     out \textless{}{-} list(pred = pred, fit = fit)}
+\CommentTok{\#     class(out$fit) \textless{}{-} c("SL.step")}
+\CommentTok{\#     return(out)}
+\CommentTok{\# \}}
+\CommentTok{\# \textless{}bytecode: 0x000001b965ed0dc0\textgreater{}}
+\CommentTok{\# \textless{}environment: namespace:SuperLearner\textgreater{}}
+
+\DocumentationTok{\#\# The HAL algorithm implemented by default does not deal correctly with }
+\DocumentationTok{\#\# continuous outcome, }
+\DocumentationTok{\#\# However, we can define your own learner algorithm, following the template:}
+\NormalTok{SL.template}
+\CommentTok{\# function (Y, X, newX, family, obsWeights, id, ...) }
+\CommentTok{\# \{}
+\CommentTok{\#     if (family$family == "gaussian") \{}
+\CommentTok{\#     \}}
+\CommentTok{\#     if (family$family == "binomial") \{}
+\CommentTok{\#     \}}
+\CommentTok{\#     pred \textless{}{-} numeric()}
+\CommentTok{\#     fit \textless{}{-} vector("list", length = 0)}
+\CommentTok{\#     class(fit) \textless{}{-} c("SL.template")}
+\CommentTok{\#     out \textless{}{-} list(pred = pred, fit = fit)}
+\CommentTok{\#     return(out)}
+\CommentTok{\# \}}
+\CommentTok{\# \textless{}bytecode: 0x00000291b737f2e0\textgreater{}}
+\CommentTok{\# \textless{}environment: namespace:SuperLearner\textgreater{}}
+
+\DocumentationTok{\#\# We define your own HAL algorithm that can run on both continuous and binary outcomes}
+\NormalTok{SL.hal9001.Qbar }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{ (Y, X, newX, family, obsWeights, id, }\AttributeTok{max\_degree =} \DecValTok{2}\NormalTok{, }
+                             \AttributeTok{smoothness\_orders =} \DecValTok{1}\NormalTok{, }\AttributeTok{num\_knots =} \DecValTok{5}\NormalTok{, ...) \{}
+  \ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{is.matrix}\NormalTok{(X)) }
+\NormalTok{    X }\OtherTok{\textless{}{-}} \FunctionTok{as.matrix}\NormalTok{(X)}
+  \ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{is.null}\NormalTok{(newX) }\SpecialCharTok{\&} \SpecialCharTok{!}\FunctionTok{is.matrix}\NormalTok{(newX)) }
+\NormalTok{    newX }\OtherTok{\textless{}{-}} \FunctionTok{as.matrix}\NormalTok{(newX)}
+  
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{length}\NormalTok{(}\FunctionTok{unique}\NormalTok{(Y)) }\SpecialCharTok{==} \DecValTok{2}\NormalTok{) \{ }\CommentTok{\# for binomial family}
+\NormalTok{    hal\_fit }\OtherTok{\textless{}{-}}\NormalTok{ hal9001}\SpecialCharTok{::}\FunctionTok{fit\_hal}\NormalTok{(}\AttributeTok{Y =}\NormalTok{ Y, }\AttributeTok{X =}\NormalTok{ X, }\AttributeTok{family =} \StringTok{"binomial"}\NormalTok{, }
+                                \AttributeTok{weights =}\NormalTok{ obsWeights, }\AttributeTok{id =}\NormalTok{ id, }\AttributeTok{max\_degree =}\NormalTok{ max\_degree, }
+                                \AttributeTok{smoothness\_orders =}\NormalTok{ smoothness\_orders, }\AttributeTok{num\_knots =}\NormalTok{ num\_knots, }
+\NormalTok{                                ...)}
+\NormalTok{  \}}
+  
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{length}\NormalTok{(}\FunctionTok{unique}\NormalTok{(Y)) }\SpecialCharTok{\textgreater{}} \DecValTok{2}\NormalTok{) \{ }\CommentTok{\# for quasibinomial family}
+\NormalTok{    hal\_fit }\OtherTok{\textless{}{-}}\NormalTok{ hal9001}\SpecialCharTok{::}\FunctionTok{fit\_hal}\NormalTok{(}\AttributeTok{Y =}\NormalTok{ Y, }\AttributeTok{X =}\NormalTok{ X, }\AttributeTok{family =} \StringTok{"gaussian"}\NormalTok{, }
+                                \AttributeTok{weights =}\NormalTok{ obsWeights, }\AttributeTok{id =}\NormalTok{ id, }\AttributeTok{max\_degree =}\NormalTok{ max\_degree, }
+                                \AttributeTok{smoothness\_orders =}\NormalTok{ smoothness\_orders, }\AttributeTok{num\_knots =}\NormalTok{ num\_knots, }
+\NormalTok{                                ...)}
+\NormalTok{  \}}
+  
+  \ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{is.null}\NormalTok{(newX)) \{}
+\NormalTok{    pred }\OtherTok{\textless{}{-}}\NormalTok{ stats}\SpecialCharTok{::}\FunctionTok{predict}\NormalTok{(hal\_fit, }\AttributeTok{new\_data =}\NormalTok{ newX)}
+\NormalTok{  \}}
+  \ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{    pred }\OtherTok{\textless{}{-}}\NormalTok{ stats}\SpecialCharTok{::}\FunctionTok{predict}\NormalTok{(hal\_fit, }\AttributeTok{new\_data =}\NormalTok{ X)}
+\NormalTok{  \}}
+\NormalTok{  fit }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\AttributeTok{object =}\NormalTok{ hal\_fit)}
+  \FunctionTok{class}\NormalTok{(fit) }\OtherTok{\textless{}{-}} \StringTok{"SL.hal9001"}
+\NormalTok{  out }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\AttributeTok{pred =}\NormalTok{ pred, }\AttributeTok{fit =}\NormalTok{ fit)}
+  \FunctionTok{return}\NormalTok{(out)}
+\NormalTok{\}}
+\FunctionTok{environment}\NormalTok{(SL.hal9001.Qbar) }\OtherTok{\textless{}{-}}\FunctionTok{asNamespace}\NormalTok{(}\StringTok{"SuperLearner"}\NormalTok{)}
+
+\DocumentationTok{\#\# the algorithms we would like to use can be specified separately for the Q and }
+\CommentTok{\# g functions}
+\NormalTok{SL.library }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\AttributeTok{Q=}\FunctionTok{c}\NormalTok{(}\StringTok{"SL.mean"}\NormalTok{,}\StringTok{"SL.glm"}\NormalTok{,}\StringTok{"SL.interaction.back"}\NormalTok{, }\StringTok{"SL.hal9001"}\NormalTok{),}
+                   \AttributeTok{g=}\FunctionTok{c}\NormalTok{(}\StringTok{"SL.mean"}\NormalTok{,}\StringTok{"SL.glm"}\NormalTok{,}\StringTok{"SL.interaction.back"}\NormalTok{, }\StringTok{"SL.hal9001"}\NormalTok{))}
+
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{1234}\NormalTok{)}
+\NormalTok{Psi\_ATE\_tmle }\OtherTok{\textless{}{-}} \FunctionTok{ltmle}\NormalTok{(}\AttributeTok{data =}\NormalTok{ data\_ltmle,}
+                      \AttributeTok{Anodes =} \StringTok{"edu"}\NormalTok{,}
+                      \AttributeTok{Ynodes =} \StringTok{"death"}\NormalTok{,}
+                      \AttributeTok{Qform =}\NormalTok{ Qform,}
+                      \AttributeTok{gform =}\NormalTok{ gform,}
+                      \AttributeTok{gbounds =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.01}\NormalTok{, }\DecValTok{1}\NormalTok{),}
+                      \AttributeTok{abar =} \FunctionTok{list}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{), }\CommentTok{\# vector of the counterfactual treatment}
+                      \AttributeTok{SL.library =}\NormalTok{ SL.library,}
+                      \AttributeTok{variance.method =} \StringTok{"ic"}\NormalTok{)}
+\CommentTok{\# The estimation is more computer intensive}
+\CommentTok{\# The function give the ATE on the difference scale (as well, as RR and OR)}
+\FunctionTok{summary}\NormalTok{(Psi\_ATE\_tmle, }\AttributeTok{estimator =} \StringTok{"tmle"}\NormalTok{)}
+\CommentTok{\# Additive Treatment Effect:}
+\CommentTok{\#    Parameter Estimate:  0.18646 }
+\CommentTok{\#     Estimated Std Err:  0.0082369 }
+\CommentTok{\#               p{-}value:  \textless{}2e{-}16 }
+\CommentTok{\#     95\% Conf Interval: (0.17031, 0.2026) }
+    
+\DocumentationTok{\#\# We can see how the SuperLearner used the algorithms for the g function}
+\NormalTok{Psi\_ATE\_tmle}\SpecialCharTok{$}\NormalTok{fit}\SpecialCharTok{$}\NormalTok{g[[}\DecValTok{1}\NormalTok{]]}
+\CommentTok{\# we see that the Risk is high for the bad model (SL.mean)}
+\CommentTok{\# and very similar for the 3 other models}
+\CommentTok{\#                              Risk        Coef}
+\CommentTok{\# SL.mean\_All             0.2409651 0.004074661 \# risk is higher for the bad model}
+\CommentTok{\# SL.glm\_All              0.2358587 0.000000000}
+\CommentTok{\# SL.interaction.back\_All 0.2358587 0.995925339}
+\CommentTok{\# SL.hal9001\_All          0.2358824 0.000000000}
+\CommentTok{\# [[1]]$A0\_PM2.5}
+
+\CommentTok{\# for the g function, the SuperLearner predicts the treatment mechanism}
+\CommentTok{\# base on a mix between the glm and the customized xgboost algorithm.}
+
+\DocumentationTok{\#\# We can see how the SuperLearner used the algorithms for the g function}
+\NormalTok{Psi\_ATE\_tmle}\SpecialCharTok{$}\NormalTok{fit}\SpecialCharTok{$}\NormalTok{Q}
+\CommentTok{\#                              Risk       Coef}
+\CommentTok{\#                              Risk      Coef}
+\CommentTok{\# SL.mean\_All             0.1905554 0.0000000 \# risk is higher for the bad model}
+\CommentTok{\# SL.glm\_All              0.1775983 0.6619501}
+\CommentTok{\# SL.interaction.back\_All 0.1775983 0.0000000}
+\CommentTok{\# SL.hal9001\_All          0.1776157 0.3380499}
+
+\CommentTok{\# The SuperLearner predicts both the treatment mechanism g and the Q function}
+\CommentTok{\# from a mix between the glm (or the main term glm) and the }
+\CommentTok{\# HAL algorithm. }
+\CommentTok{\# However, the choice between the SL.glm and the SL.interaction.back }
+\CommentTok{\# procedure was arbitrary: as we can see the Risk is exactly the same for both }
+\CommentTok{\# algorithms. The final model from the step{-}by{-}step procedure was much probably }
+\CommentTok{\# a main term glm.}
+
+
+\DocumentationTok{\#\# The \textasciigrave{}ltmle\textasciigrave{} package can also be used to estimate the effect of binary exposures}
+\DocumentationTok{\#\# on continous outcomes}
+\NormalTok{Qform }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{score=}\StringTok{"Q.kplus1 \textasciitilde{} sex + low\_par\_edu + edu"}\NormalTok{)}
+\NormalTok{gform }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"edu \textasciitilde{} sex + low\_par\_edu"}\NormalTok{)}
+
+\NormalTok{SL.library }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\AttributeTok{Q=}\FunctionTok{c}\NormalTok{(}\StringTok{"SL.mean"}\NormalTok{,}\StringTok{"SL.glm"}\NormalTok{,}\StringTok{"SL.interaction.back"}\NormalTok{, }\StringTok{"SL.hal9001.Qbar"}\NormalTok{),}
+                   \AttributeTok{g=}\FunctionTok{c}\NormalTok{(}\StringTok{"SL.mean"}\NormalTok{,}\StringTok{"SL.glm"}\NormalTok{,}\StringTok{"SL.interaction.back"}\NormalTok{, }\StringTok{"SL.hal9001"}\NormalTok{))}
+
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{1234}\NormalTok{)}
+\NormalTok{Psi\_ATE\_tmle\_score }\OtherTok{\textless{}{-}} \FunctionTok{ltmle}\NormalTok{(}\AttributeTok{data =} \FunctionTok{subset}\NormalTok{(df, }
+                                          \AttributeTok{select =} \FunctionTok{c}\NormalTok{(sex, low\_par\_edu,}
+\NormalTok{                                                     edu,}
+\NormalTok{                                                     score)),}
+                      \AttributeTok{Anodes =} \StringTok{"edu"}\NormalTok{,}
+                      \AttributeTok{Ynodes =} \StringTok{"score"}\NormalTok{,}
+                      \AttributeTok{Qform =}\NormalTok{ Qform,}
+                      \AttributeTok{gform =}\NormalTok{ gform,}
+                      \AttributeTok{gbounds =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.01}\NormalTok{, }\DecValTok{1}\NormalTok{),}
+                      \AttributeTok{abar =} \FunctionTok{list}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{), }\CommentTok{\# vector of the counterfactual treatment }
+                      \AttributeTok{SL.library =}\NormalTok{ SL.library,}
+                      \AttributeTok{variance.method =} \StringTok{"ic"}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(Psi\_ATE\_tmle\_score, }\AttributeTok{estimator =} \StringTok{"tmle"}\NormalTok{)}
+\CommentTok{\# Additive Treatment Effect:}
+\CommentTok{\#    Parameter Estimate:  {-}19.76 }
+\CommentTok{\#     Estimated Std Err:  0.37746 }
+\CommentTok{\#               p{-}value:  \textless{}2e{-}16 }
+\CommentTok{\#     95\% Conf Interval: ({-}20.5, {-}19.021) }
+\end{Highlighting}
+\end{Shaded}
+
+The TMLE estimation of the ATE from the \texttt{ltmle} package for death probability and mean quality of life is +18.65\% (95\% CI={[}17.03\%, +20.26\%{]}) and -19.76 {[}-20.5, -19.021{]}.
+
+Note that the \texttt{ltmle} package can also be used to calculate the IPTW estimation of the ATE and the CDE.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# using the output from the previous ltmle() procedure}
+\FunctionTok{summary}\NormalTok{(Psi\_ATE\_tmle, }\AttributeTok{estimator =} \StringTok{"iptw"}\NormalTok{)}
+\CommentTok{\# Additive Treatment Effect:}
+\CommentTok{\#    Parameter Estimate:  0.18659 }
+\CommentTok{\#     Estimated Std Err:  0.0083201 }
+\CommentTok{\#               p{-}value:  \textless{}2e{-}16 }
+\CommentTok{\#     95\% Conf Interval: (0.17029, 0.2029) }
+
+\FunctionTok{summary}\NormalTok{(Psi\_ATE\_tmle\_score, }\AttributeTok{estimator =} \StringTok{"iptw"}\NormalTok{)}
+\CommentTok{\# Additive Treatment Effect:}
+\CommentTok{\#    Parameter Estimate:  {-}19.763 }
+\CommentTok{\#     Estimated Std Err:  0.38341 }
+\CommentTok{\#               p{-}value:  \textless{}2e{-}16 }
+\CommentTok{\#     95\% Conf Interval: ({-}20.515, {-}19.012) }
+\end{Highlighting}
+\end{Shaded}
+
+The IPTW estimation of the ATE from the \texttt{ltmle} package for death probability and mean quality of life is +18.66\% (95\% CI={[}+17.03\%, +20.29\%{]}) and -19.76 {[}-20.52, -19.01{]}.
+
+\chapter{\texorpdfstring{Estimate the CDE using the \texttt{ltmle} package}{Estimate the CDE using the ltmle package}}\label{estimate-the-cde-using-the-ltmle-package}
+
+\chapter{Estimatin rNDE and rNIE by TMLE}\label{estimatin-rnde-and-rnie-by-tmle}
+
+\phantomsection\label{refs}
+\begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-vanderlaan_book2011}
+Laan, Mark J. van der, and Sherri Rose. 2011. \emph{Targeted Learning: Causal Inference for Observational and Experimental Data.} 1st ed. Springer Series in Statistics. New York, NY: Springer.
+
+\end{CSLReferences}
 
 \end{document}

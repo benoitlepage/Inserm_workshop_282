@@ -24,7 +24,7 @@ GenerateData.CDE <- function(N,
   
   ### baseline confounders L0
   sex <- rbinom(N, size = 1, prob = 0.45) # 0 = women; 1 = men
-  low_par_edu <- rexpit(qlogis(0.7) + log(1.5) * sex ) # low parent education
+  low_par_edu <- rexpit(qlogis(0.7) + log(1.5) * sex) # low parent education
   
   ### exposure A: low educational level = 1
   edu <- rexpit(qlogis(0.5) + log(0.8) * sex  + log(2) * low_par_edu)

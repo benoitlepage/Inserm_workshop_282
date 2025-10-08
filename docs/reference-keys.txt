@@ -1,3 +1,13 @@
+fig:qrcode
+fig:figDAGM1
 introduction
 data-generating-system
-chapitre-souivant
+applying-the-cmaverse
+estimation-by-parametric-g-computation
+estimation-by-msm-estimated-by-iptw
+reminder---estimate-the-ate-by-g-computation
+estimation-of-the-average-total-effect-ate
+estimate-the-ate-by-tmle
+tmle-for-the-ate
+estimate-the-cde-using-the-ltmle-package
+estimatin-rnde-and-rnie-by-tmle

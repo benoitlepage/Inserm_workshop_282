@@ -4,20 +4,20 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 2 Chapitre souivant | Inserm Workshop 282 - practical session</title>
-  <meta name="description" content="Chapter 2 Chapitre souivant | Inserm Workshop 282 - practical session" />
+  <title>Chapter 5 Estimate the CDE using the ltmle package | Inserm Workshop 282 - practical session</title>
+  <meta name="description" content="Chapter 5 Estimate the CDE using the ltmle package | Inserm Workshop 282 - practical session" />
   <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 2 Chapitre souivant | Inserm Workshop 282 - practical session" />
+  <meta property="og:title" content="Chapter 5 Estimate the CDE using the ltmle package | Inserm Workshop 282 - practical session" />
   <meta property="og:type" content="book" />
   
-  <meta property="og:description" content="Chapter 2 Chapitre souivant | Inserm Workshop 282 - practical session" />
+  <meta property="og:description" content="Chapter 5 Estimate the CDE using the ltmle package | Inserm Workshop 282 - practical session" />
   <meta name="github-repo" content="Inserm_workshop_282" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 2 Chapitre souivant | Inserm Workshop 282 - practical session" />
+  <meta name="twitter:title" content="Chapter 5 Estimate the CDE using the ltmle package | Inserm Workshop 282 - practical session" />
   
-  <meta name="twitter:description" content="Chapter 2 Chapitre souivant | Inserm Workshop 282 - practical session" />
+  <meta name="twitter:description" content="Chapter 5 Estimate the CDE using the ltmle package | Inserm Workshop 282 - practical session" />
   
 
 <meta name="author" content="Benoît Lepage" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="index.html"/>
-
+<link rel="prev" href="estimate-the-ate-by-tmle.html"/>
+<link rel="next" href="estimatin-rnde-and-rnie-by-tmle.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -124,6 +124,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 </style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -145,7 +168,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#data-generating-system"><i class="fa fa-check"></i><b>1.1</b> Data generating system</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="chapitre-souivant.html"><a href="chapitre-souivant.html"><i class="fa fa-check"></i><b>2</b> Chapitre souivant</a></li>
+<li class="chapter" data-level="2" data-path="applying-the-cmaverse.html"><a href="applying-the-cmaverse.html"><i class="fa fa-check"></i><b>2</b> Applying the CMAverse</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="applying-the-cmaverse.html"><a href="applying-the-cmaverse.html#estimation-by-parametric-g-computation"><i class="fa fa-check"></i><b>2.1</b> Estimation by “parametric” g-computation</a></li>
+<li class="chapter" data-level="2.2" data-path="applying-the-cmaverse.html"><a href="applying-the-cmaverse.html#estimation-by-msm-estimated-by-iptw"><i class="fa fa-check"></i><b>2.2</b> Estimation by MSM estimated by IPTW</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="reminder---estimate-the-ate-by-g-computation.html"><a href="reminder---estimate-the-ate-by-g-computation.html"><i class="fa fa-check"></i><b>3</b> Reminder - Estimate the ATE by g-computation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="reminder---estimate-the-ate-by-g-computation.html"><a href="reminder---estimate-the-ate-by-g-computation.html#estimation-of-the-average-total-effect-ate"><i class="fa fa-check"></i><b>3.1</b> Estimation of the Average Total Effect (ATE)</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="estimate-the-ate-by-tmle.html"><a href="estimate-the-ate-by-tmle.html"><i class="fa fa-check"></i><b>4</b> Estimate the ATE by TMLE</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="estimate-the-ate-by-tmle.html"><a href="estimate-the-ate-by-tmle.html#tmle-for-the-ate"><i class="fa fa-check"></i><b>4.1</b> TMLE for the ATE</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html"><i class="fa fa-check"></i><b>5</b> Estimate the CDE using the <code>ltmle</code> package</a></li>
+<li class="chapter" data-level="6" data-path="estimatin-rnde-and-rnie-by-tmle.html"><a href="estimatin-rnde-and-rnie-by-tmle.html"><i class="fa fa-check"></i><b>6</b> Estimatin rNDE and rNIE by TMLE</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -166,9 +203,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="chapitre-souivant" class="section level1 hasAnchor" number="2">
-<h1><span class="header-section-number">Chapter 2</span> Chapitre souivant<a href="chapitre-souivant.html#chapitre-souivant" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>blah</p>
+<div id="estimate-the-cde-using-the-ltmle-package" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Chapter 5</span> Estimate the CDE using the <code>ltmle</code> package<a href="estimate-the-cde-using-the-ltmle-package.html#estimate-the-cde-using-the-ltmle-package" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 
 </div>
             </section>
@@ -176,8 +212,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="estimate-the-ate-by-tmle.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="estimatin-rnde-and-rnie-by-tmle.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -208,7 +244,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/benoitlepage/Inserm_workshop_282/01-objets_dans_R.Rmd",
+    "link": "https://github.com/benoitlepage/Inserm_workshop_282/04-CDE_by_tmle.Rmd",
     "text": "Edit"
   },
   "history": {

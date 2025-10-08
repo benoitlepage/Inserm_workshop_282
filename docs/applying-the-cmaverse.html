@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Applying the CMAverse | Inserm Workshop 282 - practical session</title>
+  <meta name="description" content="Chapter 2 Applying the CMAverse | Inserm Workshop 282 - practical session" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Applying the CMAverse | Inserm Workshop 282 - practical session" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Chapter 2 Applying the CMAverse | Inserm Workshop 282 - practical session" />
+  <meta name="github-repo" content="Inserm_workshop_282" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Applying the CMAverse | Inserm Workshop 282 - practical session" />
+  
+  <meta name="twitter:description" content="Chapter 2 Applying the CMAverse | Inserm Workshop 282 - practical session" />
+  
+
+<meta name="author" content="Benoît Lepage" />
+
+
+<meta name="date" content="2025-10-08" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="reminder---estimate-the-ate-by-g-computation.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Inserm_workshop_282</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#data-generating-system"><i class="fa fa-check"></i><b>1.1</b> Data generating system</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="applying-the-cmaverse.html"><a href="applying-the-cmaverse.html"><i class="fa fa-check"></i><b>2</b> Applying the CMAverse</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="applying-the-cmaverse.html"><a href="applying-the-cmaverse.html#estimation-by-parametric-g-computation"><i class="fa fa-check"></i><b>2.1</b> Estimation by “parametric” g-computation</a></li>
+<li class="chapter" data-level="2.2" data-path="applying-the-cmaverse.html"><a href="applying-the-cmaverse.html#estimation-by-msm-estimated-by-iptw"><i class="fa fa-check"></i><b>2.2</b> Estimation by MSM estimated by IPTW</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="reminder---estimate-the-ate-by-g-computation.html"><a href="reminder---estimate-the-ate-by-g-computation.html"><i class="fa fa-check"></i><b>3</b> Reminder - Estimate the ATE by g-computation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="reminder---estimate-the-ate-by-g-computation.html"><a href="reminder---estimate-the-ate-by-g-computation.html#estimation-of-the-average-total-effect-ate"><i class="fa fa-check"></i><b>3.1</b> Estimation of the Average Total Effect (ATE)</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="estimate-the-ate-by-tmle.html"><a href="estimate-the-ate-by-tmle.html"><i class="fa fa-check"></i><b>4</b> Estimate the ATE by TMLE</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="estimate-the-ate-by-tmle.html"><a href="estimate-the-ate-by-tmle.html#tmle-for-the-ate"><i class="fa fa-check"></i><b>4.1</b> TMLE for the ATE</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html"><i class="fa fa-check"></i><b>5</b> Estimate the CDE using the <code>ltmle</code> package</a></li>
+<li class="chapter" data-level="6" data-path="estimatin-rnde-and-rnie-by-tmle.html"><a href="estimatin-rnde-and-rnie-by-tmle.html"><i class="fa fa-check"></i><b>6</b> Estimatin rNDE and rNIE by TMLE</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Inserm Workshop 282 - practical session</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="applying-the-cmaverse" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Applying the CMAverse<a href="applying-the-cmaverse.html#applying-the-cmaverse" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>If we use the <code>CMAverse</code> package with the <code>df</code> data set, we can estimate the Average Total Effect (<span class="math inline">\(ATE\)</span>) and the Controlled direct effects (setting the mediator to 0) (<span class="math inline">\(CDE(M=0)\)</span>).</p>
+<p><span class="math display">\[\begin{align*}
+ATE &amp;= \mathbb{E}(Y_{A=1}) - \mathbb{E}(Y_{A=0}) \\
+CDE(M=0) &amp;= \mathbb{E}(Y_{A=1,M=0}) - \mathbb{E}(Y_{A=0,M=0})
+\end{align*}\]</span></p>
+<p>In case of intermediate confounders affected by the exposure, the estimation based on regression coefficients cannot be used to estimate CDE and other direct and indirect effects. We need to use a g-computation, an IPTW estimator or a double-robust estimator.</p>
+<div id="estimation-by-parametric-g-computation" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Estimation by “parametric” g-computation<a href="applying-the-cmaverse.html#estimation-by-parametric-g-computation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>For example, we can estimate the two estimands ATE and CDE(M=0) on a risk difference scale as described below. In order to get estimates on the risk difference scale, the <code>yreg</code> argument needs to be set to <code>"linear"</code>.</p>
+<p>In order to estimate CDE(M=0) by parametric g-computation, we need:</p>
+<ul>
+<li>a model of the outcome (note that the <code>exposure*mediator</code> interaction is correctly included)</li>
+<li>a model of each of the intermediate confounder (2 models in our example).</li>
+</ul>
+<p>Using those 3 models, we can simulated counterfactual values (under <span class="math inline">\(\{A=1,M=0\}\)</span> and <span class="math inline">\(\{A=0,M=0\}\)</span>) exactly as what we did in the introduction chapter to simulate the data set <code>df</code>.</p>
+<p>In the results, the model of the mediator is not needed for the CDE, but it is needed to estimate the interventional (stochastic) direct and indirect effects.</p>
+<p>Note that for the model of the intermediate confounder <code>occupation</code>, physical activity (<code>phys</code>) was not included as a predictor whereas it was present in the corresponding equation of the data-generating system: Can this “misspecification” result in some bias? (I don’t know the answer, it might be interesting to test on simulations).</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="applying-the-cmaverse.html#cb6-1" tabindex="-1"></a><span class="fu">library</span>(CMAverse)</span>
+<span id="cb6-2"><a href="applying-the-cmaverse.html#cb6-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb6-3"><a href="applying-the-cmaverse.html#cb6-3" tabindex="-1"></a>gformula_death_RD <span class="ot">&lt;-</span> <span class="fu">cmest</span>(<span class="at">data =</span> df, </span>
+<span id="cb6-4"><a href="applying-the-cmaverse.html#cb6-4" tabindex="-1"></a>                           <span class="at">model =</span> <span class="st">&quot;gformula&quot;</span>, <span class="co"># for parametric g-computation</span></span>
+<span id="cb6-5"><a href="applying-the-cmaverse.html#cb6-5" tabindex="-1"></a>                           <span class="at">outcome =</span> <span class="st">&quot;death&quot;</span>, <span class="co"># outcome variable</span></span>
+<span id="cb6-6"><a href="applying-the-cmaverse.html#cb6-6" tabindex="-1"></a>                           <span class="at">exposure =</span> <span class="st">&quot;edu&quot;</span>, <span class="co"># exposure variable</span></span>
+<span id="cb6-7"><a href="applying-the-cmaverse.html#cb6-7" tabindex="-1"></a>                           <span class="at">mediator =</span> <span class="st">&quot;smoking&quot;</span>, <span class="co"># mediator</span></span>
+<span id="cb6-8"><a href="applying-the-cmaverse.html#cb6-8" tabindex="-1"></a>                           <span class="at">basec =</span> <span class="fu">c</span>(<span class="st">&quot;sex&quot;</span>,     </span>
+<span id="cb6-9"><a href="applying-the-cmaverse.html#cb6-9" tabindex="-1"></a>                                     <span class="st">&quot;low_par_edu&quot;</span>), <span class="co"># baseline confounders</span></span>
+<span id="cb6-10"><a href="applying-the-cmaverse.html#cb6-10" tabindex="-1"></a>                           <span class="at">postc =</span> <span class="fu">c</span>(<span class="st">&quot;phys&quot;</span>, </span>
+<span id="cb6-11"><a href="applying-the-cmaverse.html#cb6-11" tabindex="-1"></a>                                     <span class="st">&quot;occupation&quot;</span>), <span class="co"># intermediate confounders </span></span>
+<span id="cb6-12"><a href="applying-the-cmaverse.html#cb6-12" tabindex="-1"></a>                           <span class="at">EMint =</span> <span class="cn">TRUE</span>, <span class="co"># exposures*mediator interaction</span></span>
+<span id="cb6-13"><a href="applying-the-cmaverse.html#cb6-13" tabindex="-1"></a>                           <span class="at">mreg =</span> <span class="fu">list</span>(<span class="st">&quot;logistic&quot;</span>), <span class="co"># g(M=1|L1,A,L0)</span></span>
+<span id="cb6-14"><a href="applying-the-cmaverse.html#cb6-14" tabindex="-1"></a>                           <span class="at">yreg =</span> <span class="st">&quot;linear&quot;</span>,<span class="co"># Qbar.L2 = P(Y=1|M,L1,A,L0) </span></span>
+<span id="cb6-15"><a href="applying-the-cmaverse.html#cb6-15" tabindex="-1"></a>                           <span class="at">postcreg =</span> <span class="fu">list</span>(<span class="st">&quot;logistic&quot;</span>, <span class="st">&quot;logistic&quot;</span>), </span>
+<span id="cb6-16"><a href="applying-the-cmaverse.html#cb6-16" tabindex="-1"></a>                           <span class="at">astar =</span> <span class="dv">0</span>,</span>
+<span id="cb6-17"><a href="applying-the-cmaverse.html#cb6-17" tabindex="-1"></a>                           <span class="at">a =</span> <span class="dv">1</span>,</span>
+<span id="cb6-18"><a href="applying-the-cmaverse.html#cb6-18" tabindex="-1"></a>                           <span class="at">mval =</span> <span class="fu">list</span>(<span class="dv">0</span>), <span class="co"># do(M=0) to estimate CDE(M=0)</span></span>
+<span id="cb6-19"><a href="applying-the-cmaverse.html#cb6-19" tabindex="-1"></a>                           <span class="at">estimation =</span> <span class="st">&quot;imputation&quot;</span>, <span class="co"># if model= gformula</span></span>
+<span id="cb6-20"><a href="applying-the-cmaverse.html#cb6-20" tabindex="-1"></a>                           <span class="at">inference =</span> <span class="st">&quot;bootstrap&quot;</span>,</span>
+<span id="cb6-21"><a href="applying-the-cmaverse.html#cb6-21" tabindex="-1"></a>                           <span class="at">boot.ci.type =</span> <span class="st">&quot;per&quot;</span>, <span class="co"># percentiles, other option: &quot;bca&quot;</span></span>
+<span id="cb6-22"><a href="applying-the-cmaverse.html#cb6-22" tabindex="-1"></a>                           <span class="at">nboot =</span> <span class="dv">2</span>) <span class="co"># use a large number of bootstrap samples</span></span></code></pre></div>
+<pre><code>##   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="applying-the-cmaverse.html#cb8-1" tabindex="-1"></a><span class="fu">summary</span>(gformula_death_RD)</span></code></pre></div>
+<pre><code>## Causal Mediation Analysis
+## 
+## # Outcome regression:
+## 
+## Call:
+## glm(formula = death ~ edu + smoking + edu * smoking + sex + low_par_edu + 
+##     phys + occupation, family = gaussian(), data = getCall(x$reg.output$yreg)$data, 
+##     weights = getCall(x$reg.output$yreg)$weights)
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -0.0006107  0.0128884  -0.047   0.9622    
+## edu          0.0585572  0.0128876   4.544 5.59e-06 ***
+## smoking      0.1122164  0.0130604   8.592  &lt; 2e-16 ***
+## sex          0.0633703  0.0084086   7.536 5.25e-14 ***
+## low_par_edu  0.0652140  0.0094112   6.929 4.49e-12 ***
+## phys        -0.0168476  0.0084636  -1.991   0.0466 *  
+## occupation   0.0413486  0.0097641   4.235 2.31e-05 ***
+## edu:smoking  0.1484815  0.0170875   8.689  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for gaussian family taken to be 0.1671299)
+## 
+##     Null deviance: 1905.1  on 9999  degrees of freedom
+## Residual deviance: 1670.0  on 9992  degrees of freedom
+## AIC: 10499
+## 
+## Number of Fisher Scoring iterations: 2
+## 
+## 
+## # Mediator regressions: 
+## 
+## Call:
+## glm(formula = smoking ~ edu + sex + low_par_edu + phys + occupation, 
+##     family = binomial(), data = getCall(x$reg.output$mreg[[1L]])$data, 
+##     weights = getCall(x$reg.output$mreg[[1L]])$weights)
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -0.85996    0.06143 -13.998   &lt;2e-16 ***
+## edu          0.70047    0.04402  15.911   &lt;2e-16 ***
+## sex          0.62499    0.04365  14.318   &lt;2e-16 ***
+## low_par_edu  0.41552    0.04772   8.707   &lt;2e-16 ***
+## phys        -0.38703    0.04418  -8.761   &lt;2e-16 ***
+## occupation   0.59325    0.04946  11.993   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 13578  on 9999  degrees of freedom
+## Residual deviance: 12685  on 9994  degrees of freedom
+## AIC: 12697
+## 
+## Number of Fisher Scoring iterations: 4
+## 
+## 
+## # Regressions for mediator-outcome confounders affected by the exposure: 
+## 
+## Call:
+## glm(formula = phys ~ edu + sex + low_par_edu, family = binomial(), 
+##     data = getCall(x$reg.output$postcreg[[1L]])$data, weights = getCall(x$reg.output$postcreg[[1L]])$weights)
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  0.38815    0.04765   8.145 3.78e-16 ***
+## edu         -0.34545    0.04205  -8.215  &lt; 2e-16 ***
+## sex          0.43714    0.04124  10.599  &lt; 2e-16 ***
+## low_par_edu -0.19185    0.04689  -4.092 4.28e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 13729  on 9999  degrees of freedom
+## Residual deviance: 13519  on 9996  degrees of freedom
+## AIC: 13527
+## 
+## Number of Fisher Scoring iterations: 4
+## 
+## 
+## 
+## Call:
+## glm(formula = occupation ~ edu + sex + low_par_edu, family = binomial(), 
+##     data = getCall(x$reg.output$postcreg[[2L]])$data, weights = getCall(x$reg.output$postcreg[[2L]])$weights)
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  0.37498    0.05083   7.378 1.61e-13 ***
+## edu          0.85924    0.04734  18.150  &lt; 2e-16 ***
+## sex          0.36173    0.04783   7.562 3.97e-14 ***
+## low_par_edu  0.09333    0.05217   1.789   0.0736 .  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 11377  on 9999  degrees of freedom
+## Residual deviance: 10977  on 9996  degrees of freedom
+## AIC: 10985
+## 
+## Number of Fisher Scoring iterations: 4
+## 
+## 
+## # Effect decomposition on the mean difference scale via the g-formula approach
+##  
+## Direct counterfactual imputation estimation with 
+##  bootstrap standard errors, percentile confidence intervals and p-values 
+##  
+##                Estimate Std.error   95% CIL 95% CIU  P.val    
+## cde           0.0715898 0.0102149 0.0648080   0.079 &lt;2e-16 ***
+## rpnde         0.1415395 0.0124769 0.1284949   0.145 &lt;2e-16 ***
+## rtnde         0.1735670 0.0166478 0.1519051   0.174 &lt;2e-16 ***
+## rpnie         0.0242051 0.0002929 0.0222740   0.023 &lt;2e-16 ***
+## rtnie         0.0562325 0.0038779 0.0460777   0.051 &lt;2e-16 ***
+## te            0.1977720 0.0163549 0.1745726   0.197 &lt;2e-16 ***
+## rintref       0.0699497 0.0022620 0.0636869   0.067 &lt;2e-16 ***
+## rintmed       0.0320275 0.0041709 0.0234102   0.029 &lt;2e-16 ***
+## cde(prop)     0.3619816 0.0210889 0.3711416   0.399 &lt;2e-16 ***
+## rintref(prop) 0.3536883 0.0188551 0.3395706   0.365 &lt;2e-16 ***
+## rintmed(prop) 0.1619413 0.0100660 0.1340541   0.148 &lt;2e-16 ***
+## rpnie(prop)   0.1223887 0.0122998 0.1133772   0.130 &lt;2e-16 ***
+## rpm           0.2843301 0.0022338 0.2609549   0.264 &lt;2e-16 ***
+## rint          0.5156296 0.0087890 0.4871483   0.499 &lt;2e-16 ***
+## rpe           0.6380184 0.0210889 0.6005255   0.629 &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (cde: controlled direct effect; rpnde: randomized analogue of pure natural direct effect; rtnde: randomized analogue of total natural direct effect; rpnie: randomized analogue of pure natural indirect effect; rtnie: randomized analogue of total natural indirect effect; te: total effect; rintref: randomized analogue of reference interaction; rintmed: randomized analogue of mediated interaction; cde(prop): proportion cde; rintref(prop): proportion rintref; rintmed(prop): proportion rintmed; rpnie(prop): proportion rpnie; rpm: randomized analogue of overall proportion mediated; rint: randomized analogue of overall proportion attributable to interaction; rpe: randomized analogue of overall proportion eliminated)
+## 
+## Relevant variable values: 
+## $a
+## [1] 1
+## 
+## $astar
+## [1] 0
+## 
+## $mval
+## $mval[[1]]
+## [1] 0</code></pre>
+<p>The ATE = 0.1978 and the CDE(M=0) = 0.0716.</p>
+</div>
+<div id="estimation-by-msm-estimated-by-iptw" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Estimation by MSM estimated by IPTW<a href="applying-the-cmaverse.html#estimation-by-msm-estimated-by-iptw" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The CDE(M=0) can also by estimated using Marginal structural models (MSM) estimated by IPTW.</p>
+<p>In order to get estimations by IPTW, the <code>model</code> argument needs to be set to <code>msm</code>.</p>
+<p>The <code>cmest</code> function will estimate:</p>
+<ul>
+<li>a MSM for the outcome (depending only on the exposure and the mediator). Confounding is handled by weighting. This MSM can be used to estimate the controlled direct effect.</li>
+</ul>
+<p><span class="math display">\[\begin{align*}
+    \mathbb{E}(Y_{A=a,M=m}) &amp;= \beta_0 + \beta_{A_{educ}} \times a + \beta_{M_{smoking}} \times m + \beta_{A \star M} \times (a \times m) \\
+    CDE(M=m) &amp;= \mathbb{E}(Y_{A=1,M=m}) - \mathbb{E}(Y_{A=0,M=m}) = \beta_{A_{educ}} + \beta_{A \star M} \times m
+  \end{align*}\]</span></p>
+<ul>
+<li>the weights <span class="math inline">\(sw = sw_A \times sw_M\)</span> is needed to handle confounding in the MSM of the outcome, where <span class="math inline">\(sw_A\)</span> is a weight balancing parents of the exposure <span class="math inline">\(A\)</span> and <span class="math inline">\(sw_M\)</span> is a weight balancing parents of the mediator. To calculate those weights, we need to specify the numerator and denominator for the mediator’s weight with the <code>wmnomreg</code> and <code>wmdenomreg</code> arguments. The denominator for the exposure’s weight is specified with the <code>ereg</code> argument.</li>
+</ul>
+<p><span class="math display">\[\begin{align*}
+    sw = sw_A \times sw_M = \frac{P(A_i)}{P(A_i \mid L(0))} \times \frac{P(M_i \mid A)}{P(M_i \mid L(0),A,L(1))}
+  \end{align*}\]</span></p>
+<p>An MSM of the mediator is also estimated (depending only on the exposure, confounding is handled by weighting). This MSM is not useful to estimate the CDE, but is needed to estimated the “interventional” or “stochastic” natural direct and indirect effects.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="applying-the-cmaverse.html#cb10-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb10-2"><a href="applying-the-cmaverse.html#cb10-2" tabindex="-1"></a>iptw_death_RD <span class="ot">&lt;-</span> <span class="fu">cmest</span>(<span class="at">data =</span> df, </span>
+<span id="cb10-3"><a href="applying-the-cmaverse.html#cb10-3" tabindex="-1"></a>                       <span class="at">model =</span> <span class="st">&quot;msm&quot;</span>, <span class="co"># using MSM estimated by IPTW</span></span>
+<span id="cb10-4"><a href="applying-the-cmaverse.html#cb10-4" tabindex="-1"></a>                       <span class="at">outcome =</span> <span class="st">&quot;death&quot;</span>, <span class="co"># outcome variable</span></span>
+<span id="cb10-5"><a href="applying-the-cmaverse.html#cb10-5" tabindex="-1"></a>                       <span class="at">exposure =</span> <span class="st">&quot;edu&quot;</span>, <span class="co"># exposure variable</span></span>
+<span id="cb10-6"><a href="applying-the-cmaverse.html#cb10-6" tabindex="-1"></a>                       <span class="at">mediator =</span> <span class="st">&quot;smoking&quot;</span>, <span class="co"># mediator</span></span>
+<span id="cb10-7"><a href="applying-the-cmaverse.html#cb10-7" tabindex="-1"></a>                       <span class="at">basec =</span> <span class="fu">c</span>(<span class="st">&quot;sex&quot;</span>,     </span>
+<span id="cb10-8"><a href="applying-the-cmaverse.html#cb10-8" tabindex="-1"></a>                                 <span class="st">&quot;low_par_edu&quot;</span>), <span class="co"># baseline confounders</span></span>
+<span id="cb10-9"><a href="applying-the-cmaverse.html#cb10-9" tabindex="-1"></a>                       <span class="at">postc =</span> <span class="fu">c</span>(<span class="st">&quot;phys&quot;</span>, </span>
+<span id="cb10-10"><a href="applying-the-cmaverse.html#cb10-10" tabindex="-1"></a>                                 <span class="st">&quot;occupation&quot;</span>), <span class="co"># intermediate confounders </span></span>
+<span id="cb10-11"><a href="applying-the-cmaverse.html#cb10-11" tabindex="-1"></a>                       <span class="at">EMint =</span> <span class="cn">TRUE</span>, <span class="co"># exposures*mediator interaction</span></span>
+<span id="cb10-12"><a href="applying-the-cmaverse.html#cb10-12" tabindex="-1"></a>                       <span class="at">ereg =</span> <span class="st">&quot;logistic&quot;</span>, <span class="co"># exposure regression model g(A=1|L(0))</span></span>
+<span id="cb10-13"><a href="applying-the-cmaverse.html#cb10-13" tabindex="-1"></a>                       <span class="at">mreg =</span> <span class="fu">list</span>(<span class="st">&quot;logistic&quot;</span>), <span class="co"># g(M=1|L1,A,L0)</span></span>
+<span id="cb10-14"><a href="applying-the-cmaverse.html#cb10-14" tabindex="-1"></a>                       <span class="at">yreg =</span> <span class="st">&quot;linear&quot;</span>,<span class="co"># Qbar.L2 = P(Y=1|M,L1,A,L0) </span></span>
+<span id="cb10-15"><a href="applying-the-cmaverse.html#cb10-15" tabindex="-1"></a>                       <span class="at">postcreg =</span> <span class="fu">list</span>(<span class="st">&quot;logistic&quot;</span>, <span class="st">&quot;logistic&quot;</span>), <span class="co"># Qbar.L1 = P(L1=1|A,L0)</span></span>
+<span id="cb10-16"><a href="applying-the-cmaverse.html#cb10-16" tabindex="-1"></a>                       <span class="at">wmnomreg =</span> <span class="fu">list</span>(<span class="st">&quot;logistic&quot;</span>), <span class="co">#g(M=1|A) wgt nominator</span></span>
+<span id="cb10-17"><a href="applying-the-cmaverse.html#cb10-17" tabindex="-1"></a>                       <span class="at">wmdenomreg =</span> <span class="fu">list</span>(<span class="st">&quot;logistic&quot;</span>), <span class="co"># g(M=1|L1,A,L(0)) wgt denominator</span></span>
+<span id="cb10-18"><a href="applying-the-cmaverse.html#cb10-18" tabindex="-1"></a>                       <span class="at">astar =</span> <span class="dv">0</span>,</span>
+<span id="cb10-19"><a href="applying-the-cmaverse.html#cb10-19" tabindex="-1"></a>                       <span class="at">a =</span> <span class="dv">1</span>,</span>
+<span id="cb10-20"><a href="applying-the-cmaverse.html#cb10-20" tabindex="-1"></a>                       <span class="at">mval =</span> <span class="fu">list</span>(<span class="dv">0</span>), <span class="co"># do(M=0) to estimate CDE_m</span></span>
+<span id="cb10-21"><a href="applying-the-cmaverse.html#cb10-21" tabindex="-1"></a>                       <span class="at">estimation =</span> <span class="st">&quot;imputation&quot;</span>, <span class="co"># if model= gformula</span></span>
+<span id="cb10-22"><a href="applying-the-cmaverse.html#cb10-22" tabindex="-1"></a>                       <span class="at">inference =</span> <span class="st">&quot;bootstrap&quot;</span>,</span>
+<span id="cb10-23"><a href="applying-the-cmaverse.html#cb10-23" tabindex="-1"></a>                       <span class="at">boot.ci.type =</span> <span class="st">&quot;per&quot;</span>, <span class="co"># for percentile, other option: &quot;bca&quot;</span></span>
+<span id="cb10-24"><a href="applying-the-cmaverse.html#cb10-24" tabindex="-1"></a>                       <span class="at">nboot =</span> <span class="dv">2</span>) <span class="co"># we should use a large number of bootstrap samples</span></span></code></pre></div>
+<pre><code>##   |                                                                              |                                                                      |   0%</code></pre>
+<pre><code>##   |                                                                              |===================================                                   |  50%</code></pre>
+<pre><code>##   |                                                                              |======================================================================| 100%</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="applying-the-cmaverse.html#cb14-1" tabindex="-1"></a><span class="fu">summary</span>(iptw_death_RD)</span></code></pre></div>
+<pre><code>## Causal Mediation Analysis
+## 
+## # Outcome regression:
+## 
+## Call:
+## glm(formula = death ~ edu + smoking + edu * smoking, family = gaussian(), 
+##     data = getCall(x$reg.output$yreg)$data, weights = getCall(x$reg.output$yreg)$weights)
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 0.082933   0.008865   9.355  &lt; 2e-16 ***
+## edu         0.070447   0.012775   5.514 3.59e-08 ***
+## smoking     0.119740   0.012960   9.239  &lt; 2e-16 ***
+## edu:smoking 0.142064   0.017184   8.267  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for gaussian family taken to be 0.1690611)
+## 
+##     Null deviance: 1880.9  on 9999  degrees of freedom
+## Residual deviance: 1689.9  on 9996  degrees of freedom
+## AIC: 10969
+## 
+## Number of Fisher Scoring iterations: 2
+## 
+## 
+## # Mediator regressions: 
+## 
+## Call:
+## glm(formula = smoking ~ edu, family = binomial(), data = getCall(x$reg.output$mreg[[1L]])$data, 
+##     weights = getCall(x$reg.output$mreg[[1L]])$weights)
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -0.11692    0.03149  -3.713 0.000205 ***
+## edu          0.78869    0.04174  18.895  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 13576  on 9999  degrees of freedom
+## Residual deviance: 13214  on 9998  degrees of freedom
+## AIC: 13197
+## 
+## Number of Fisher Scoring iterations: 4
+## 
+## 
+## # Mediator regressions for weighting (denominator): 
+## 
+## Call:
+## glm(formula = smoking ~ edu + sex + low_par_edu + phys + occupation, 
+##     family = binomial(), data = getCall(x$reg.output$wmdenomreg[[1L]])$data, 
+##     weights = getCall(x$reg.output$wmdenomreg[[1L]])$weights)
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -0.85996    0.06143 -13.998   &lt;2e-16 ***
+## edu          0.70047    0.04402  15.911   &lt;2e-16 ***
+## sex          0.62499    0.04365  14.318   &lt;2e-16 ***
+## low_par_edu  0.41552    0.04772   8.707   &lt;2e-16 ***
+## phys        -0.38703    0.04418  -8.761   &lt;2e-16 ***
+## occupation   0.59325    0.04946  11.993   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 13578  on 9999  degrees of freedom
+## Residual deviance: 12685  on 9994  degrees of freedom
+## AIC: 12697
+## 
+## Number of Fisher Scoring iterations: 4
+## 
+## 
+## # Mediator regressions for weighting (nominator): 
+## 
+## Call:
+## glm(formula = smoking ~ edu, family = binomial(), data = getCall(x$reg.output$wmnomreg[[1L]])$data, 
+##     weights = getCall(x$reg.output$wmnomreg[[1L]])$weights)
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -0.13313    0.03151  -4.225 2.39e-05 ***
+## edu          0.81446    0.04178  19.493  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 13578  on 9999  degrees of freedom
+## Residual deviance: 13192  on 9998  degrees of freedom
+## AIC: 13196
+## 
+## Number of Fisher Scoring iterations: 4
+## 
+## 
+## # Exposure regression for weighting: 
+## 
+## Call:
+## glm(formula = edu ~ sex + low_par_edu, family = binomial(), data = getCall(x$reg.output$ereg)$data, 
+##     weights = getCall(x$reg.output$ereg)$weights)
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  0.02910    0.04186   0.695    0.487    
+## sex         -0.23178    0.04154  -5.580 2.41e-08 ***
+## low_par_edu  0.63793    0.04599  13.871  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 13497  on 9999  degrees of freedom
+## Residual deviance: 13285  on 9997  degrees of freedom
+## AIC: 13291
+## 
+## Number of Fisher Scoring iterations: 4
+## 
+## 
+## # Effect decomposition on the mean difference scale via the marginal structural model
+##  
+## Direct counterfactual imputation estimation with 
+##  bootstrap standard errors, percentile confidence intervals and p-values 
+##  
+##               Estimate Std.error  95% CIL 95% CIU  P.val    
+## cde           0.070447  0.007889 0.067239   0.078 &lt;2e-16 ***
+## rpnde         0.137886  0.005815 0.137662   0.145 &lt;2e-16 ***
+## rtnde         0.164690  0.003025 0.168127   0.172 &lt;2e-16 ***
+## rpnie         0.022592  0.002277 0.020573   0.024 &lt;2e-16 ***
+## rtnie         0.049395  0.000512 0.050350   0.051 &lt;2e-16 ***
+## te            0.187281  0.005303 0.188700   0.196 &lt;2e-16 ***
+## rintref       0.067440  0.002075 0.067636   0.070 &lt;2e-16 ***
+## rintmed       0.026803  0.002789 0.026718   0.030 &lt;2e-16 ***
+## cde(prop)     0.376155  0.030641 0.356284   0.397 &lt;2e-16 ***
+## rintref(prop) 0.360098  0.020701 0.345418   0.373 &lt;2e-16 ***
+## rintmed(prop) 0.143118  0.018617 0.136462   0.161 &lt;2e-16 ***
+## rpnie(prop)   0.120629  0.008677 0.109013   0.121 &lt;2e-16 ***
+## rpm           0.263747  0.009939 0.257133   0.270 &lt;2e-16 ***
+## rint          0.503216  0.039318 0.481879   0.535 &lt;2e-16 ***
+## rpe           0.623845  0.030641 0.602550   0.644 &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (cde: controlled direct effect; rpnde: randomized analogue of pure natural direct effect; rtnde: randomized analogue of total natural direct effect; rpnie: randomized analogue of pure natural indirect effect; rtnie: randomized analogue of total natural indirect effect; te: total effect; rintref: randomized analogue of reference interaction; rintmed: randomized analogue of mediated interaction; cde(prop): proportion cde; rintref(prop): proportion rintref; rintmed(prop): proportion rintmed; rpnie(prop): proportion rpnie; rpm: randomized analogue of overall proportion mediated; rint: randomized analogue of overall proportion attributable to interaction; rpe: randomized analogue of overall proportion eliminated)
+## 
+## Relevant variable values: 
+## $a
+## [1] 1
+## 
+## $astar
+## [1] 0
+## 
+## $mval
+## $mval[[1]]
+## [1] 0</code></pre>
+<p>Applying an IPTW estimator using the <code>CMAverse</code>, the ATE = 0.1873 and the CDE(M=0) = 0.0704.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="reminder---estimate-the-ate-by-g-computation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": false,
+    "twitter": false,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/benoitlepage/Inserm_workshop_282/01-using_the_CMAverse.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["_main.pdf"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

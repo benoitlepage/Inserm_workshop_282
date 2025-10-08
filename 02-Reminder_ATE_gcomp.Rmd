@@ -1,0 +1,102 @@
+# Reminder - Estimate the ATE by g-computation
+
+G-computation can be used for the estimation of the total effect and two-way decomposition (CDE, marginal and conditional randomized direct and indirect effects). Analogs of the 3-way and 4-way decompositions are also given by the `CMAverse` package.
+
+## Estimation of the Average Total Effect (ATE)
+
+The following steps describe the implementation of the g-computation estimator of the average total effect $\text{ATE} = \mathbb{E}(Y_{A=1}) - \mathbb{E}(Y_{A=0})$:
+                                          
+1. Fit a logistic or a linear regression to estimate $\overline{Q} = \mathbb{E}(Y \mid A, L(0))$
+                                            
+2. Use this estimate to predict an outcome for each subject $\hat{\overline{Q}}(A=0)_i$ and $\hat{\overline{Q}}(A=1)_i$, by evaluating the regression fit $\overline{Q}$ at $A=0$ and $A=1$ respectively
+                                          
+3. Plug the predicted outcomes in the g-formula and use the sample mean to estimate $\Psi_{ATE}$
+\begin{equation}
+\hat{\Psi}^{\text{ATE}}_{\text{gcomp}} = \frac{1}{n} \sum_{i=1}^n \left[ \hat{\overline{Q}}(A=1)_i - \hat{\overline{Q}}(A=0)_i \right]
+\end{equation}
+
+For continuous outcomes, $\overline{Q}(A=a)$ functions can be estimated using linear regressions. For binary outcomes, they can be estimated using logistic regressions.
+
+```{r gcomp_ATE, echo=TRUE}
+## 0. Import data
+rm(list = ls())
+df <- read.csv2("data/df.csv")
+
+## 1. Estimate Qbar  
+Q_tot_death <- glm(death ~ edu + sex + low_par_edu, 
+                   family = "binomial", data = df)
+Q_tot_score <- glm(score ~ edu + sex + low_par_edu, 
+                   family = "gaussian", data = df)
+
+## 2. Predict an outcome for each subject, setting A=0 and A=1
+# prepare data sets used to predict the outcome under the counterfactual 
+# scenarios setting A=0 and A=1
+data_Ais1 <- data_Ais0 <- df
+data_Ais1$edu <- 1
+data_Ais0$edu <- 0
+
+# predict values
+Y1_death_pred <- predict(Q_tot_death, newdata = data_Ais1, type = "response")
+Y0_death_pred <- predict(Q_tot_death, newdata = data_Ais0, type = "response")
+
+Y1_score_pred <- predict(Q_tot_score, newdata = data_Ais1, type = "response")
+Y0_score_pred <- predict(Q_tot_score, newdata = data_Ais0, type = "response")
+
+## 3. Plug the predicted outcome in the gformula and use the sample mean 
+##    to estimate the ATE
+ATE_death_gcomp <- mean(Y1_death_pred) - mean(Y0_death_pred)
+ATE_death_gcomp
+
+ATE_score_gcomp <- mean(Y1_score_pred) - mean(Y0_score_pred)
+ATE_score_gcomp
+```
+
+
+A 95% confidence interval can be estimated applying a bootstrap procedure. An example is given in the following code.
+```{r gcomp_ATE_ic95, echo=TRUE, eval = FALSE}
+## set seed for reproducibility
+set.seed(1234)
+B <- 10 # use a large number here (at least 200 to 1000)
+
+## we will store estimates from each bootstrap sample in a data.frame:
+bootstrap_estimates <- data.frame(matrix(NA, nrow = B, ncol = 2))
+colnames(bootstrap_estimates) <- c("boot_death_est", "boot_score_est")
+for (b in 1:B){
+  # sample the indices 1 to n with replacement
+  bootIndices <- sample(1:nrow(df), replace=T)
+  bootData <- df[bootIndices,]
+
+  if (round(b/100, 0) == b/100 ) print(paste0("bootstrap number ",b))
+  
+  Q_tot_death <- glm(death ~ edu + sex + low_par_edu, 
+                   family = "binomial", data = bootData)
+  Q_tot_score <- glm(score ~ edu + sex + low_par_edu, 
+                   family = "gaussian", data = bootData)
+
+  boot_Ais1 <- boot_Ais0 <- bootData
+  boot_Ais1$edu <- 1
+  boot_Ais0$edu <- 0
+
+  Y1_death_boot <- predict(Q_tot_death, newdata = boot_Ais1, type = "response")
+  Y0_death_boot <- predict(Q_tot_death, newdata = boot_Ais0, type = "response")
+
+  Y1_score_boot <- predict(Q_tot_score, newdata = boot_Ais1, type = "response")
+  Y0_score_boot <- predict(Q_tot_score, newdata = boot_Ais0, type = "response")
+
+  bootstrap_estimates[b,"boot_death_est"] <- mean(Y1_death_boot - Y0_death_boot)
+  bootstrap_estimates[b,"boot_score_est"] <- mean(Y1_score_boot - Y0_score_boot)
+}
+
+IC95_ATE_death <- c(ATE_death_gcomp - 
+                      qnorm(0.975) * sd(bootstrap_estimates[,"boot_death_est"]),
+                    ATE_death_gcomp + 
+                      qnorm(0.975) * sd(bootstrap_estimates[,"boot_death_est"]))
+IC95_ATE_death
+
+IC95_ATE_score <- c(ATE_score_gcomp - 
+                      qnorm(0.975) * sd(bootstrap_estimates[,"boot_score_est"]),
+                    ATE_score_gcomp + 
+                      qnorm(0.975) * sd(bootstrap_estimates[,"boot_score_est"]))
+                    
+IC95_ATE_score
+```

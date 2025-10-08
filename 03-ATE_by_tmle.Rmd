@@ -1,0 +1,369 @@
+# Estimate the ATE by TMLE
+
+When estimating a mean counterfactual outcome using g-computation methods, we have to estimate some $\bar{Q}$ functions (functions of the outcome conditional on the exposures and confounders, $\bar{Q}=\mathbb{E}\left(Y\mid A,L(0)\right)$). For example, the Average Total Effect (ATE) is defined as a marginal effect, estimated using the empirical mean of such $\bar{Q}$ functions: 
+\begin{equation*}
+\hat{\Psi}^{\text{ATE}}_{\text{gcomp}} = \frac{1}{n} \sum_{i=1}^n \left[ \hat{\overline{Q}}(A=1)_i - \hat{\overline{Q}}(A=0)_i \right]
+\end{equation*}
+
+Unless the $\bar{Q}$ functions are not misspecified, its estimate is expected to be biased (and $\bar{Q}$ are expected to be misspecified, especially if the set of baseline confounders $L(0)$ is high dimensional, for example if it includes is a large number of variables or continuous variables). In order to improve the estimation of $\bar{Q}(A,L)$, it is possible to use data-adaptive methods (machine learning algorithms) in order to optimize the bias-variance trade-off. However, this bias-variance trade-off would be optimized for the $\bar{Q}$ functions, not for the ATE estimate $\hat{\Psi}^\text{ATE}_\text{gcomp}$. If the $\bar{Q}$ function is unknown and has to be estimated (preferably by data-adaptive methods), it can be shown that the g-computation estimate of $\Psi^\text{ATE}$ is asymptotically biased.
+
+The Targeted Maximum Likelihood Estimation (TMLE) method has been developed as an asymptotically linear estimator, so that the estimation of any target parameter in any semiparametric statistical model is unbiased and efficient. In order to estimate a parameter $\Psi(P_0)$, where $P_0$ is an unknown probability distribution among a set $\mathcal{M}$ of possible statistical models, the TMLE is described as a two-step procedure [@vanderlaan_book2011]:
+
+  - The first step is to obtain an initial estimate of the relevant part ($\bar{Q}_0$ in our applications) of the probability distribution $P_0$. Data adaptive methods (machine learning algorithms) can be used to optimize this first step.
+  - The second step is to update the initial fit in order to "target toward making an optimal bias-variance tradeoff for the parameter of interest" $\Psi(\bar{Q})$. 
+
+Several R packages have been developed in order to carry out TMLE estimation of causal effects. We will begin using the `ltmle` package, as it can be used to estimate ATE or CDE. More generally, this package can be used to estimate the counterfactual effects of repeated exposure in time-to-event settings. In the setting of mediation analysis, a controlled direct effect (CDE) corresponds to a sequence of counterfactual interventions on 2 "exposure variables": the initial exposure $A$ and the mediator of interest $M$. The package can also be used in simpler settings with only one binary or continuous outcome, measure only once at the end a the study.
+
+## TMLE for the ATE
+In order to illustrate the TMLE procedure, the estimation of a mean counterfactual outcome, denoted $\Psi(A=1) = \mathbb{E} \left[\bar{Q}(A=1,L(0))\right]$, will be described in detail, following the algorithm implemented in the `ltmle` package.
+
+The basic steps of the procedure are the following [@vanderlaan_book2011]:
+
+1. Estimate $\bar{Q}_0$. Data-adaptive methods can be used here, the `ltmle` package relies on the `SuperLearner` package to fit and predict $\hat{\bar{Q}}(A=1)$.
+
+2. Estimate the treatment mechanism (propensity score) $g(A=1 \mid L(0))$. Once again, data-adaptive methods can be used to improve the estimation.
+
+3. The initial estimator of $\bar{Q}_0(A=1)$ will be slightly modified using a parametric fluctuation model, in order to reduce the bias when estimating the ATE. For example, the following parametric model of $\bar{Q}_0(A=1)$ and a "clever covariate" $H = \frac{I(A=1)}{\hat{g}(A=1 \mid L(0))}$ can be applied:
+\begin{equation*}
+ \text{logit} P(Y \mid \hat{\bar{Q}}, H) = \hat{\text{logit} \bar{Q}} + \varepsilon H
+\end{equation*}
+This parametric fluctuation model is chosen so that the derivative of its log-likelihood loss function is equal to the appropriate component of the efficient influence curve of the target parameter $\Psi(A=1)$.
+
+4. Modify the initial estimator of $\bar{Q}_0(A=1)$ with the parametric fluctuation model (using the estimation $\hat{\varepsilon}$ from the previous step). We denote $\hat{\bar{Q}}^*(A=1)$ the updated value of $\hat{\bar{Q}}(A=1)$
+
+5. Use the updated values $\hat{\bar{Q}}^*(A=1)$ in the substitution estimator to estimate the target parameter $\Psi(A=1)$ : 
+\begin{equation*}
+\hat{\Psi}(A=1)_\text{TMLE} = \frac{1}{n} \sum_{i=1}^n \hat{\bar{Q}}^* (A=1,L(0)) 
+\end{equation*}
+
+6. Estimate the efficient influence curve $D^*(Q_0,g_0)$ : 
+\begin{equation*}
+D^*(Q_0,g_0) = \frac{I(A=1)}{g_0(A=1 \mid L(0))}(Y - \bar{Q}_0(A,L(O))) + \bar{Q}_0(A=1,L(0))  - \Psi(A=1)
+\end{equation*}
+
+The variance of the target parameter can then be calculated using the variance of the efficient influence curve:
+\begin{equation*}
+\text{var} \hat{\Psi}(A=1)_\text{TMLE} = \frac{\text{var} \hat{D}^*}{n}
+\end{equation*}
+
+```{r Psi_ATE_tmle, echo=TRUE}
+rm(list = ls())
+df <- read.csv2("data/df.csv")
+
+## 1) Estimate Qbar and predict Qbar when the exposure ("education") is set to 1
+Q_fit <- glm(death ~ edu + sex + low_par_edu,
+             family = "binomial", data = df)
+data_A1 <- df
+data_A1$edu <- 1
+
+# predict the Qvar function when setting the exposure to A=1, on the logit scale
+logitQ <- predict(Q_fit, newdata = data_A1, type = "link")
+
+## 2) Estimate the treatment mechanism
+g_L <- glm(edu ~ sex + low_par_edu,
+           family = "binomial", data = df)
+# predict the probabilities g(A=1 | L(0)) = P(A0_PM2.5=1|L(0))
+g1_L <- predict(g_L, type="response")
+
+head(g1_L)
+
+# It is useful to check the distribution of gA_L, as values close to 0 or 1 are 
+# indicators of near positivity violation and can result in large variance for the 
+# estimation. 
+# In case of near positivity violation, gA_L values can be truncated to decrease
+# the variance (at the cost a increased bias).
+summary(g1_L)
+# there is no positivity issues in this example.
+
+## 3) Determine a parametric family of fluctuations of Qbar. 
+# The fluctuation model is a model of logitQbar and g(A=1|L(0)) 
+
+# The clever covariate H(A,L(0)) depends on g(A=1|L(0)):
+H <- (df$edu == 1) / g1_L
+
+# Update the initial fit Qbar from step 1.
+# This is achieved by holding Qbar fixed (as intercept) while estimating the
+# coefficient epsilon for H
+
+# for example we could use the following fluctuation model (from the "Targeted 
+# Learning" book)
+update_fit <- glm(df$death ~ -1 + offset(logitQ) + H,
+                  family = "quasibinomial")
+coef(update_fit)
+Qstar <- predict(update_fit, data = data.frame(logitQ, H), type = "response")
+
+# In the ltmle package, the fluctuation parametric model is slightly different
+# (but with the same purpose). The "clever covariate" H is scaled and used as a 
+# weight in the parametric quasi-logistic regression
+S1 <- rep(1, nrow(df))
+update_fit_ltmle <- glm(df$death ~ -1 + S1 + offset(logitQ),
+                        family = "quasibinomial",
+                        weights = scale(H, center = FALSE))
+coef(update_fit_ltmle)
+
+## 4) Update the initial estimate of Qbar using the fluctuation parametric model
+Qstar_ltmle <- predict(update_fit_ltmle, 
+                       data = data.frame(logitQ, H), 
+                       type = "response")
+head(Qstar_ltmle)
+#         1         2         3         4         5         6 
+# 0.2872412 0.3441344 0.3441344 0.2591356 0.3441344 0.3441344
+
+## 5) Obtain the substition estimator of Psi_Ais1
+Psi_Ais1 <- mean(Qstar_ltmle)
+Psi_Ais1
+
+## 5) Calculate standard errors based on the influence curve of the TMLE
+IC <- H * (df$death - Qstar_ltmle) + Qstar_ltmle - Psi_Ais1
+head(IC)
+# the influence curve has a mean of 0
+summary(IC)
+
+# The standard error of the target parameter Psi(A=1) can be estimated by :
+sqrt(var(IC)/nrow(df))
+```
+
+We can see that we can get the same output using the `ltmle` package (cf. `?ltmle` to see how the function works):
+```{r Psi_ATE_tmle_package, echo=TRUE, eval = FALSE}
+rm(list = ls())
+df <- read.csv2("data/df.csv")
+
+library(ltmle)
+
+# The Qform and gform arguments are defined from the DAG
+Qform <- c(death="Q.kplus1 ~ sex + low_par_edu + edu")
+gform <- c("edu ~ sex + low_par_edu")
+
+# in the ltmle package, the data set should be formated so that the order of the 
+# columns corresponds to the time-ordering of the model
+data_ltmle <- subset(df, 
+                     select = c(sex, low_par_edu, edu, death))
+
+# the counterfactual intervention is defined in the abar argument
+abar <- 1
+
+Psi_Ais1 <- ltmle(data_ltmle,
+                  Anodes = "edu",
+                  Ynodes = "death",
+                  Qform = Qform,
+                  gform = gform,
+                  gbounds = c(0.01, 1), # by default, g function truncated at 0.01
+                  abar = abar,
+                  SL.library = "glm",
+                  variance.method = "ic")
+
+# from the ltmle() function, we can get the point estimate, its standard error, 
+# 95% confidence interval and the p-value for the null hypothesis.
+summary(Psi_Ais1, "tmle")
+
+# The ltmle() function returns an object with several outputs.
+# We can see that g functions are the same as in the previous manual calculation
+head(Psi_Ais1$cum.g)
+
+# we can get the estimation of the epsilon parameter from the fluctuation model
+Psi_Ais1$fit$Qstar
+
+# we can get the updated Qbar functions:
+head(Psi_Ais1$Qstar)
+
+# we can get the influence curve 
+head(Psi_Ais1$IC$tmle)
+```
+
+In practice, it is recommended to apply data-adaptive algorithms to estimate $\bar{Q}$ and $g$ functions: the `ltmle` package relies on the `SuperLearner` package. As indicated in the [Guide to SuperLearner](https://cran.r-project.org/web/packages/SuperLearner/vignettes/Guide-to-SuperLearner.html), 
+The `SuperLearner` is "an algorithm that uses cross-validation to estimate the performance of multiple machine learning models, or the same model with different settings. It then creates an optimal weighted average of those models (ensemble learning) using the test data performance."
+
+Here is an example for our estimation of the Average Total Effect (ATE). 
+
+The `SuperLearner` package includes a set of algorithms with default parameters (showed by `listWrappers()`). Because the simulated data set only have 2 binary baseline variables, the set $\mathcal{M}$ of possible statistical models is limited. In order to estimate the ATE, we will include a library with:
+
+  - `SL.mean`, the null-model which only predict the marginal mean (it can be used as a reference for a bad model);
+  - `SL.glm`, a glm using the main terms from the `Qform` and `gform` argument;
+  - `SL.interaction.back`, a step-by-step backward GLM prodecure (based on the AIC), starting with all $2 \times 2$ interactions between main terms. This function is customized from the `SL.step.interaction` available with the `ltmle` and `SuperLearner` packages, where the `direction` argument is set to `both` by default. 
+  - `SL.hal9001` fit the "Highly Adaptive Lasso (HAL) algorithm. See the [vignette](https://cran.r-project.org/web//packages/hal9001/vignettes/intro_hal9001.html) for more information on the HAL algorithm. One of its advantage is a very fast rate of convergence.
+
+```{r Psi_ATE_ltmle, echo=TRUE, eval = FALSE}
+library(SuperLearner)
+library(hal9001)
+# Below, we use the same ltmle() function than previously, 
+# and specify a family of algorithms to be used with the SuperLearner
+
+## we can change the default argument of the SL.xgboost algorithm and the 
+## SL.step.interaction algorithm
+
+# We can check how arguments are used in the pre-specified algorithms
+SL.step.interaction
+# function (Y, X, newX, family, direction = "both", trace = 0, 
+#     k = 2, ...) 
+# {
+#     fit.glm <- glm(Y ~ ., data = X, family = family)
+#     fit.step <- step(fit.glm, scope = Y ~ .^2, direction = direction, 
+#         trace = trace, k = k)
+#     pred <- predict(fit.step, newdata = newX, type = "response")
+#     fit <- list(object = fit.step)
+#     out <- list(pred = pred, fit = fit)
+#     class(out$fit) <- c("SL.step")
+#     return(out)
+# }
+# <bytecode: 0x000001b965ed0dc0>
+# <environment: namespace:SuperLearner>
+
+## The HAL algorithm implemented by default does not deal correctly with 
+## continuous outcome, 
+## However, we can define your own learner algorithm, following the template:
+SL.template
+# function (Y, X, newX, family, obsWeights, id, ...) 
+# {
+#     if (family$family == "gaussian") {
+#     }
+#     if (family$family == "binomial") {
+#     }
+#     pred <- numeric()
+#     fit <- vector("list", length = 0)
+#     class(fit) <- c("SL.template")
+#     out <- list(pred = pred, fit = fit)
+#     return(out)
+# }
+# <bytecode: 0x00000291b737f2e0>
+# <environment: namespace:SuperLearner>
+
+## We define your own HAL algorithm that can run on both continuous and binary outcomes
+SL.hal9001.Qbar <- function (Y, X, newX, family, obsWeights, id, max_degree = 2, 
+                             smoothness_orders = 1, num_knots = 5, ...) {
+  if (!is.matrix(X)) 
+    X <- as.matrix(X)
+  if (!is.null(newX) & !is.matrix(newX)) 
+    newX <- as.matrix(newX)
+  
+  if (length(unique(Y)) == 2) { # for binomial family
+    hal_fit <- hal9001::fit_hal(Y = Y, X = X, family = "binomial", 
+                                weights = obsWeights, id = id, max_degree = max_degree, 
+                                smoothness_orders = smoothness_orders, num_knots = num_knots, 
+                                ...)
+  }
+  
+  if (length(unique(Y)) > 2) { # for quasibinomial family
+    hal_fit <- hal9001::fit_hal(Y = Y, X = X, family = "gaussian", 
+                                weights = obsWeights, id = id, max_degree = max_degree, 
+                                smoothness_orders = smoothness_orders, num_knots = num_knots, 
+                                ...)
+  }
+  
+  if (!is.null(newX)) {
+    pred <- stats::predict(hal_fit, new_data = newX)
+  }
+  else {
+    pred <- stats::predict(hal_fit, new_data = X)
+  }
+  fit <- list(object = hal_fit)
+  class(fit) <- "SL.hal9001"
+  out <- list(pred = pred, fit = fit)
+  return(out)
+}
+environment(SL.hal9001.Qbar) <-asNamespace("SuperLearner")
+
+## the algorithms we would like to use can be specified separately for the Q and 
+# g functions
+SL.library <- list(Q=c("SL.mean","SL.glm","SL.interaction.back", "SL.hal9001"),
+                   g=c("SL.mean","SL.glm","SL.interaction.back", "SL.hal9001"))
+
+set.seed(1234)
+Psi_ATE_tmle <- ltmle(data = data_ltmle,
+                      Anodes = "edu",
+                      Ynodes = "death",
+                      Qform = Qform,
+                      gform = gform,
+                      gbounds = c(0.01, 1),
+                      abar = list(1,0), # vector of the counterfactual treatment
+                      SL.library = SL.library,
+                      variance.method = "ic")
+# The estimation is more computer intensive
+# The function give the ATE on the difference scale (as well, as RR and OR)
+summary(Psi_ATE_tmle, estimator = "tmle")
+# Additive Treatment Effect:
+#    Parameter Estimate:  0.18646 
+#     Estimated Std Err:  0.0082369 
+#               p-value:  <2e-16 
+#     95% Conf Interval: (0.17031, 0.2026) 
+    
+## We can see how the SuperLearner used the algorithms for the g function
+Psi_ATE_tmle$fit$g[[1]]
+# we see that the Risk is high for the bad model (SL.mean)
+# and very similar for the 3 other models
+#                              Risk        Coef
+# SL.mean_All             0.2409651 0.004074661 # risk is higher for the bad model
+# SL.glm_All              0.2358587 0.000000000
+# SL.interaction.back_All 0.2358587 0.995925339
+# SL.hal9001_All          0.2358824 0.000000000
+# [[1]]$A0_PM2.5
+
+# for the g function, the SuperLearner predicts the treatment mechanism
+# base on a mix between the glm and the customized xgboost algorithm.
+
+## We can see how the SuperLearner used the algorithms for the g function
+Psi_ATE_tmle$fit$Q
+#                              Risk       Coef
+#                              Risk      Coef
+# SL.mean_All             0.1905554 0.0000000 # risk is higher for the bad model
+# SL.glm_All              0.1775983 0.6619501
+# SL.interaction.back_All 0.1775983 0.0000000
+# SL.hal9001_All          0.1776157 0.3380499
+
+# The SuperLearner predicts both the treatment mechanism g and the Q function
+# from a mix between the glm (or the main term glm) and the 
+# HAL algorithm. 
+# However, the choice between the SL.glm and the SL.interaction.back 
+# procedure was arbitrary: as we can see the Risk is exactly the same for both 
+# algorithms. The final model from the step-by-step procedure was much probably 
+# a main term glm.
+
+
+## The `ltmle` package can also be used to estimate the effect of binary exposures
+## on continous outcomes
+Qform <- c(score="Q.kplus1 ~ sex + low_par_edu + edu")
+gform <- c("edu ~ sex + low_par_edu")
+
+SL.library <- list(Q=c("SL.mean","SL.glm","SL.interaction.back", "SL.hal9001.Qbar"),
+                   g=c("SL.mean","SL.glm","SL.interaction.back", "SL.hal9001"))
+
+set.seed(1234)
+Psi_ATE_tmle_score <- ltmle(data = subset(df, 
+                                          select = c(sex, low_par_edu,
+                                                     edu,
+                                                     score)),
+                      Anodes = "edu",
+                      Ynodes = "score",
+                      Qform = Qform,
+                      gform = gform,
+                      gbounds = c(0.01, 1),
+                      abar = list(1,0), # vector of the counterfactual treatment 
+                      SL.library = SL.library,
+                      variance.method = "ic")
+summary(Psi_ATE_tmle_score, estimator = "tmle")
+# Additive Treatment Effect:
+#    Parameter Estimate:  -19.76 
+#     Estimated Std Err:  0.37746 
+#               p-value:  <2e-16 
+#     95% Conf Interval: (-20.5, -19.021) 
+```
+The TMLE estimation of the ATE from the `ltmle` package for death probability and mean quality of life is +18.65% (95% CI=[17.03%, +20.26%]) and -19.76 [-20.5, -19.021].
+
+Note that the `ltmle` package can also be used to calculate the IPTW estimation of the ATE and the CDE.
+```{r Psi_ATE_ltmle_iptw, echo=TRUE, eval = FALSE}
+# using the output from the previous ltmle() procedure
+summary(Psi_ATE_tmle, estimator = "iptw")
+# Additive Treatment Effect:
+#    Parameter Estimate:  0.18659 
+#     Estimated Std Err:  0.0083201 
+#               p-value:  <2e-16 
+#     95% Conf Interval: (0.17029, 0.2029) 
+
+summary(Psi_ATE_tmle_score, estimator = "iptw")
+# Additive Treatment Effect:
+#    Parameter Estimate:  -19.763 
+#     Estimated Std Err:  0.38341 
+#               p-value:  <2e-16 
+#     95% Conf Interval: (-20.515, -19.012) 
+```
+The IPTW estimation of the ATE from the `ltmle` package for death probability and mean quality of life is +18.66% (95% CI=[+17.03%, +20.29%]) and -19.76 [-20.52, -19.01].
+
