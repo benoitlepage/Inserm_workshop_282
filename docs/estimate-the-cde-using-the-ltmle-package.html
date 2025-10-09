@@ -23,7 +23,7 @@
 <meta name="author" content="Benoît Lepage" />
 
 
-<meta name="date" content="2025-10-08" />
+<meta name="date" content="2025-10-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="estimate-the-ate-by-tmle.html"/>
-<link rel="next" href="estimatin-rnde-and-rnie-by-tmle.html"/>
+<link rel="next" href="estimate-rnde-and-rnie-by-tmle.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -168,21 +168,44 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#data-generating-system"><i class="fa fa-check"></i><b>1.1</b> Data generating system</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="applying-the-cmaverse.html"><a href="applying-the-cmaverse.html"><i class="fa fa-check"></i><b>2</b> Applying the CMAverse</a>
+<li class="chapter" data-level="2" data-path="reminders---estimate-the-ate.html"><a href="reminders---estimate-the-ate.html"><i class="fa fa-check"></i><b>2</b> Reminders - Estimate the ATE</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="applying-the-cmaverse.html"><a href="applying-the-cmaverse.html#estimation-by-parametric-g-computation"><i class="fa fa-check"></i><b>2.1</b> Estimation by “parametric” g-computation</a></li>
-<li class="chapter" data-level="2.2" data-path="applying-the-cmaverse.html"><a href="applying-the-cmaverse.html#estimation-by-msm-estimated-by-iptw"><i class="fa fa-check"></i><b>2.2</b> Estimation by MSM estimated by IPTW</a></li>
+<li class="chapter" data-level="2.1" data-path="reminders---estimate-the-ate.html"><a href="reminders---estimate-the-ate.html#estimation-of-the-average-total-effect-ate-by-g-computation"><i class="fa fa-check"></i><b>2.1</b> Estimation of the Average Total Effect (ATE) by g-computation</a></li>
+<li class="chapter" data-level="2.2" data-path="reminders---estimate-the-ate.html"><a href="reminders---estimate-the-ate.html#estimation-of-the-ate-by-iptw"><i class="fa fa-check"></i><b>2.2</b> Estimation of the ATE by IPTW</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="reminders---estimate-the-ate.html"><a href="reminders---estimate-the-ate.html#classic-horvitz-thompson-estimator"><i class="fa fa-check"></i><b>2.2.1</b> “Classic” Horvitz Thompson estimator</a></li>
+<li class="chapter" data-level="2.2.2" data-path="reminders---estimate-the-ate.html"><a href="reminders---estimate-the-ate.html#stabilized-iptw-for-the-ate"><i class="fa fa-check"></i><b>2.2.2</b> Stabilized IPTW for the ATE</a></li>
+<li class="chapter" data-level="2.2.3" data-path="reminders---estimate-the-ate.html"><a href="reminders---estimate-the-ate.html#using-an-msm-estimated-by-iptw"><i class="fa fa-check"></i><b>2.2.3</b> Using an MSM estimated by IPTW</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="reminder---estimate-the-ate-by-g-computation.html"><a href="reminder---estimate-the-ate-by-g-computation.html"><i class="fa fa-check"></i><b>3</b> Reminder - Estimate the ATE by g-computation</a>
+</ul></li>
+<li class="chapter" data-level="3" data-path="applying-the-cmaverse.html"><a href="applying-the-cmaverse.html"><i class="fa fa-check"></i><b>3</b> Applying the CMAverse</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="reminder---estimate-the-ate-by-g-computation.html"><a href="reminder---estimate-the-ate-by-g-computation.html#estimation-of-the-average-total-effect-ate"><i class="fa fa-check"></i><b>3.1</b> Estimation of the Average Total Effect (ATE)</a></li>
+<li class="chapter" data-level="3.1" data-path="applying-the-cmaverse.html"><a href="applying-the-cmaverse.html#estimation-by-parametric-g-computation"><i class="fa fa-check"></i><b>3.1</b> Estimation by “parametric” g-computation</a></li>
+<li class="chapter" data-level="3.2" data-path="applying-the-cmaverse.html"><a href="applying-the-cmaverse.html#estimation-by-msm-estimated-by-iptw"><i class="fa fa-check"></i><b>3.2</b> Estimation by MSM estimated by IPTW</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="estimate-the-ate-by-tmle.html"><a href="estimate-the-ate-by-tmle.html"><i class="fa fa-check"></i><b>4</b> Estimate the ATE by TMLE</a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="estimate-the-ate-by-tmle.html"><a href="estimate-the-ate-by-tmle.html#tmle-for-the-ate"><i class="fa fa-check"></i><b>4.1</b> TMLE for the ATE</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html"><i class="fa fa-check"></i><b>5</b> Estimate the CDE using the <code>ltmle</code> package</a></li>
-<li class="chapter" data-level="6" data-path="estimatin-rnde-and-rnie-by-tmle.html"><a href="estimatin-rnde-and-rnie-by-tmle.html"><i class="fa fa-check"></i><b>6</b> Estimatin rNDE and rNIE by TMLE</a></li>
+<li class="chapter" data-level="5" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html"><i class="fa fa-check"></i><b>5</b> Estimate the CDE using the <code>ltmle</code> package</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#ChapGcomp-CDE-ICE"><i class="fa fa-check"></i><b>5.1</b> G-computation by iterative conditional expectation</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#algorithm-and-manual-calculation"><i class="fa fa-check"></i><b>5.1.1</b> Algorithm and manual calculation</a></li>
+<li class="chapter" data-level="5.1.2" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#g-computation-by-ice-using-the-ltmle-package"><i class="fa fa-check"></i><b>5.1.2</b> G-computation by ICE using the <code>ltmle</code> package</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#iptw-estimator-of-the-cde"><i class="fa fa-check"></i><b>5.2</b> IPTW estimator of the CDE</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#estimation-of-the-msm-coefficients-by-iptw"><i class="fa fa-check"></i><b>5.2.1</b> Estimation of the MSM coefficients by IPTW</a></li>
+<li class="chapter" data-level="5.2.2" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#iptw-estmation-using-the-ltmle-package"><i class="fa fa-check"></i><b>5.2.2</b> IPTW estmation using the ltmle package</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#tmle-estimator-of-the-cde"><i class="fa fa-check"></i><b>5.3</b> TMLE estimator of the CDE</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#for-binary-outcomes"><i class="fa fa-check"></i><b>5.3.1</b> For binary outcomes</a></li>
+<li class="chapter" data-level="5.3.2" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#for-continuous-outcomes"><i class="fa fa-check"></i><b>5.3.2</b> For continuous outcomes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="estimate-rnde-and-rnie-by-tmle.html"><a href="estimate-rnde-and-rnie-by-tmle.html"><i class="fa fa-check"></i><b>6</b> Estimate rNDE and rNIE by TMLE</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -205,7 +228,656 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="estimate-the-cde-using-the-ltmle-package" class="section level1 hasAnchor" number="5">
 <h1><span class="header-section-number">Chapter 5</span> Estimate the CDE using the <code>ltmle</code> package<a href="estimate-the-cde-using-the-ltmle-package.html#estimate-the-cde-using-the-ltmle-package" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>The ltmle package can be used to estimate controlled direct effects by:</p>
+<ul>
+<li>g-computation by iterative conditional expectation (ICE),</li>
+<li>IPTW,</li>
+<li>or TMLE.</li>
+</ul>
+<div id="ChapGcomp-CDE-ICE" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> G-computation by iterative conditional expectation<a href="estimate-the-cde-using-the-ltmle-package.html#ChapGcomp-CDE-ICE" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="algorithm-and-manual-calculation" class="section level3 hasAnchor" number="5.1.1">
+<h3><span class="header-section-number">5.1.1</span> Algorithm and manual calculation<a href="estimate-the-cde-using-the-ltmle-package.html#algorithm-and-manual-calculation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The following steps describe the implementation of the g-computation estimator by iterative conditional expectation (ICE) for the component <span class="math inline">\(\mathbb{E}(Y_{A=a^\prime,M=m})\)</span> used in the definition of CDE <span class="math inline">\(\Psi^{\text{CDE}_m} = \mathbb{E}(Y_{A=1,M=m}) - \mathbb{E}(Y_{A=0,M=m})\)</span>. Interestingly, there is no need to estimate or simulate <span class="math inline">\(L(1)\)</span> density with this method.</p>
+<ol style="list-style-type: decimal">
+<li><p>Fit a logistic or a linear regression of the final outcome, conditional on the exposure <span class="math inline">\(A\)</span>, the mediator <span class="math inline">\(M\)</span> and all the parents of <span class="math inline">\(Y\)</span> preceding <span class="math inline">\(M\)</span>, to estimate <span class="math inline">\(\overline{Q}_{L(2)} = \mathbb{E}(Y \mid L(0),A,L(1),M)\)</span>;</p></li>
+<li><p>Use this estimate to predict an outcome for each subject <span class="math inline">\(\hat{\overline{Q}}_{L(2)}(A=a^\prime,M=m)_i\)</span>, by evaluating the regression fit <span class="math inline">\(\overline{Q}_{L(2)}\)</span> at the chosen value for the exposure <span class="math inline">\(A=a^\prime\)</span> and the mediator <span class="math inline">\(M=m\)</span>;</p></li>
+<li><p>Fit a quasibinomial or a linear regression of the predicted values <span class="math inline">\(\hat{\overline{Q}}_{L(2)}(A=a^\prime,M=m)_i\)</span> conditional on the exposure <span class="math inline">\(A\)</span> and baseline confounders <span class="math inline">\(L(0)\)</span> to estimate <span class="math inline">\(\overline{Q}_{L(1)} = \mathbb{E}\left(\hat{\overline{Q}}_{L(2)}(A=a^\prime,M=m) \middle| L(0),A\right)\)</span>;</p></li>
+<li><p>Use this estimate to predict the outcome <span class="math inline">\(\hat{\overline{Q}}_{L(1)}(A=a^\prime)_i\)</span> for each subject, by evaluating the regression fit <span class="math inline">\(\overline{Q}_{L(1)}\)</span> at <span class="math inline">\(A=a^\prime\)</span>;</p></li>
+<li><p>Use the sample mean to estimate <span class="math inline">\(\Psi^{\text{CDE}_m}_{\text{gcomp}}\)</span>
+<span class="math display">\[\begin{equation}
+\hat{\Psi}^{\text{CDE}_m}_{\text{gcomp}} = \frac{1}{n} \sum_{i=1}^n \left[ \hat{\overline{Q}}_{L(1)}(A=1)_i - \hat{\overline{Q}}_{L(1)}(A=0)_i \right]
+\end{equation}\]</span></p></li>
+</ol>
+<p>Note that G-computation by iterative expectation is preferable if the set of intermediate confounders <span class="math inline">\(L(1)\)</span> is high-dimensional as we only need to fit 1 model by counterfactual scenario (for a whole set of <span class="math inline">\(L(1)\)</span> variables) in the procedure described below, whereas at least 1 model by <span class="math inline">\(L(1)\)</span> variable and by counterfactual scenario are needed with parametric g-computation.</p>
+<p>In the following example, we will focus on the estimand <span class="math inline">\(CDE(M=0) = \mathbb{E}(Y_{A=1,M=0}) - \mathbb{E}(Y_{A=0,M=0})\)</span>.</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-1" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb67-2"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-2" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(<span class="st">&quot;data/df.csv&quot;</span>)</span>
+<span id="cb67-3"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-3" tabindex="-1"></a></span>
+<span id="cb67-4"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-4" tabindex="-1"></a><span class="do">## 1) Regress the outcome on L0, A, L1 and M (and the A*M interaction if appropriate)</span></span>
+<span id="cb67-5"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-5" tabindex="-1"></a>death_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(death <span class="sc">~</span> sex <span class="sc">+</span> low_par_edu <span class="sc">+</span> edu <span class="sc">+</span> phys <span class="sc">+</span> occupation <span class="sc">+</span></span>
+<span id="cb67-6"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-6" tabindex="-1"></a>                     smoking <span class="sc">+</span> edu<span class="sc">:</span>smoking,</span>
+<span id="cb67-7"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-7" tabindex="-1"></a>                   <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> df)</span>
+<span id="cb67-8"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-8" tabindex="-1"></a>                       </span>
+<span id="cb67-9"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-9" tabindex="-1"></a>score_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(score <span class="sc">~</span> sex <span class="sc">+</span> low_par_edu <span class="sc">+</span> edu <span class="sc">+</span> phys <span class="sc">+</span> occupation <span class="sc">+</span></span>
+<span id="cb67-10"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-10" tabindex="-1"></a>                     smoking <span class="sc">+</span> edu<span class="sc">:</span>smoking,</span>
+<span id="cb67-11"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-11" tabindex="-1"></a>                   <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>, <span class="at">data =</span> df)</span>
+<span id="cb67-12"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-12" tabindex="-1"></a></span>
+<span id="cb67-13"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-13" tabindex="-1"></a><span class="co"># 2) Generate predicted values by evaluating the regression setting the exposure</span></span>
+<span id="cb67-14"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-14" tabindex="-1"></a><span class="co">#    and the mediator at exposure history of interest:</span></span>
+<span id="cb67-15"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-15" tabindex="-1"></a><span class="co">#    {A=1,M=0},{A=0,M=0}</span></span>
+<span id="cb67-16"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-16" tabindex="-1"></a>data_Ais0_Mis0 <span class="ot">&lt;-</span> data_Ais1_Mis0 <span class="ot">&lt;-</span> df</span>
+<span id="cb67-17"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-17" tabindex="-1"></a></span>
+<span id="cb67-18"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-18" tabindex="-1"></a>data_Ais0_Mis0<span class="sc">$</span>edu <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb67-19"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-19" tabindex="-1"></a>data_Ais0_Mis0<span class="sc">$</span>smoking <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb67-20"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-20" tabindex="-1"></a></span>
+<span id="cb67-21"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-21" tabindex="-1"></a>data_Ais1_Mis0<span class="sc">$</span>edu <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb67-22"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-22" tabindex="-1"></a>data_Ais1_Mis0<span class="sc">$</span>smoking <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb67-23"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-23" tabindex="-1"></a></span>
+<span id="cb67-24"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-24" tabindex="-1"></a>Q_L2_death_A0M0 <span class="ot">&lt;-</span> <span class="fu">predict</span>(death_model, </span>
+<span id="cb67-25"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-25" tabindex="-1"></a>                           <span class="at">newdata =</span> data_Ais0_Mis0, <span class="at">type=</span><span class="st">&quot;response&quot;</span>)</span>
+<span id="cb67-26"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-26" tabindex="-1"></a>Q_L2_death_A1M0 <span class="ot">&lt;-</span> <span class="fu">predict</span>(death_model, </span>
+<span id="cb67-27"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-27" tabindex="-1"></a>                           <span class="at">newdata =</span> data_Ais1_Mis0, <span class="at">type=</span><span class="st">&quot;response&quot;</span>)</span>
+<span id="cb67-28"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-28" tabindex="-1"></a></span>
+<span id="cb67-29"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-29" tabindex="-1"></a>Q_L2_score_A0M0 <span class="ot">&lt;-</span> <span class="fu">predict</span>(score_model, </span>
+<span id="cb67-30"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-30" tabindex="-1"></a>                           <span class="at">newdata =</span> data_Ais0_Mis0, <span class="at">type=</span><span class="st">&quot;response&quot;</span>)</span>
+<span id="cb67-31"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-31" tabindex="-1"></a>Q_L2_score_A1M0 <span class="ot">&lt;-</span> <span class="fu">predict</span>(score_model, </span>
+<span id="cb67-32"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-32" tabindex="-1"></a>                           <span class="at">newdata =</span> data_Ais1_Mis0, <span class="at">type=</span><span class="st">&quot;response&quot;</span>)</span>
+<span id="cb67-33"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-33" tabindex="-1"></a></span>
+<span id="cb67-34"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-34" tabindex="-1"></a><span class="do">## 3) Regress the predicted values conditional on the exposure A</span></span>
+<span id="cb67-35"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-35" tabindex="-1"></a><span class="do">##    and baseline confounders L(0)</span></span>
+<span id="cb67-36"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-36" tabindex="-1"></a>L1_death_A0M0_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(Q_L2_death_A0M0 <span class="sc">~</span> sex <span class="sc">+</span> low_par_edu <span class="sc">+</span> edu,</span>
+<span id="cb67-37"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-37" tabindex="-1"></a>                           <span class="at">family =</span> <span class="st">&quot;quasibinomial&quot;</span>, <span class="at">data =</span> df)</span>
+<span id="cb67-38"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-38" tabindex="-1"></a>L1_death_A1M0_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(Q_L2_death_A1M0 <span class="sc">~</span> sex <span class="sc">+</span> low_par_edu <span class="sc">+</span> edu,</span>
+<span id="cb67-39"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-39" tabindex="-1"></a>                           <span class="at">family =</span> <span class="st">&quot;quasibinomial&quot;</span>, <span class="at">data =</span> df)</span>
+<span id="cb67-40"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-40" tabindex="-1"></a></span>
+<span id="cb67-41"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-41" tabindex="-1"></a>L1_score_A0M0_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(Q_L2_score_A0M0 <span class="sc">~</span> sex <span class="sc">+</span> low_par_edu <span class="sc">+</span> edu,</span>
+<span id="cb67-42"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-42" tabindex="-1"></a>                           <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>, <span class="at">data =</span> df)</span>
+<span id="cb67-43"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-43" tabindex="-1"></a>L1_score_A1M0_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(Q_L2_score_A1M0 <span class="sc">~</span> sex <span class="sc">+</span> low_par_edu <span class="sc">+</span> edu,</span>
+<span id="cb67-44"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-44" tabindex="-1"></a>                           <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>, <span class="at">data =</span> df)</span>
+<span id="cb67-45"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-45" tabindex="-1"></a></span>
+<span id="cb67-46"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-46" tabindex="-1"></a><span class="do">## 4) generate predicted values by evaluating the regression at exposure </span></span>
+<span id="cb67-47"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-47" tabindex="-1"></a><span class="do">##    of interest: {A=1} &amp; {A=0}</span></span>
+<span id="cb67-48"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-48" tabindex="-1"></a>Q_L1_death_A0M0 <span class="ot">&lt;-</span> <span class="fu">predict</span>(L1_death_A0M0_model, </span>
+<span id="cb67-49"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-49" tabindex="-1"></a>                           <span class="at">newdata =</span> data_Ais0_Mis0, <span class="at">type=</span><span class="st">&quot;response&quot;</span>)</span>
+<span id="cb67-50"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-50" tabindex="-1"></a>Q_L1_death_A1M0 <span class="ot">&lt;-</span> <span class="fu">predict</span>(L1_death_A1M0_model, </span>
+<span id="cb67-51"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-51" tabindex="-1"></a>                           <span class="at">newdata =</span> data_Ais1_Mis0, <span class="at">type=</span><span class="st">&quot;response&quot;</span>)</span>
+<span id="cb67-52"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-52" tabindex="-1"></a></span>
+<span id="cb67-53"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-53" tabindex="-1"></a>Q_L1_score_A0M0 <span class="ot">&lt;-</span> <span class="fu">predict</span>(L1_score_A0M0_model, </span>
+<span id="cb67-54"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-54" tabindex="-1"></a>                           <span class="at">newdata =</span> data_Ais0_Mis0, <span class="at">type=</span><span class="st">&quot;response&quot;</span>)</span>
+<span id="cb67-55"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-55" tabindex="-1"></a>Q_L1_score_A1M0 <span class="ot">&lt;-</span> <span class="fu">predict</span>(L1_score_A1M0_model, </span>
+<span id="cb67-56"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-56" tabindex="-1"></a>                           <span class="at">newdata =</span> data_Ais1_Mis0, <span class="at">type=</span><span class="st">&quot;response&quot;</span>)</span>
+<span id="cb67-57"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-57" tabindex="-1"></a></span>
+<span id="cb67-58"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-58" tabindex="-1"></a><span class="do">## 5) Take empirical mean of final predicted outcomes to estimate CDE</span></span>
+<span id="cb67-59"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-59" tabindex="-1"></a><span class="co"># CDE setting M=0</span></span>
+<span id="cb67-60"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-60" tabindex="-1"></a>CDE_death_m0_gcomp_ice <span class="ot">&lt;-</span> <span class="fu">mean</span>(Q_L1_death_A1M0) <span class="sc">-</span> <span class="fu">mean</span>(Q_L1_death_A0M0)</span>
+<span id="cb67-61"><a href="estimate-the-cde-using-the-ltmle-package.html#cb67-61" tabindex="-1"></a>CDE_death_m0_gcomp_ice</span></code></pre></div>
+<pre><code>## [1] 0.07202748</code></pre>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="estimate-the-cde-using-the-ltmle-package.html#cb69-1" tabindex="-1"></a>CDE_score_m0_gcomp_ice <span class="ot">&lt;-</span> <span class="fu">mean</span>(Q_L1_score_A1M0) <span class="sc">-</span> <span class="fu">mean</span>(Q_L1_score_A0M0)</span>
+<span id="cb69-2"><a href="estimate-the-cde-using-the-ltmle-package.html#cb69-2" tabindex="-1"></a>CDE_score_m0_gcomp_ice</span></code></pre></div>
+<pre><code>## [1] -12.04431</code></pre>
+<p>Applying g-computation by iterative expectation, the CDE setting the mediator to 0 is +7.20% for death and -12.04 for the quantitative score.</p>
+<p>95% confidence intervals can be estimated by bootstrap methods.</p>
+</div>
+<div id="g-computation-by-ice-using-the-ltmle-package" class="section level3 hasAnchor" number="5.1.2">
+<h3><span class="header-section-number">5.1.2</span> G-computation by ICE using the <code>ltmle</code> package<a href="estimate-the-cde-using-the-ltmle-package.html#g-computation-by-ice-using-the-ltmle-package" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The <code>ltmle</code> package can be used to estimate Controlled Direct Effects by g-computation, as shown below.</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-1" tabindex="-1"></a><span class="fu">library</span>(ltmle)</span>
+<span id="cb71-2"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-2" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb71-3"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-3" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(<span class="st">&quot;data/df.csv&quot;</span>)</span>
+<span id="cb71-4"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-4" tabindex="-1"></a></span>
+<span id="cb71-5"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-5" tabindex="-1"></a><span class="co"># the data set should be composed of continuous or binary variables,</span></span>
+<span id="cb71-6"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-6" tabindex="-1"></a><span class="co"># ordered following the cause-effect sequence of each variables.</span></span>
+<span id="cb71-7"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-7" tabindex="-1"></a><span class="co"># Note that within a set of exposures or intermediate confounders measured at a</span></span>
+<span id="cb71-8"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-8" tabindex="-1"></a><span class="co"># single discrete time t, any causal sequence can be applied (for example,</span></span>
+<span id="cb71-9"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-9" tabindex="-1"></a><span class="co"># with several L1 variable, it can be {L1.1, L1.2, L1.3} or {L1.2,L1.3,L1.1},</span></span>
+<span id="cb71-10"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-10" tabindex="-1"></a><span class="co"># without any consequences on the estimation.</span></span>
+<span id="cb71-11"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-11" tabindex="-1"></a>df_death <span class="ot">&lt;-</span> <span class="fu">subset</span>(df, <span class="at">select =</span> <span class="sc">-</span><span class="fu">c</span>(X, subjid, score))</span>
+<span id="cb71-12"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-12" tabindex="-1"></a>df_score <span class="ot">&lt;-</span> <span class="fu">subset</span>(df, <span class="at">select =</span> <span class="sc">-</span><span class="fu">c</span>(X, subjid, death))</span>
+<span id="cb71-13"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-13" tabindex="-1"></a></span>
+<span id="cb71-14"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-14" tabindex="-1"></a><span class="do">## 1) Define Q formulas (Qbar_L1 and Qbar_Y functions)</span></span>
+<span id="cb71-15"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-15" tabindex="-1"></a>Q_formulas_death <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">phys =</span> <span class="st">&quot;Q.kplus1 ~ sex + low_par_edu + edu&quot;</span>,</span>
+<span id="cb71-16"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-16" tabindex="-1"></a>                      <span class="at">death =</span> <span class="st">&quot;Q.kplus1 ~ sex + low_par_edu + phys + occupation +</span></span>
+<span id="cb71-17"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-17" tabindex="-1"></a><span class="st">                               edu * smoking&quot;</span>) <span class="co"># add interaction</span></span>
+<span id="cb71-18"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-18" tabindex="-1"></a>Q_formulas_score <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">phys =</span> <span class="st">&quot;Q.kplus1 ~ sex + low_par_edu + edu&quot;</span>,</span>
+<span id="cb71-19"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-19" tabindex="-1"></a>                    <span class="at">score =</span> <span class="st">&quot;Q.kplus1 ~ sex + low_par_edu + phys + occupation +</span></span>
+<span id="cb71-20"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-20" tabindex="-1"></a><span class="st">                             edu * smoking&quot;</span>) <span class="co"># add interaction</span></span>
+<span id="cb71-21"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-21" tabindex="-1"></a><span class="do">## 2) Define g formulas (needed for the ltmle package) but they are not used</span></span>
+<span id="cb71-22"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-22" tabindex="-1"></a><span class="co">#    with the g-computation estimator</span></span>
+<span id="cb71-23"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-23" tabindex="-1"></a>g_formulas <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;edu ~ sex + low_par_edu&quot;</span>, </span>
+<span id="cb71-24"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-24" tabindex="-1"></a>                <span class="st">&quot;smoking ~ sex + low_par_edu + edu + phys + occupation&quot;</span>)</span>
+<span id="cb71-25"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-25" tabindex="-1"></a></span>
+<span id="cb71-26"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-26" tabindex="-1"></a><span class="do">## 3) Use the ltmle() function</span></span>
+<span id="cb71-27"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-27" tabindex="-1"></a><span class="co"># arguments:</span></span>
+<span id="cb71-28"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-28" tabindex="-1"></a><span class="co">#  - Anodes: indicate the exposure and the mediator variables</span></span>
+<span id="cb71-29"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-29" tabindex="-1"></a><span class="co">#  - Lnodes: indicate the intermediate confounders (+/- baseline confounders)</span></span>
+<span id="cb71-30"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-30" tabindex="-1"></a><span class="co">#  - Cnodes: censoring nodes, useless in our example</span></span>
+<span id="cb71-31"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-31" tabindex="-1"></a><span class="co">#  - Ynodes: outcome variable</span></span>
+<span id="cb71-32"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-32" tabindex="-1"></a><span class="co">#  - survivalOutcome = FALSE in our example</span></span>
+<span id="cb71-33"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-33" tabindex="-1"></a><span class="co">#  - abar: list of the two values used to define counterfactual outcomes</span></span>
+<span id="cb71-34"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-34" tabindex="-1"></a><span class="co">#          for the contrast of interest. For example, setting M=0,</span></span>
+<span id="cb71-35"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-35" tabindex="-1"></a><span class="co">#          CDE(M=0) = E(Y_{A=1,M=0}) - E(Y_{A=0,M=0})</span></span>
+<span id="cb71-36"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-36" tabindex="-1"></a><span class="co">#  - rule: to define dynamic rules (useless in our example)</span></span>
+<span id="cb71-37"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-37" tabindex="-1"></a><span class="co">#  - gbounds = c(0.01, 1) by default. This parameter is not used with g-computation</span></span>
+<span id="cb71-38"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-38" tabindex="-1"></a><span class="co">#  - Yrange = NULL, can be used to define range (min,max) for continuous outcomes</span></span>
+<span id="cb71-39"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-39" tabindex="-1"></a><span class="co">#  - SL.library = &quot;glm&quot;,  will apply main terms glm models.</span></span>
+<span id="cb71-40"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-40" tabindex="-1"></a><span class="co">#                 The argument can be used to specify SuperLearner libraries.</span></span>
+<span id="cb71-41"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-41" tabindex="-1"></a><span class="co">#                 However, simple glm models might be preferable as data.adaptive</span></span>
+<span id="cb71-42"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-42" tabindex="-1"></a><span class="co">#                 algorithms rely on cross-validation, which is difficult and long to</span></span>
+<span id="cb71-43"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-43" tabindex="-1"></a><span class="co">#                 implement with the bootstrap procedure needed for 95% confidence</span></span>
+<span id="cb71-44"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-44" tabindex="-1"></a><span class="co">#                 intervals</span></span>
+<span id="cb71-45"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-45" tabindex="-1"></a><span class="co">#  - stratify = FALSE by default. If TRUE, glm estimations are stratified for</span></span>
+<span id="cb71-46"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-46" tabindex="-1"></a><span class="co">#               each counterfactual scenario defined in abar.</span></span>
+<span id="cb71-47"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-47" tabindex="-1"></a><span class="co">#  - estimate.time = FALSE. If TRUE, print a rough estimate of computation time</span></span>
+<span id="cb71-48"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-48" tabindex="-1"></a><span class="co">#  - iptw.only = FALSE, useless with g-computation</span></span>
+<span id="cb71-49"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-49" tabindex="-1"></a><span class="co">#  - variance.method = &quot;ic&quot;, computation is faster than with &quot;tmle&quot; which</span></span>
+<span id="cb71-50"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-50" tabindex="-1"></a><span class="co">#                       is useless with g-comp: variance estimates rely on</span></span>
+<span id="cb71-51"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-51" tabindex="-1"></a><span class="co">#                       influence curves which cannot be used with g-comp because</span></span>
+<span id="cb71-52"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-52" tabindex="-1"></a><span class="co">#                       g-computation is not a asymptotically efficient estimator.</span></span>
+<span id="cb71-53"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-53" tabindex="-1"></a><span class="co">#  - observation.weights = NULL, can be used to specify individual weights</span></span>
+<span id="cb71-54"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-54" tabindex="-1"></a><span class="co">#  - id = subject identifiers, useful in case of clustered structure in the data</span></span>
+<span id="cb71-55"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-55" tabindex="-1"></a></span>
+<span id="cb71-56"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-56" tabindex="-1"></a><span class="do">## With a binary outcome, CDE(M=1) = P(Y_{A=1,M=0} = 1) - P(Y_{A=0,M=0} = 1)</span></span>
+<span id="cb71-57"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-57" tabindex="-1"></a>ltmle_gcomp_CDE_M0 <span class="ot">&lt;-</span> <span class="fu">ltmle</span>(<span class="at">data =</span> df_death,</span>
+<span id="cb71-58"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-58" tabindex="-1"></a>                            <span class="at">Anodes =</span> <span class="fu">c</span>(<span class="st">&quot;edu&quot;</span>, <span class="st">&quot;smoking&quot;</span>),</span>
+<span id="cb71-59"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-59" tabindex="-1"></a>                            <span class="at">Lnodes =</span> <span class="fu">c</span>(<span class="st">&quot;phys&quot;</span>, <span class="st">&quot;occupation&quot;</span>),</span>
+<span id="cb71-60"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-60" tabindex="-1"></a>                            <span class="at">Ynodes =</span> <span class="fu">c</span>(<span class="st">&quot;death&quot;</span>), <span class="co"># binary outcome</span></span>
+<span id="cb71-61"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-61" tabindex="-1"></a>                            <span class="at">survivalOutcome =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb71-62"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-62" tabindex="-1"></a>                            <span class="at">Qform =</span> Q_formulas_death, <span class="co"># Q formulas</span></span>
+<span id="cb71-63"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-63" tabindex="-1"></a>                            <span class="at">gform =</span> g_formulas, <span class="co"># g formulas</span></span>
+<span id="cb71-64"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-64" tabindex="-1"></a>                            <span class="at">abar =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),</span>
+<span id="cb71-65"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-65" tabindex="-1"></a>                                        <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)), <span class="co"># EY_{A=1,M=0} vs EY_{A=0,M=0}</span></span>
+<span id="cb71-66"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-66" tabindex="-1"></a>                            <span class="at">rule =</span> <span class="cn">NULL</span>,</span>
+<span id="cb71-67"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-67" tabindex="-1"></a>                            <span class="at">gbounds =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="dv">1</span>), <span class="co"># truncation of g, by default</span></span>
+<span id="cb71-68"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-68" tabindex="-1"></a>                            <span class="at">Yrange =</span> <span class="cn">NULL</span>,</span>
+<span id="cb71-69"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-69" tabindex="-1"></a>                            <span class="at">deterministic.g.function =</span> <span class="cn">NULL</span>,</span>
+<span id="cb71-70"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-70" tabindex="-1"></a>                            <span class="at">stratify =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb71-71"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-71" tabindex="-1"></a>                            <span class="at">SL.library =</span> <span class="st">&quot;glm&quot;</span>,</span>
+<span id="cb71-72"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-72" tabindex="-1"></a>                            <span class="at">SL.cvControl =</span> <span class="fu">list</span>(),</span>
+<span id="cb71-73"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-73" tabindex="-1"></a>                            <span class="at">estimate.time =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb71-74"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-74" tabindex="-1"></a>                            <span class="at">gcomp =</span> <span class="cn">TRUE</span>, <span class="co"># should be TRUE for g-computation</span></span>
+<span id="cb71-75"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-75" tabindex="-1"></a>                            <span class="at">iptw.only =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb71-76"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-76" tabindex="-1"></a>                            <span class="at">deterministic.Q.function =</span> <span class="cn">NULL</span>,</span>
+<span id="cb71-77"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-77" tabindex="-1"></a>                            <span class="at">variance.method =</span> <span class="st">&quot;ic&quot;</span>,</span>
+<span id="cb71-78"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-78" tabindex="-1"></a>                            <span class="at">observation.weights =</span> <span class="cn">NULL</span>,</span>
+<span id="cb71-79"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-79" tabindex="-1"></a>                            <span class="at">id =</span> <span class="cn">NULL</span>)</span>
+<span id="cb71-80"><a href="estimate-the-cde-using-the-ltmle-package.html#cb71-80" tabindex="-1"></a><span class="fu">summary</span>(ltmle_gcomp_CDE_M0)</span></code></pre></div>
+<pre><code>## Estimator:  gcomp 
+## Warning: inference for gcomp is not accurate! It is based on TMLE influence curves.
+## Call:
+## ltmle(data = df_death, Anodes = c(&quot;edu&quot;, &quot;smoking&quot;), Lnodes = c(&quot;phys&quot;, 
+##     &quot;occupation&quot;), Ynodes = c(&quot;death&quot;), survivalOutcome = FALSE, 
+##     Qform = Q_formulas_death, gform = g_formulas, abar = list(c(1, 
+##         0), c(0, 0)), rule = NULL, gbounds = c(0.01, 1), Yrange = NULL, 
+##     deterministic.g.function = NULL, stratify = FALSE, SL.library = &quot;glm&quot;, 
+##     SL.cvControl = list(), estimate.time = FALSE, gcomp = TRUE, 
+##     iptw.only = FALSE, deterministic.Q.function = NULL, variance.method = &quot;ic&quot;, 
+##     observation.weights = NULL, id = NULL)
+## 
+## Treatment Estimate:
+##    Parameter Estimate:  0.15656 
+##     Estimated Std Err:  0.0085093 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (0.13988, 0.17324) 
+## 
+## Control Estimate:
+##    Parameter Estimate:  0.084535 
+##     Estimated Std Err:  0.0063349 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (0.072118, 0.096951) 
+## 
+## Additive Treatment Effect:
+##    Parameter Estimate:  0.072027 
+##     Estimated Std Err:  0.010602 
+##               p-value:  1.0947e-11 
+##     95% Conf Interval: (0.051247, 0.092808) 
+## 
+## Relative Risk:
+##    Parameter Estimate:  1.852 
+##   Est Std Err log(RR):  0.092521 
+##               p-value:  2.7185e-11 
+##     95% Conf Interval: (1.5449, 2.2203) 
+## 
+## Odds Ratio:
+##    Parameter Estimate:  2.0102 
+##   Est Std Err log(OR):  0.10412 
+##               p-value:  1.9986e-11 
+##     95% Conf Interval: (1.6391, 2.4653)</code></pre>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="estimate-the-cde-using-the-ltmle-package.html#cb73-1" tabindex="-1"></a><span class="do">## With a continuous outcome, CDE(M=1) = E(Y_{A=1,M=1}) - E(Y_{A=0,M=1})</span></span>
+<span id="cb73-2"><a href="estimate-the-cde-using-the-ltmle-package.html#cb73-2" tabindex="-1"></a>ltmle_gcomp_CDE_M0 <span class="ot">&lt;-</span> <span class="fu">ltmle</span>(<span class="at">data =</span> df_score,</span>
+<span id="cb73-3"><a href="estimate-the-cde-using-the-ltmle-package.html#cb73-3" tabindex="-1"></a>                            <span class="at">Anodes =</span> <span class="fu">c</span>(<span class="st">&quot;edu&quot;</span>, <span class="st">&quot;smoking&quot;</span>),</span>
+<span id="cb73-4"><a href="estimate-the-cde-using-the-ltmle-package.html#cb73-4" tabindex="-1"></a>                            <span class="at">Lnodes =</span> <span class="fu">c</span>(<span class="st">&quot;phys&quot;</span>, <span class="st">&quot;occupation&quot;</span>),</span>
+<span id="cb73-5"><a href="estimate-the-cde-using-the-ltmle-package.html#cb73-5" tabindex="-1"></a>                            <span class="at">Ynodes =</span> <span class="fu">c</span>(<span class="st">&quot;score&quot;</span>), <span class="co"># continous outcome</span></span>
+<span id="cb73-6"><a href="estimate-the-cde-using-the-ltmle-package.html#cb73-6" tabindex="-1"></a>                            <span class="at">survivalOutcome =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb73-7"><a href="estimate-the-cde-using-the-ltmle-package.html#cb73-7" tabindex="-1"></a>                            <span class="at">Qform =</span> Q_formulas_score, <span class="co"># Q formulas</span></span>
+<span id="cb73-8"><a href="estimate-the-cde-using-the-ltmle-package.html#cb73-8" tabindex="-1"></a>                            <span class="at">gform =</span> g_formulas, <span class="co"># g formulas</span></span>
+<span id="cb73-9"><a href="estimate-the-cde-using-the-ltmle-package.html#cb73-9" tabindex="-1"></a>                            <span class="at">abar =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),</span>
+<span id="cb73-10"><a href="estimate-the-cde-using-the-ltmle-package.html#cb73-10" tabindex="-1"></a>                                        <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)), <span class="co"># Y_{A=1,M=0} vs Y_{A=0,M=0}</span></span>
+<span id="cb73-11"><a href="estimate-the-cde-using-the-ltmle-package.html#cb73-11" tabindex="-1"></a>                            <span class="at">rule =</span> <span class="cn">NULL</span>,</span>
+<span id="cb73-12"><a href="estimate-the-cde-using-the-ltmle-package.html#cb73-12" tabindex="-1"></a>                            <span class="at">gbounds =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="dv">1</span>), <span class="co"># by default</span></span>
+<span id="cb73-13"><a href="estimate-the-cde-using-the-ltmle-package.html#cb73-13" tabindex="-1"></a>                            <span class="at">Yrange =</span> <span class="cn">NULL</span>,</span>
+<span id="cb73-14"><a href="estimate-the-cde-using-the-ltmle-package.html#cb73-14" tabindex="-1"></a>                            <span class="at">deterministic.g.function =</span> <span class="cn">NULL</span>,</span>
+<span id="cb73-15"><a href="estimate-the-cde-using-the-ltmle-package.html#cb73-15" tabindex="-1"></a>                            <span class="at">stratify =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb73-16"><a href="estimate-the-cde-using-the-ltmle-package.html#cb73-16" tabindex="-1"></a>                            <span class="at">SL.library =</span> <span class="st">&quot;glm&quot;</span>,</span>
+<span id="cb73-17"><a href="estimate-the-cde-using-the-ltmle-package.html#cb73-17" tabindex="-1"></a>                            <span class="at">SL.cvControl =</span> <span class="fu">list</span>(),</span>
+<span id="cb73-18"><a href="estimate-the-cde-using-the-ltmle-package.html#cb73-18" tabindex="-1"></a>                            <span class="at">estimate.time =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb73-19"><a href="estimate-the-cde-using-the-ltmle-package.html#cb73-19" tabindex="-1"></a>                            <span class="at">gcomp =</span> <span class="cn">TRUE</span>, <span class="co"># should be TRUE for g-computation</span></span>
+<span id="cb73-20"><a href="estimate-the-cde-using-the-ltmle-package.html#cb73-20" tabindex="-1"></a>                            <span class="at">iptw.only =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb73-21"><a href="estimate-the-cde-using-the-ltmle-package.html#cb73-21" tabindex="-1"></a>                            <span class="at">deterministic.Q.function =</span> <span class="cn">NULL</span>,</span>
+<span id="cb73-22"><a href="estimate-the-cde-using-the-ltmle-package.html#cb73-22" tabindex="-1"></a>                            <span class="at">variance.method =</span> <span class="st">&quot;ic&quot;</span>,</span>
+<span id="cb73-23"><a href="estimate-the-cde-using-the-ltmle-package.html#cb73-23" tabindex="-1"></a>                            <span class="at">observation.weights =</span> <span class="cn">NULL</span>,</span>
+<span id="cb73-24"><a href="estimate-the-cde-using-the-ltmle-package.html#cb73-24" tabindex="-1"></a>                            <span class="at">id =</span> <span class="cn">NULL</span>)</span></code></pre></div>
+<pre><code>## Some Ynodes are not in [0, 1], and Yrange was NULL, so all Y nodes are being
+## transformed to (Y-min.of.all.Ys)/range.of.all.Ys</code></pre>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="estimate-the-cde-using-the-ltmle-package.html#cb75-1" tabindex="-1"></a><span class="fu">summary</span>(ltmle_gcomp_CDE_M0)</span></code></pre></div>
+<pre><code>## Estimator:  gcomp 
+## Warning: inference for gcomp is not accurate! It is based on TMLE influence curves.
+## Call:
+## ltmle(data = df_score, Anodes = c(&quot;edu&quot;, &quot;smoking&quot;), Lnodes = c(&quot;phys&quot;, 
+##     &quot;occupation&quot;), Ynodes = c(&quot;score&quot;), survivalOutcome = FALSE, 
+##     Qform = Q_formulas_score, gform = g_formulas, abar = list(c(1, 
+##         0), c(0, 0)), rule = NULL, gbounds = c(0.01, 1), Yrange = NULL, 
+##     deterministic.g.function = NULL, stratify = FALSE, SL.library = &quot;glm&quot;, 
+##     SL.cvControl = list(), estimate.time = FALSE, gcomp = TRUE, 
+##     iptw.only = FALSE, deterministic.Q.function = NULL, variance.method = &quot;ic&quot;, 
+##     observation.weights = NULL, id = NULL)
+## 
+## Treatment Estimate:
+##    Parameter Estimate:  37.537 
+##     Estimated Std Err:  0.35058 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (36.849, 38.224) 
+## 
+## Control Estimate:
+##    Parameter Estimate:  49.669 
+##     Estimated Std Err:  0.34282 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (48.997, 50.341) 
+## 
+## Additive Treatment Effect:
+##    Parameter Estimate:  -12.132 
+##     Estimated Std Err:  0.48796 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (-13.089, -11.176)</code></pre>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="estimate-the-cde-using-the-ltmle-package.html#cb77-1" tabindex="-1"></a><span class="co"># in order to apply quasibinomial regressions, ltmle automatically transformed </span></span>
+<span id="cb77-2"><a href="estimate-the-cde-using-the-ltmle-package.html#cb77-2" tabindex="-1"></a><span class="co"># the continuous outcome by Y_transformed = (Y - min(Y)) / range(Y)</span></span>
+<span id="cb77-3"><a href="estimate-the-cde-using-the-ltmle-package.html#cb77-3" tabindex="-1"></a><span class="co"># so that the range of Y_transformed is [0,1], </span></span>
+<span id="cb77-4"><a href="estimate-the-cde-using-the-ltmle-package.html#cb77-4" tabindex="-1"></a><span class="co"># Then, the results are back-transformed.</span></span>
+<span id="cb77-5"><a href="estimate-the-cde-using-the-ltmle-package.html#cb77-5" tabindex="-1"></a>ltmle_gcomp_CDE_M0<span class="sc">$</span>transformOutcome</span></code></pre></div>
+<pre><code>## [1] TRUE
+## attr(,&quot;Yrange&quot;)
+## [1] -49.40414  97.00414</code></pre>
+<p>We can see that the results are exactly the same as the previous manual calculation by ICE for the binary outcome. It is slightly different for the continuous outcome (because we did not apply a quasibinomial model on the min-max transformation in the manual calculation).</p>
+</div>
+</div>
+<div id="iptw-estimator-of-the-cde" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> IPTW estimator of the CDE<a href="estimate-the-cde-using-the-ltmle-package.html#iptw-estimator-of-the-cde" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We can express the CDE using coefficients of an MSM, where the MSM’s coefficients are estimated by IPTW.</p>
+<p>The controlled direct effect is defined as <span class="math inline">\(\text{CDE}_m= \mathbb{E}(Y_{am}) - \mathbb{E}(Y_{a^*m})\)</span>.</p>
+<p>Using the following MSM
+<span class="math display" id="eq:MSMCDE">\[\begin{equation}
+  \mathbb{E}(Y_{am}) = \alpha_0 + \alpha_A a + \alpha_M m + \alpha_{A \ast M} a \times m
+  \tag{5.1}
+\end{equation}\]</span>
+the controlled direct effect (keeping the mediator constant to the value <span class="math inline">\(M=m\)</span>) can be expressed using the coefficients of the MSM <a href="estimate-the-cde-using-the-ltmle-package.html#eq:MSMCDE">(5.1)</a>:
+<span class="math display">\[\begin{align*}
+  \text{CDE}_m &amp;= (\alpha_0 + \alpha_A a + \alpha_M m + \alpha_{A \ast M} a \times m) - (\alpha_0 + \alpha_A a^* + \alpha_M m + \alpha_{A \ast M} a^* \times m) \\
+  \text{CDE}_m &amp;= \alpha_A(a - a^* ) + \alpha_{A \ast M} \times (a - a^*) \times m
+\end{align*}\]</span>
+For a binary exposure <span class="math inline">\(A\)</span>, we have <span class="math inline">\(\text{CDE}_m=\alpha_A + \alpha_{A \ast M} \times m\)</span>.</p>
+<div id="estimation-of-the-msm-coefficients-by-iptw" class="section level3 hasAnchor" number="5.2.1">
+<h3><span class="header-section-number">5.2.1</span> Estimation of the MSM coefficients by IPTW<a href="estimate-the-cde-using-the-ltmle-package.html#estimation-of-the-msm-coefficients-by-iptw" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>MSM coefficients can be easily estimated using an Inverse Probability of Treatment (IPTW) approach based on weighted regressions.</p>
+<p>In order to fit the MSM <a href="estimate-the-cde-using-the-ltmle-package.html#eq:MSMCDE">(5.1)</a>, we can use a linear regression of the (observed) outcome <span class="math inline">\(Y\)</span> on the exposure and mediator, weighted by individual stabilized weights <span class="math inline">\(sw_i\)</span> <span class="citation">(<a href="#ref-vanderweele2009">VanderWeele 2009</a>)</span>:
+<span class="math display">\[\begin{equation}
+  \mathbb{E}\left(Y \mid A,M\right) = \alpha_0 + \alpha_A a + \alpha_M m + \alpha_{A \ast M} a \times m
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(sw_i\)</span> is the product of two weights <span class="math inline">\(sw_i = sw_{A,i} \times sw_{M,i}\)</span>,</p>
+<p><span class="math inline">\(sw_{A,i}=\frac{P(A=a_i)}{P(A=a_i \mid L(0)=l(0)_i)}\)</span> and <span class="math inline">\(sw_{M,i}=\frac{P(M=m_i \mid A=a_i)}{P(M = m_i \mid A=a_i,L(0)=l(0)_i), L(1)=l(1)_i}\)</span>.</p>
+<p>The “no-unmeasured confounding” assumption is addressed by the application of weights <span class="math inline">\(sw_i\)</span>, which balances confounders <span class="math inline">\(L(0)\)</span> relative to the exposure-outcome <span class="math inline">\(A-Y\)</span> relationship, and balance the set of confounders <span class="math inline">\(\{L(0),A,L(1)\}\)</span> relative to the mediator-outcome <span class="math inline">\(M-Y\)</span> relationship.</p>
+<p>Below, we estimate the CDE by hand:</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-1" tabindex="-1"></a><span class="do">### MSM of CDE, estimated by IPTW</span></span>
+<span id="cb79-2"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-2" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb79-3"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-3" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(<span class="st">&quot;data/df.csv&quot;</span>)</span>
+<span id="cb79-4"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-4" tabindex="-1"></a></span>
+<span id="cb79-5"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-5" tabindex="-1"></a><span class="do">## 1. Stabilized weight for the exposure sw_{A,i}</span></span>
+<span id="cb79-6"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-6" tabindex="-1"></a><span class="co"># 1a. Estimate g(A=a_i|L(0)) (denominator of the weight)</span></span>
+<span id="cb79-7"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-7" tabindex="-1"></a>g_A_L <span class="ot">&lt;-</span> <span class="fu">glm</span>(edu <span class="sc">~</span> sex <span class="sc">+</span> low_par_edu,</span>
+<span id="cb79-8"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-8" tabindex="-1"></a>             <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> df)</span>
+<span id="cb79-9"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-9" tabindex="-1"></a><span class="co"># 1b. Predict each individual&#39;s probability of being exposed to her own exposure</span></span>
+<span id="cb79-10"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-10" tabindex="-1"></a><span class="co"># the predicted probability of the observed treatment g(A = a_i | L(0)) is :</span></span>
+<span id="cb79-11"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-11" tabindex="-1"></a>gAi_L <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">nrow</span>(df))</span>
+<span id="cb79-12"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-12" tabindex="-1"></a>gAi_L[df<span class="sc">$</span>edu <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">predict</span>(g_A_L, <span class="at">type=</span><span class="st">&quot;response&quot;</span>)[df<span class="sc">$</span>edu <span class="sc">==</span> <span class="dv">1</span>]</span>
+<span id="cb79-13"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-13" tabindex="-1"></a>gAi_L[df<span class="sc">$</span>edu <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">predict</span>(g_A_L, <span class="at">type=</span><span class="st">&quot;response&quot;</span>))[df<span class="sc">$</span>edu <span class="sc">==</span> <span class="dv">0</span>]</span>
+<span id="cb79-14"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-14" tabindex="-1"></a></span>
+<span id="cb79-15"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-15" tabindex="-1"></a><span class="co"># 1c. Estimate g(A=a_i) (numerator of the weight)</span></span>
+<span id="cb79-16"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-16" tabindex="-1"></a>g_A <span class="ot">&lt;-</span> <span class="fu">glm</span>(edu <span class="sc">~</span> <span class="dv">1</span>, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> df)</span>
+<span id="cb79-17"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-17" tabindex="-1"></a><span class="co"># 1d. Predict each individual&#39;s probability of being exposed to her own exposure</span></span>
+<span id="cb79-18"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-18" tabindex="-1"></a><span class="co"># the predicted probability of the observed treatment g(A = a_i) is :</span></span>
+<span id="cb79-19"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-19" tabindex="-1"></a>gAi <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">nrow</span>(df))</span>
+<span id="cb79-20"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-20" tabindex="-1"></a>gAi[df<span class="sc">$</span>edu <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">predict</span>(g_A, <span class="at">type=</span><span class="st">&quot;response&quot;</span>)[df<span class="sc">$</span>edu <span class="sc">==</span> <span class="dv">1</span>]</span>
+<span id="cb79-21"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-21" tabindex="-1"></a>gAi[df<span class="sc">$</span>edu <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">predict</span>(g_A, <span class="at">type=</span><span class="st">&quot;response&quot;</span>))[df<span class="sc">$</span>edu <span class="sc">==</span> <span class="dv">0</span>]</span>
+<span id="cb79-22"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-22" tabindex="-1"></a></span>
+<span id="cb79-23"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-23" tabindex="-1"></a><span class="co"># 1e. Calculate the stabilized weight for the exposure A: sw_{A,i}</span></span>
+<span id="cb79-24"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-24" tabindex="-1"></a>sw_Ai <span class="ot">&lt;-</span> gAi <span class="sc">/</span> gAi_L</span>
+<span id="cb79-25"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-25" tabindex="-1"></a></span>
+<span id="cb79-26"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-26" tabindex="-1"></a><span class="do">## 2. Stabilized weight for the mediator sw_{M,i}</span></span>
+<span id="cb79-27"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-27" tabindex="-1"></a><span class="co"># 2a. Estimate g(M=m_i|L(0),A,L(1)) (denominator of the weight)</span></span>
+<span id="cb79-28"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-28" tabindex="-1"></a>g_M_L <span class="ot">&lt;-</span> <span class="fu">glm</span>(smoking <span class="sc">~</span> sex <span class="sc">+</span> low_par_edu <span class="sc">+</span> edu <span class="sc">+</span> phys <span class="sc">+</span> occupation,</span>
+<span id="cb79-29"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-29" tabindex="-1"></a>             <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> df)</span>
+<span id="cb79-30"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-30" tabindex="-1"></a><span class="co"># 2b. Predict each individual&#39;s probability of being exposed to her own exposure</span></span>
+<span id="cb79-31"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-31" tabindex="-1"></a><span class="co"># the predicted probability of the observed treatment g(A = a_i | L(0)) is :</span></span>
+<span id="cb79-32"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-32" tabindex="-1"></a>gMi_L <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">nrow</span>(df))</span>
+<span id="cb79-33"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-33" tabindex="-1"></a>gMi_L[df<span class="sc">$</span>smoking <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">predict</span>(g_M_L, </span>
+<span id="cb79-34"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-34" tabindex="-1"></a>                                  <span class="at">type=</span><span class="st">&quot;response&quot;</span>)[df<span class="sc">$</span>smoking <span class="sc">==</span> <span class="dv">1</span>]</span>
+<span id="cb79-35"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-35" tabindex="-1"></a>gMi_L[df<span class="sc">$</span>smoking <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">predict</span>(g_M_L, </span>
+<span id="cb79-36"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-36" tabindex="-1"></a>                                       <span class="at">type=</span><span class="st">&quot;response&quot;</span>))[df<span class="sc">$</span>smoking <span class="sc">==</span> <span class="dv">0</span>]</span>
+<span id="cb79-37"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-37" tabindex="-1"></a></span>
+<span id="cb79-38"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-38" tabindex="-1"></a><span class="co"># 2c. Estimate g(M=m_i|A) (numerator of the weight)</span></span>
+<span id="cb79-39"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-39" tabindex="-1"></a>g_M_A <span class="ot">&lt;-</span> <span class="fu">glm</span>(smoking <span class="sc">~</span> edu, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> df)</span>
+<span id="cb79-40"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-40" tabindex="-1"></a><span class="co"># 2d. Predict each individual&#39;s probability of being exposed to her own exposure</span></span>
+<span id="cb79-41"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-41" tabindex="-1"></a><span class="co"># the predicted probability of the observed treatment g(M = m_i|A) is :</span></span>
+<span id="cb79-42"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-42" tabindex="-1"></a>gMi_A <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">nrow</span>(df))</span>
+<span id="cb79-43"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-43" tabindex="-1"></a>gMi_A[df<span class="sc">$</span>smoking<span class="sc">==</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">predict</span>(g_M_A, <span class="at">type=</span><span class="st">&quot;response&quot;</span>)[df<span class="sc">$</span>smoking<span class="sc">==</span><span class="dv">1</span>]</span>
+<span id="cb79-44"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-44" tabindex="-1"></a>gMi_A[df<span class="sc">$</span>smoking<span class="sc">==</span><span class="dv">0</span>] <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">predict</span>(g_M_A, <span class="at">type=</span><span class="st">&quot;response&quot;</span>))[df<span class="sc">$</span>smoking<span class="sc">==</span><span class="dv">0</span>]</span>
+<span id="cb79-45"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-45" tabindex="-1"></a><span class="co"># 2e. Calculate the stabilized weight for the mediator M: sw_{M,i}</span></span>
+<span id="cb79-46"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-46" tabindex="-1"></a>sw_Mi <span class="ot">&lt;-</span> gMi_A <span class="sc">/</span> gMi_L</span>
+<span id="cb79-47"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-47" tabindex="-1"></a></span>
+<span id="cb79-48"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-48" tabindex="-1"></a><span class="do">## 3. Define the individual stabilized weight for the CDE_m</span></span>
+<span id="cb79-49"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-49" tabindex="-1"></a>sw_cde <span class="ot">&lt;-</span> sw_Ai <span class="sc">*</span> sw_Mi</span>
+<span id="cb79-50"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-50" tabindex="-1"></a></span>
+<span id="cb79-51"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-51" tabindex="-1"></a><span class="do">## 4. Estimate coefficients of the MSM using a weighted regression E(Y | A, sex)</span></span>
+<span id="cb79-52"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-52" tabindex="-1"></a><span class="co"># a GLM with gaussian family can be applied to estimate risk differences</span></span>
+<span id="cb79-53"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-53" tabindex="-1"></a>msm_cde <span class="ot">&lt;-</span> <span class="fu">glm</span>(death <span class="sc">~</span> edu <span class="sc">+</span> smoking <span class="sc">+</span> edu<span class="sc">:</span>smoking,</span>
+<span id="cb79-54"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-54" tabindex="-1"></a>               <span class="at">weights =</span> sw_cde,</span>
+<span id="cb79-55"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-55" tabindex="-1"></a>               <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>,</span>
+<span id="cb79-56"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-56" tabindex="-1"></a>               <span class="at">data =</span> df)</span>
+<span id="cb79-57"><a href="estimate-the-cde-using-the-ltmle-package.html#cb79-57" tabindex="-1"></a><span class="fu">coef</span>(msm_cde)</span></code></pre></div>
+<pre><code>## (Intercept)         edu     smoking edu:smoking 
+##  0.08293313  0.07044677  0.11974047  0.14206356</code></pre>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="estimate-the-cde-using-the-ltmle-package.html#cb81-1" tabindex="-1"></a><span class="do">## 5. Estimate CDE for m=0 and for m=1 using the MSM&#39;s coefficients</span></span>
+<span id="cb81-2"><a href="estimate-the-cde-using-the-ltmle-package.html#cb81-2" tabindex="-1"></a>CDE_mis0 <span class="ot">&lt;-</span> <span class="fu">coef</span>(msm_cde)[<span class="st">&quot;edu&quot;</span>] <span class="sc">+</span> <span class="dv">0</span> <span class="sc">*</span> <span class="fu">coef</span>(msm_cde)[<span class="st">&quot;edu:smoking&quot;</span>]</span>
+<span id="cb81-3"><a href="estimate-the-cde-using-the-ltmle-package.html#cb81-3" tabindex="-1"></a>CDE_mis0</span></code></pre></div>
+<pre><code>##        edu 
+## 0.07044677</code></pre>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="estimate-the-cde-using-the-ltmle-package.html#cb83-1" tabindex="-1"></a><span class="do">## Note: we will see below that the ltmle package use a logistic model for the MSM</span></span>
+<span id="cb83-2"><a href="estimate-the-cde-using-the-ltmle-package.html#cb83-2" tabindex="-1"></a>msm_cde_logit <span class="ot">&lt;-</span> <span class="fu">glm</span>(death <span class="sc">~</span> edu <span class="sc">+</span> smoking <span class="sc">+</span> edu<span class="sc">:</span>smoking,</span>
+<span id="cb83-3"><a href="estimate-the-cde-using-the-ltmle-package.html#cb83-3" tabindex="-1"></a>                     <span class="at">weights =</span> sw_cde,</span>
+<span id="cb83-4"><a href="estimate-the-cde-using-the-ltmle-package.html#cb83-4" tabindex="-1"></a>                     <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>,</span>
+<span id="cb83-5"><a href="estimate-the-cde-using-the-ltmle-package.html#cb83-5" tabindex="-1"></a>                     <span class="at">data =</span> df)</span></code></pre></div>
+<pre><code>## Warning in eval(family$initialize): nombre de succès non entier dans un glm
+## binomial !</code></pre>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="estimate-the-cde-using-the-ltmle-package.html#cb85-1" tabindex="-1"></a><span class="fu">coef</span>(msm_cde_logit)</span></code></pre></div>
+<pre><code>## (Intercept)         edu     smoking edu:smoking 
+##  -2.4031458   0.6948115   1.0334784   0.3322800</code></pre>
+</div>
+<div id="iptw-estmation-using-the-ltmle-package" class="section level3 hasAnchor" number="5.2.2">
+<h3><span class="header-section-number">5.2.2</span> IPTW estmation using the ltmle package<a href="estimate-the-cde-using-the-ltmle-package.html#iptw-estmation-using-the-ltmle-package" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The <code>ltmle</code> package can be used to estimate Controlled Direct Effects by IPTW, as shown below.</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-1" tabindex="-1"></a><span class="fu">library</span>(ltmle)</span>
+<span id="cb87-2"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-2" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb87-3"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-3" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(<span class="st">&quot;data/df.csv&quot;</span>)</span>
+<span id="cb87-4"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-4" tabindex="-1"></a></span>
+<span id="cb87-5"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-5" tabindex="-1"></a>df_death <span class="ot">&lt;-</span> <span class="fu">subset</span>(df, <span class="at">select =</span> <span class="sc">-</span><span class="fu">c</span>(X, subjid, score))</span>
+<span id="cb87-6"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-6" tabindex="-1"></a>df_score <span class="ot">&lt;-</span> <span class="fu">subset</span>(df, <span class="at">select =</span> <span class="sc">-</span><span class="fu">c</span>(X, subjid, death))</span>
+<span id="cb87-7"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-7" tabindex="-1"></a></span>
+<span id="cb87-8"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-8" tabindex="-1"></a><span class="do">## 1) Define Q formulas (Qbar_L1 and Qbar_Y functions)</span></span>
+<span id="cb87-9"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-9" tabindex="-1"></a><span class="do">## (not needed if you only want to apply an IPTW estimation)</span></span>
+<span id="cb87-10"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-10" tabindex="-1"></a>Q_formulas_death <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">phys =</span> <span class="st">&quot;Q.kplus1 ~ sex + low_par_edu + edu&quot;</span>,</span>
+<span id="cb87-11"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-11" tabindex="-1"></a>                      <span class="at">death =</span> <span class="st">&quot;Q.kplus1 ~ sex + low_par_edu + phys + occupation +</span></span>
+<span id="cb87-12"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-12" tabindex="-1"></a><span class="st">                               edu * smoking&quot;</span>) <span class="co"># add interaction</span></span>
+<span id="cb87-13"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-13" tabindex="-1"></a></span>
+<span id="cb87-14"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-14" tabindex="-1"></a><span class="do">## 2) Define g formulas (needed for the ltmle package) but they are not used</span></span>
+<span id="cb87-15"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-15" tabindex="-1"></a><span class="co">#    with the g-computation estimator</span></span>
+<span id="cb87-16"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-16" tabindex="-1"></a>g_formulas <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;edu ~ sex + low_par_edu&quot;</span>, </span>
+<span id="cb87-17"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-17" tabindex="-1"></a>                <span class="st">&quot;smoking ~ sex + low_par_edu + edu + phys + occupation&quot;</span>)</span>
+<span id="cb87-18"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-18" tabindex="-1"></a></span>
+<span id="cb87-19"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-19" tabindex="-1"></a><span class="do">## 3) Use the ltmle() function</span></span>
+<span id="cb87-20"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-20" tabindex="-1"></a><span class="do">## With a binary outcome, CDE(M=1) = P(Y_{A=1,M=0} = 1) - P(Y_{A=0,M=0} = 1)</span></span>
+<span id="cb87-21"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-21" tabindex="-1"></a>ltmle_iptw_CDE_M0 <span class="ot">&lt;-</span> <span class="fu">ltmle</span>(<span class="at">data =</span> df_death,</span>
+<span id="cb87-22"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-22" tabindex="-1"></a>                           <span class="at">Anodes =</span> <span class="fu">c</span>(<span class="st">&quot;edu&quot;</span>, <span class="st">&quot;smoking&quot;</span>),</span>
+<span id="cb87-23"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-23" tabindex="-1"></a>                           <span class="at">Lnodes =</span> <span class="fu">c</span>(<span class="st">&quot;phys&quot;</span>, <span class="st">&quot;occupation&quot;</span>),</span>
+<span id="cb87-24"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-24" tabindex="-1"></a>                           <span class="at">Ynodes =</span> <span class="fu">c</span>(<span class="st">&quot;death&quot;</span>), <span class="co"># binary outcome</span></span>
+<span id="cb87-25"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-25" tabindex="-1"></a>                           <span class="at">survivalOutcome =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb87-26"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-26" tabindex="-1"></a>                           <span class="at">Qform =</span> Q_formulas_death, <span class="co"># Q formulas</span></span>
+<span id="cb87-27"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-27" tabindex="-1"></a>                           <span class="at">gform =</span> g_formulas, <span class="co"># g formulas</span></span>
+<span id="cb87-28"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-28" tabindex="-1"></a>                           <span class="at">abar =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),</span>
+<span id="cb87-29"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-29" tabindex="-1"></a>                                       <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)), <span class="co"># EY_{A=1,M=0} vs EY_{A=0,M=0}</span></span>
+<span id="cb87-30"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-30" tabindex="-1"></a>                           <span class="at">rule =</span> <span class="cn">NULL</span>,</span>
+<span id="cb87-31"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-31" tabindex="-1"></a>                           <span class="at">gbounds =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="dv">1</span>), <span class="co"># truncation of g, by default</span></span>
+<span id="cb87-32"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-32" tabindex="-1"></a>                           <span class="at">Yrange =</span> <span class="cn">NULL</span>,</span>
+<span id="cb87-33"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-33" tabindex="-1"></a>                           <span class="at">deterministic.g.function =</span> <span class="cn">NULL</span>,</span>
+<span id="cb87-34"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-34" tabindex="-1"></a>                           <span class="at">stratify =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb87-35"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-35" tabindex="-1"></a>                           <span class="at">SL.library =</span> <span class="st">&quot;glm&quot;</span>, <span class="co"># better to used the SuperLearner</span></span>
+<span id="cb87-36"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-36" tabindex="-1"></a>                           <span class="at">SL.cvControl =</span> <span class="fu">list</span>(),</span>
+<span id="cb87-37"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-37" tabindex="-1"></a>                           <span class="at">estimate.time =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb87-38"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-38" tabindex="-1"></a>                           <span class="at">gcomp =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb87-39"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-39" tabindex="-1"></a>                           <span class="at">iptw.only =</span> <span class="cn">TRUE</span>, <span class="co"># to use only the IPTW estimator</span></span>
+<span id="cb87-40"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-40" tabindex="-1"></a>                           <span class="at">deterministic.Q.function =</span> <span class="cn">NULL</span>,</span>
+<span id="cb87-41"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-41" tabindex="-1"></a>                           <span class="at">variance.method =</span> <span class="st">&quot;ic&quot;</span>,</span>
+<span id="cb87-42"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-42" tabindex="-1"></a>                           <span class="at">observation.weights =</span> <span class="cn">NULL</span>,</span>
+<span id="cb87-43"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-43" tabindex="-1"></a>                           <span class="at">id =</span> <span class="cn">NULL</span>)</span>
+<span id="cb87-44"><a href="estimate-the-cde-using-the-ltmle-package.html#cb87-44" tabindex="-1"></a><span class="fu">summary</span>(ltmle_iptw_CDE_M0, <span class="at">estimator =</span> <span class="st">&quot;iptw&quot;</span>)</span></code></pre></div>
+<pre><code>## Estimator:  iptw 
+## Call:
+## ltmle(data = df_death, Anodes = c(&quot;edu&quot;, &quot;smoking&quot;), Lnodes = c(&quot;phys&quot;, 
+##     &quot;occupation&quot;), Ynodes = c(&quot;death&quot;), survivalOutcome = FALSE, 
+##     Qform = Q_formulas_death, gform = g_formulas, abar = list(c(1, 
+##         0), c(0, 0)), rule = NULL, gbounds = c(0.01, 1), Yrange = NULL, 
+##     deterministic.g.function = NULL, stratify = FALSE, SL.library = &quot;glm&quot;, 
+##     SL.cvControl = list(), estimate.time = FALSE, gcomp = FALSE, 
+##     iptw.only = TRUE, deterministic.Q.function = NULL, variance.method = &quot;ic&quot;, 
+##     observation.weights = NULL, id = NULL)
+## 
+## Treatment Estimate:
+##    Parameter Estimate:  0.15338 
+##     Estimated Std Err:  0.008554 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (0.13661, 0.17015) 
+## 
+## Control Estimate:
+##    Parameter Estimate:  0.082933 
+##     Estimated Std Err:  0.0063406 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (0.070506, 0.09536) 
+## 
+## Additive Treatment Effect:
+##    Parameter Estimate:  0.070447 
+##     Estimated Std Err:  0.010648 
+##               p-value:  3.6865e-11 
+##     95% Conf Interval: (0.049578, 0.091316) 
+## 
+## Relative Risk:
+##    Parameter Estimate:  1.8494 
+##   Est Std Err log(RR):  0.094633 
+##               p-value:  8.1651e-11 
+##     95% Conf Interval: (1.5363, 2.2263) 
+## 
+## Odds Ratio:
+##    Parameter Estimate:  2.0033 
+##   Est Std Err log(OR):  0.10625 
+##               p-value:  6.1821e-11 
+##     95% Conf Interval: (1.6267, 2.4671)</code></pre>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="estimate-the-cde-using-the-ltmle-package.html#cb89-1" tabindex="-1"></a>ltmle_iptw_CDE_M0<span class="sc">$</span>beta.iptw</span></code></pre></div>
+<pre><code>## (Intercept)           A 
+##  -2.4031458   0.6948115</code></pre>
+</div>
+</div>
+<div id="tmle-estimator-of-the-cde" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> TMLE estimator of the CDE<a href="estimate-the-cde-using-the-ltmle-package.html#tmle-estimator-of-the-cde" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Of course, the main interest of the <code>ltmle</code> package is to apply a TMLE estimator.</p>
+<p>As with the G-computation method by iterative conditional expectation, the TMLE procedure relies on the estimation of 2 <span class="math inline">\(\bar{Q}\)</span> functions:</p>
+<ul>
+<li><span class="math inline">\(\bar{Q}_{L(2)}(A=a,M=m) = \mathbb{E}(Y \mid L(0),A,L(1),M)\)</span></li>
+<li>and <span class="math inline">\(\bar{Q}_{L(1)} = \mathbb{E}(\hat{\bar{Q}}_{L(2)}(A=a,M=m) \mid L(0),A)\)</span>;</li>
+</ul>
+<p>And as with the IPTW method, the TMLE procedure relies also on the estimation of the 2 treatment mechanisms <span class="math inline">\(g\)</span>:</p>
+<ul>
+<li><span class="math inline">\(g_A(L(0)) = P(A=1 \mid L(0))\)</span></li>
+<li>and <span class="math inline">\(g_M(L(0),A,L(1)) = P(M=1 \mid L(0),A,L(1))\)</span>.</li>
+</ul>
+<div id="for-binary-outcomes" class="section level3 hasAnchor" number="5.3.1">
+<h3><span class="header-section-number">5.3.1</span> For binary outcomes<a href="estimate-the-cde-using-the-ltmle-package.html#for-binary-outcomes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-1" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb91-2"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-2" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(<span class="st">&quot;data/df.csv&quot;</span>)</span>
+<span id="cb91-3"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-3" tabindex="-1"></a></span>
+<span id="cb91-4"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-4" tabindex="-1"></a><span class="fu">library</span>(ltmle)</span>
+<span id="cb91-5"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-5" tabindex="-1"></a><span class="fu">library</span>(SuperLearner)</span>
+<span id="cb91-6"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-6" tabindex="-1"></a><span class="fu">library</span>(hal9001)</span>
+<span id="cb91-7"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-7" tabindex="-1"></a><span class="do">## 1) Define the formulas for the estimation of the 2 barQ functions and 2 g functions</span></span>
+<span id="cb91-8"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-8" tabindex="-1"></a><span class="co"># Note that it is possible to specify the A*M interaction, if we really want to</span></span>
+<span id="cb91-9"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-9" tabindex="-1"></a><span class="co"># take it into account.</span></span>
+<span id="cb91-10"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-10" tabindex="-1"></a><span class="do">## Define Q formulas (Qbar_L1 and Qbar_Y functions)</span></span>
+<span id="cb91-11"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-11" tabindex="-1"></a>Qform <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">phys =</span> <span class="st">&quot;Q.kplus1 ~ sex + low_par_edu + edu&quot;</span>,</span>
+<span id="cb91-12"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-12" tabindex="-1"></a>           <span class="at">death =</span> <span class="st">&quot;Q.kplus1 ~ sex + low_par_edu + phys + occupation +</span></span>
+<span id="cb91-13"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-13" tabindex="-1"></a><span class="st">                    edu * smoking&quot;</span>)</span>
+<span id="cb91-14"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-14" tabindex="-1"></a></span>
+<span id="cb91-15"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-15" tabindex="-1"></a><span class="do">## Define the formulas for the estimation of the 2 g function</span></span>
+<span id="cb91-16"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-16" tabindex="-1"></a>gform <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;edu ~ sex + low_par_edu&quot;</span>,</span>
+<span id="cb91-17"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-17" tabindex="-1"></a>           <span class="st">&quot;smoking ~ sex + low_par_edu + edu + phys + occupation&quot;</span>)</span>
+<span id="cb91-18"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-18" tabindex="-1"></a></span>
+<span id="cb91-19"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-19" tabindex="-1"></a><span class="do">## The data frame should follow the time-ordering of the nodes</span></span>
+<span id="cb91-20"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-20" tabindex="-1"></a>data_binary <span class="ot">&lt;-</span> <span class="fu">subset</span>(df, <span class="at">select =</span> <span class="fu">c</span>(sex, low_par_edu,</span>
+<span id="cb91-21"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-21" tabindex="-1"></a>                                     edu, phys, occupation,</span>
+<span id="cb91-22"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-22" tabindex="-1"></a>                                     smoking, death))</span>
+<span id="cb91-23"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-23" tabindex="-1"></a></span>
+<span id="cb91-24"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-24" tabindex="-1"></a><span class="do">## Choose a family of data-adaptive algorithms from the SuperLearner package</span></span>
+<span id="cb91-25"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-25" tabindex="-1"></a><span class="co"># Define the SL.interaction.back learner from the SL.step.interaction</span></span>
+<span id="cb91-26"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-26" tabindex="-1"></a>SL.interaction.back <span class="ot">=</span> <span class="cf">function</span>(...) {</span>
+<span id="cb91-27"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-27" tabindex="-1"></a>  <span class="fu">SL.step.interaction</span>(..., <span class="at">direction =</span> <span class="st">&quot;backward&quot;</span>)</span>
+<span id="cb91-28"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-28" tabindex="-1"></a>}</span>
+<span id="cb91-29"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-29" tabindex="-1"></a></span>
+<span id="cb91-30"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-30" tabindex="-1"></a><span class="co"># Define an ad-hoc hal learner that can be applied with continous outcomes</span></span>
+<span id="cb91-31"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-31" tabindex="-1"></a>SL.hal9001.Qbar <span class="ot">&lt;-</span> <span class="cf">function</span> (Y, X, newX, family, obsWeights, id, <span class="at">max_degree =</span> <span class="dv">2</span>, </span>
+<span id="cb91-32"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-32" tabindex="-1"></a>                             <span class="at">smoothness_orders =</span> <span class="dv">1</span>, <span class="at">num_knots =</span> <span class="dv">5</span>, ...) {</span>
+<span id="cb91-33"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-33" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.matrix</span>(X)) </span>
+<span id="cb91-34"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-34" tabindex="-1"></a>    X <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(X)</span>
+<span id="cb91-35"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-35" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(newX) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.matrix</span>(newX)) </span>
+<span id="cb91-36"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-36" tabindex="-1"></a>    newX <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(newX)</span>
+<span id="cb91-37"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-37" tabindex="-1"></a>  </span>
+<span id="cb91-38"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-38" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(<span class="fu">unique</span>(Y)) <span class="sc">==</span> <span class="dv">2</span>) { <span class="co"># for binomial family</span></span>
+<span id="cb91-39"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-39" tabindex="-1"></a>    hal_fit <span class="ot">&lt;-</span> hal9001<span class="sc">::</span><span class="fu">fit_hal</span>(<span class="at">Y =</span> Y, <span class="at">X =</span> X, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, </span>
+<span id="cb91-40"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-40" tabindex="-1"></a>                                <span class="at">weights =</span> obsWeights, <span class="at">id =</span> id, <span class="at">max_degree =</span> max_degree, </span>
+<span id="cb91-41"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-41" tabindex="-1"></a>                                <span class="at">smoothness_orders =</span> smoothness_orders, <span class="at">num_knots =</span> num_knots, </span>
+<span id="cb91-42"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-42" tabindex="-1"></a>                                ...)</span>
+<span id="cb91-43"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-43" tabindex="-1"></a>  }</span>
+<span id="cb91-44"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-44" tabindex="-1"></a>  </span>
+<span id="cb91-45"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-45" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(<span class="fu">unique</span>(Y)) <span class="sc">&gt;</span> <span class="dv">2</span>) { <span class="co"># for quasibinomial family</span></span>
+<span id="cb91-46"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-46" tabindex="-1"></a>    hal_fit <span class="ot">&lt;-</span> hal9001<span class="sc">::</span><span class="fu">fit_hal</span>(<span class="at">Y =</span> Y, <span class="at">X =</span> X, <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>, </span>
+<span id="cb91-47"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-47" tabindex="-1"></a>                                <span class="at">weights =</span> obsWeights, <span class="at">id =</span> id, <span class="at">max_degree =</span> max_degree, </span>
+<span id="cb91-48"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-48" tabindex="-1"></a>                                <span class="at">smoothness_orders =</span> smoothness_orders, <span class="at">num_knots =</span> num_knots, </span>
+<span id="cb91-49"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-49" tabindex="-1"></a>                                ...)</span>
+<span id="cb91-50"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-50" tabindex="-1"></a>  }</span>
+<span id="cb91-51"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-51" tabindex="-1"></a>  </span>
+<span id="cb91-52"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-52" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(newX)) {</span>
+<span id="cb91-53"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-53" tabindex="-1"></a>    pred <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">predict</span>(hal_fit, <span class="at">new_data =</span> newX)</span>
+<span id="cb91-54"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-54" tabindex="-1"></a>  }</span>
+<span id="cb91-55"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-55" tabindex="-1"></a>  <span class="cf">else</span> {</span>
+<span id="cb91-56"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-56" tabindex="-1"></a>    pred <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">predict</span>(hal_fit, <span class="at">new_data =</span> X)</span>
+<span id="cb91-57"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-57" tabindex="-1"></a>  }</span>
+<span id="cb91-58"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-58" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">object =</span> hal_fit)</span>
+<span id="cb91-59"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-59" tabindex="-1"></a>  <span class="fu">class</span>(fit) <span class="ot">&lt;-</span> <span class="st">&quot;SL.hal9001&quot;</span></span>
+<span id="cb91-60"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-60" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">pred =</span> pred, <span class="at">fit =</span> fit)</span>
+<span id="cb91-61"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-61" tabindex="-1"></a>  <span class="fu">return</span>(out)</span>
+<span id="cb91-62"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-62" tabindex="-1"></a>}</span>
+<span id="cb91-63"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-63" tabindex="-1"></a><span class="fu">environment</span>(SL.hal9001.Qbar) <span class="ot">&lt;-</span><span class="fu">asNamespace</span>(<span class="st">&quot;SuperLearner&quot;</span>)</span>
+<span id="cb91-64"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-64" tabindex="-1"></a></span>
+<span id="cb91-65"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-65" tabindex="-1"></a><span class="do">## Define the SuperLearner library</span></span>
+<span id="cb91-66"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-66" tabindex="-1"></a>SL.library <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">Q=</span><span class="fu">c</span>(<span class="st">&quot;SL.mean&quot;</span>,<span class="st">&quot;SL.glm&quot;</span>,<span class="st">&quot;SL.interaction.back&quot;</span>,<span class="st">&quot;SL.hal9001.Qbar&quot;</span>),</span>
+<span id="cb91-67"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-67" tabindex="-1"></a>                   <span class="at">g=</span><span class="fu">c</span>(<span class="st">&quot;SL.mean&quot;</span>,<span class="st">&quot;SL.glm&quot;</span>,<span class="st">&quot;SL.interaction.back&quot;</span>,<span class="st">&quot;SL.hal9001&quot;</span>))</span>
+<span id="cb91-68"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-68" tabindex="-1"></a></span>
+<span id="cb91-69"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-69" tabindex="-1"></a></span>
+<span id="cb91-70"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-70" tabindex="-1"></a><span class="do">## CDE, setting M=0</span></span>
+<span id="cb91-71"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-71" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>) <span class="co"># for reproducibility with the SuperLearner</span></span>
+<span id="cb91-72"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-72" tabindex="-1"></a>CDE_ltmle_M0_death <span class="ot">&lt;-</span> <span class="fu">ltmle</span>(<span class="at">data =</span> data_binary,</span>
+<span id="cb91-73"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-73" tabindex="-1"></a>                            <span class="at">Anodes =</span> <span class="fu">c</span>(<span class="st">&quot;edu&quot;</span>, <span class="st">&quot;smoking&quot;</span>),</span>
+<span id="cb91-74"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-74" tabindex="-1"></a>                            <span class="at">Lnodes =</span> <span class="fu">c</span>(<span class="st">&quot;phys&quot;</span>, </span>
+<span id="cb91-75"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-75" tabindex="-1"></a>                                       <span class="st">&quot;occupation&quot;</span>), <span class="co"># intermediate L(1) +/- L(0)</span></span>
+<span id="cb91-76"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-76" tabindex="-1"></a>                            <span class="at">Ynodes =</span> <span class="fu">c</span>(<span class="st">&quot;death&quot;</span>),</span>
+<span id="cb91-77"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-77" tabindex="-1"></a>                            <span class="at">survivalOutcome =</span> <span class="cn">FALSE</span>, <span class="co"># TRUE for time-to-event outcomes Y</span></span>
+<span id="cb91-78"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-78" tabindex="-1"></a>                            <span class="at">Qform =</span> Qform,</span>
+<span id="cb91-79"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-79" tabindex="-1"></a>                            <span class="at">gform =</span> gform,</span>
+<span id="cb91-80"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-80" tabindex="-1"></a>                            <span class="at">abar =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="co"># counterfactual intervention do(A=1,M=0)</span></span>
+<span id="cb91-81"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-81" tabindex="-1"></a>                                        <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)), <span class="co"># counterfactual intervention do(A=0,M=0)</span></span>
+<span id="cb91-82"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-82" tabindex="-1"></a>                            <span class="at">SL.library =</span> SL.library,</span>
+<span id="cb91-83"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-83" tabindex="-1"></a>                            <span class="at">estimate.time =</span> <span class="cn">FALSE</span>, <span class="co"># estimate computation time?</span></span>
+<span id="cb91-84"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-84" tabindex="-1"></a>                            <span class="at">gcomp =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb91-85"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-85" tabindex="-1"></a>                            <span class="at">variance.method =</span> <span class="st">&quot;ic&quot;</span>) <span class="co"># a more robust variance can</span></span>
+<span id="cb91-86"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-86" tabindex="-1"></a>                                                    <span class="co"># be estimated with</span></span>
+<span id="cb91-87"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-87" tabindex="-1"></a>                                                    <span class="co"># variance.method = &quot;tmle&quot;</span></span>
+<span id="cb91-88"><a href="estimate-the-cde-using-the-ltmle-package.html#cb91-88" tabindex="-1"></a><span class="fu">summary</span>(CDE_ltmle_M0_death, <span class="at">estimator =</span> <span class="st">&quot;tmle&quot;</span>)</span></code></pre></div>
+<p>The controlled direct effect of education on the probability of death, had the mediator been set to 0 for every participant, estimated by TMLE, is 7.03%, 95%CI=[4.96%, 9.10%].</p>
+<p>Note that an estimation by IPTW is also available (because it relies on the g-functions that have been estimated in the process)</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="estimate-the-cde-using-the-ltmle-package.html#cb92-1" tabindex="-1"></a><span class="fu">summary</span>(CDE_ltmle_M0_death, <span class="at">estimator =</span> <span class="st">&quot;iptw&quot;</span>)</span></code></pre></div>
+<p>You can check which learner has been used:</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="estimate-the-cde-using-the-ltmle-package.html#cb93-1" tabindex="-1"></a><span class="do">## for the propensity scores g</span></span>
+<span id="cb93-2"><a href="estimate-the-cde-using-the-ltmle-package.html#cb93-2" tabindex="-1"></a>CDE_ltmle_M0_death<span class="sc">$</span>fit<span class="sc">$</span>g</span>
+<span id="cb93-3"><a href="estimate-the-cde-using-the-ltmle-package.html#cb93-3" tabindex="-1"></a></span>
+<span id="cb93-4"><a href="estimate-the-cde-using-the-ltmle-package.html#cb93-4" tabindex="-1"></a><span class="do">## for the models of the outcome (Qbar)</span></span>
+<span id="cb93-5"><a href="estimate-the-cde-using-the-ltmle-package.html#cb93-5" tabindex="-1"></a>CDE_ltmle_M0_death<span class="sc">$</span>fit<span class="sc">$</span>Q</span>
+<span id="cb93-6"><a href="estimate-the-cde-using-the-ltmle-package.html#cb93-6" tabindex="-1"></a></span>
+<span id="cb93-7"><a href="estimate-the-cde-using-the-ltmle-package.html#cb93-7" tabindex="-1"></a><span class="do">## In practice, the ltmle function estimate an MSM with 2 parameters </span></span>
+<span id="cb93-8"><a href="estimate-the-cde-using-the-ltmle-package.html#cb93-8" tabindex="-1"></a><span class="do">## (enough to compare 2 counterfactual scenarios)</span></span>
+<span id="cb93-9"><a href="estimate-the-cde-using-the-ltmle-package.html#cb93-9" tabindex="-1"></a>CDE_ltmle_M0_death<span class="sc">$</span>msm</span>
+<span id="cb93-10"><a href="estimate-the-cde-using-the-ltmle-package.html#cb93-10" tabindex="-1"></a></span>
+<span id="cb93-11"><a href="estimate-the-cde-using-the-ltmle-package.html#cb93-11" tabindex="-1"></a><span class="do">## You can check the distribution of the g-functions to check the </span></span>
+<span id="cb93-12"><a href="estimate-the-cde-using-the-ltmle-package.html#cb93-12" tabindex="-1"></a><span class="do">## positivity assumption</span></span>
+<span id="cb93-13"><a href="estimate-the-cde-using-the-ltmle-package.html#cb93-13" tabindex="-1"></a><span class="fu">boxplot</span>(CDE_ltmle_M0_death<span class="sc">$</span>cum.g[,,<span class="dv">1</span>])</span>
+<span id="cb93-14"><a href="estimate-the-cde-using-the-ltmle-package.html#cb93-14" tabindex="-1"></a><span class="fu">boxplot</span>(CDE_ltmle_M0_death<span class="sc">$</span>cum.g[,,<span class="dv">2</span>])</span>
+<span id="cb93-15"><a href="estimate-the-cde-using-the-ltmle-package.html#cb93-15" tabindex="-1"></a><span class="co"># Note: cum.g indicates the distribution before truncation at 0.01</span></span>
+<span id="cb93-16"><a href="estimate-the-cde-using-the-ltmle-package.html#cb93-16" tabindex="-1"></a><span class="co">#       cum.g.unbounded indicates the distribution after truncation at 0.01</span></span>
+<span id="cb93-17"><a href="estimate-the-cde-using-the-ltmle-package.html#cb93-17" tabindex="-1"></a></span>
+<span id="cb93-18"><a href="estimate-the-cde-using-the-ltmle-package.html#cb93-18" tabindex="-1"></a><span class="do">## The influence curve of the 2 parameter of the MSM are givent in the IC vector</span></span>
+<span id="cb93-19"><a href="estimate-the-cde-using-the-ltmle-package.html#cb93-19" tabindex="-1"></a><span class="co"># this is used to apply a delta method to calculate the confidence intervals</span></span>
+<span id="cb93-20"><a href="estimate-the-cde-using-the-ltmle-package.html#cb93-20" tabindex="-1"></a><span class="fu">summary</span>(CDE_ltmle_M0_death<span class="sc">$</span>IC)</span>
+<span id="cb93-21"><a href="estimate-the-cde-using-the-ltmle-package.html#cb93-21" tabindex="-1"></a></span>
+<span id="cb93-22"><a href="estimate-the-cde-using-the-ltmle-package.html#cb93-22" tabindex="-1"></a><span class="do">## the fit$Qstar vector is a list of the fluctuation models</span></span>
+<span id="cb93-23"><a href="estimate-the-cde-using-the-ltmle-package.html#cb93-23" tabindex="-1"></a><span class="do">## used to update the initial Qbar function estimated by g-computation</span></span>
+<span id="cb93-24"><a href="estimate-the-cde-using-the-ltmle-package.html#cb93-24" tabindex="-1"></a><span class="co"># We can see that each Qbar model have been updated in the TMLE process.</span></span>
+<span id="cb93-25"><a href="estimate-the-cde-using-the-ltmle-package.html#cb93-25" tabindex="-1"></a>CDE_ltmle_M0_death<span class="sc">$</span>fit<span class="sc">$</span>Qstar</span></code></pre></div>
+</div>
+<div id="for-continuous-outcomes" class="section level3 hasAnchor" number="5.3.2">
+<h3><span class="header-section-number">5.3.2</span> For continuous outcomes<a href="estimate-the-cde-using-the-ltmle-package.html#for-continuous-outcomes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>As previously, for continuous outcomes, the <code>ltmle</code> package transforms the outcome on a 0 to 1 continuous scale, <span class="math inline">\(Y_\text{transformed} = \frac{Y - \min(Y)}{\max(Y) - \min(Y)}\)</span>, so that quasi-binomial parametric models can be used in the computation procedure. Mean predictions are then back-transformed on the original scale.</p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-1" tabindex="-1"></a><span class="do">## Define the data set with the continuous outcome score</span></span>
+<span id="cb94-2"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-2" tabindex="-1"></a>data_continuous <span class="ot">&lt;-</span> <span class="fu">subset</span>(df, <span class="at">select =</span> <span class="fu">c</span>(sex, low_par_edu,</span>
+<span id="cb94-3"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-3" tabindex="-1"></a>                                         edu, phys, occupation,</span>
+<span id="cb94-4"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-4" tabindex="-1"></a>                                         smoking, score))</span>
+<span id="cb94-5"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-5" tabindex="-1"></a><span class="do">## Replace the Qbar function </span></span>
+<span id="cb94-6"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-6" tabindex="-1"></a><span class="do">## (the 2d formula should be named score instead of death)</span></span>
+<span id="cb94-7"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-7" tabindex="-1"></a>Qform <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">phys =</span> <span class="st">&quot;Q.kplus1 ~ sex + low_par_edu + edu&quot;</span>,</span>
+<span id="cb94-8"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-8" tabindex="-1"></a>           <span class="at">score =</span> <span class="st">&quot;Q.kplus1 ~ sex + low_par_edu + phys + occupation +</span></span>
+<span id="cb94-9"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-9" tabindex="-1"></a><span class="st">                               edu * smoking&quot;</span>) <span class="co"># add interaction</span></span>
+<span id="cb94-10"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-10" tabindex="-1"></a><span class="do">## SuperLearner library</span></span>
+<span id="cb94-11"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-11" tabindex="-1"></a>SL.library <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">Q=</span><span class="fu">c</span>(<span class="st">&quot;SL.mean&quot;</span>,<span class="st">&quot;SL.glm&quot;</span>,<span class="st">&quot;SL.interaction.back&quot;</span>,<span class="st">&quot;SL.hal9001.Qbar&quot;</span>),</span>
+<span id="cb94-12"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-12" tabindex="-1"></a>                   <span class="at">g=</span><span class="fu">c</span>(<span class="st">&quot;SL.mean&quot;</span>,<span class="st">&quot;SL.glm&quot;</span>,<span class="st">&quot;SL.interaction.back&quot;</span>,<span class="st">&quot;SL.hal9001&quot;</span>))</span>
+<span id="cb94-13"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-13" tabindex="-1"></a></span>
+<span id="cb94-14"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-14" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb94-15"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-15" tabindex="-1"></a><span class="do">## CDE, setting M=0</span></span>
+<span id="cb94-16"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-16" tabindex="-1"></a>CDE_ltmle_M0_score <span class="ot">&lt;-</span> <span class="fu">ltmle</span>(<span class="at">data =</span> data_continuous,</span>
+<span id="cb94-17"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-17" tabindex="-1"></a>                            <span class="at">Anodes =</span> <span class="fu">c</span>(<span class="st">&quot;edu&quot;</span>, <span class="st">&quot;smoking&quot;</span>),</span>
+<span id="cb94-18"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-18" tabindex="-1"></a>                            <span class="at">Lnodes =</span> <span class="fu">c</span>(<span class="st">&quot;phys&quot;</span>, <span class="st">&quot;occupation&quot;</span>), </span>
+<span id="cb94-19"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-19" tabindex="-1"></a>                            <span class="at">Ynodes =</span> <span class="fu">c</span>(<span class="st">&quot;score&quot;</span>),</span>
+<span id="cb94-20"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-20" tabindex="-1"></a>                            <span class="at">survivalOutcome =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb94-21"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-21" tabindex="-1"></a>                            <span class="at">Qform =</span> Qform,</span>
+<span id="cb94-22"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-22" tabindex="-1"></a>                            <span class="at">gform =</span> gform,</span>
+<span id="cb94-23"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-23" tabindex="-1"></a>                            <span class="at">abar =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="co"># do(A=1,M=0)</span></span>
+<span id="cb94-24"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-24" tabindex="-1"></a>                                        <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)), <span class="co">#  do(A=0,M=0)</span></span>
+<span id="cb94-25"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-25" tabindex="-1"></a>                            <span class="at">SL.library =</span> SL.library,</span>
+<span id="cb94-26"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-26" tabindex="-1"></a>                            <span class="at">estimate.time =</span> <span class="cn">FALSE</span>, <span class="co"># estimate computation time?</span></span>
+<span id="cb94-27"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-27" tabindex="-1"></a>                            <span class="at">gcomp =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb94-28"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-28" tabindex="-1"></a>                            <span class="at">variance.method =</span> <span class="st">&quot;ic&quot;</span>)</span>
+<span id="cb94-29"><a href="estimate-the-cde-using-the-ltmle-package.html#cb94-29" tabindex="-1"></a><span class="fu">summary</span>(CDE_ltmle_M0_score)</span></code></pre></div>
+<p>The controlled direct effect of education on the score outcome, had the mediator been set to 0 for every participant, estimated by TMLE is -12.12, 95%CI=[-13.08, -11.17].</p>
 
+</div>
+</div>
+</div>
+<h3> Estimate rNDE and rNIE by TMLE<a href="estimate-rnde-and-rnie-by-tmle.html#estimate-rnde-and-rnie-by-tmle" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-vanderweele2009" class="csl-entry">
+VanderWeele, Tyler J. 2009. <span>“Marginal Structural Models for the Estimation of Direct and Indirect Effects.”</span> <em>Epidemiology</em> 20: 18–26.
+</div>
 </div>
             </section>
 
@@ -213,7 +885,7 @@ div.csl-indent {
         </div>
       </div>
 <a href="estimate-the-ate-by-tmle.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="estimatin-rnde-and-rnie-by-tmle.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="estimate-rnde-and-rnie-by-tmle.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

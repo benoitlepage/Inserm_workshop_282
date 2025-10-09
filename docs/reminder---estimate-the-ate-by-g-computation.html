@@ -23,7 +23,7 @@
 <meta name="author" content="Benoît Lepage" />
 
 
-<meta name="date" content="2025-10-08" />
+<meta name="date" content="2025-10-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -205,18 +205,22 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="reminder---estimate-the-ate-by-g-computation" class="section level1 hasAnchor" number="3">
 <h1><span class="header-section-number">Chapter 3</span> Reminder - Estimate the ATE by g-computation<a href="reminder---estimate-the-ate-by-g-computation.html#reminder---estimate-the-ate-by-g-computation" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>G-computation can be used for the estimation of the total effect and two-way decomposition (CDE, marginal and conditional randomized direct and indirect effects). Analogs of the 3-way and 4-way decompositions are also given by the <code>CMAverse</code> package.</p>
+<p>G-computation can be used for the estimation of the total effect and two-way decomposition (CDE, randomized direct and indirect effects). Analogs of the 3-way and 4-way decompositions are also given by the <code>CMAverse</code> package.</p>
 <div id="estimation-of-the-average-total-effect-ate" class="section level2 hasAnchor" number="3.1">
 <h2><span class="header-section-number">3.1</span> Estimation of the Average Total Effect (ATE)<a href="reminder---estimate-the-ate-by-g-computation.html#estimation-of-the-average-total-effect-ate" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The following steps describe the implementation of the g-computation estimator of the average total effect <span class="math inline">\(\text{ATE} = \mathbb{E}(Y_{A=1}) - \mathbb{E}(Y_{A=0})\)</span>:</p>
-<ol style="list-style-type: decimal">
+<p>The following steps describe the implementation of the g-computation estimator of the average total effect <span class="math inline">\(\text{ATE} = \mathbb{E}(Y_{A=1}) - \mathbb{E}(Y_{A=0})\)</span>.</p>
+<ol start="0" style="list-style-type: decimal">
+<li><p>The g-formula for the ATE is :
+<span class="math display">\[\small \Psi^{\text{ATE}} =\sum_{l(0) \in L(0)} \mathbb{E}\left(Y \mid A=1, L(0)=l(0)\right)P(L(0) = l(0)) - \sum_{l(0) \in L(0)} \mathbb{E}\left(Y \mid A=0, L(0)=l(0)\right)P(L(0) = l(0))\]</span>
+<span class="math display">\[\small \Psi^{\text{ATE}} =\sum_{l(0) \in L(0)} \overline{Q}(A=0) \times P(L(0) = l(0)) - \sum_{l(0) \in L(0)} \overline{Q}(A=1) \times P(L(0) = l(0))\]</span></p></li>
 <li><p>Fit a logistic or a linear regression to estimate <span class="math inline">\(\overline{Q} = \mathbb{E}(Y \mid A, L(0))\)</span></p></li>
 <li><p>Use this estimate to predict an outcome for each subject <span class="math inline">\(\hat{\overline{Q}}(A=0)_i\)</span> and <span class="math inline">\(\hat{\overline{Q}}(A=1)_i\)</span>, by evaluating the regression fit <span class="math inline">\(\overline{Q}\)</span> at <span class="math inline">\(A=0\)</span> and <span class="math inline">\(A=1\)</span> respectively</p></li>
-<li><p>Plug the predicted outcomes in the g-formula and use the sample mean to estimate <span class="math inline">\(\Psi_{ATE}\)</span>
+<li><p>Plug the predicted outcomes in the g-formula and use the sample mean to estimate <span class="math inline">\(\Psi_{ATE}\)</span>.</p></li>
+</ol>
+<p>We can estimate its components and plug them directly in the g-formula:
 <span class="math display">\[\begin{equation}
 \hat{\Psi}^{\text{ATE}}_{\text{gcomp}} = \frac{1}{n} \sum_{i=1}^n \left[ \hat{\overline{Q}}(A=1)_i - \hat{\overline{Q}}(A=0)_i \right]
-\end{equation}\]</span></p></li>
-</ol>
+\end{equation}\]</span></p>
 <p>For continuous outcomes, <span class="math inline">\(\overline{Q}(A=a)\)</span> functions can be estimated using linear regressions. For binary outcomes, they can be estimated using logistic regressions.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="reminder---estimate-the-ate-by-g-computation.html#cb16-1" tabindex="-1"></a><span class="do">## 0. Import data</span></span>
 <span id="cb16-2"><a href="reminder---estimate-the-ate-by-g-computation.html#cb16-2" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>

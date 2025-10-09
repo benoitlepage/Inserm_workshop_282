@@ -1,2 +1,2 @@
-# Estimatin rNDE and rNIE by TMLE 
+# Estimate rNDE and rNIE by TMLE 
 

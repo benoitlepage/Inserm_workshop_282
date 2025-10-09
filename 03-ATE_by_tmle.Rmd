@@ -208,6 +208,11 @@ SL.step.interaction
 # <bytecode: 0x000001b965ed0dc0>
 # <environment: namespace:SuperLearner>
 
+# the SL.step.interaction can be adapted, changing some arguments:
+SL.interaction.back = function(...) {
+  SL.step.interaction(..., direction = "backward")
+}
+
 ## The HAL algorithm implemented by default does not deal correctly with 
 ## continuous outcome, 
 ## However, we can define your own learner algorithm, following the template:
