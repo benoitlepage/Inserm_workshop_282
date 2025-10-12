@@ -1,4 +1,3 @@
-# 
 # sex         L0.1 = sex 
 # low_par_edu L0.2 = low parent educational level
 # edu         A = exposure of interest

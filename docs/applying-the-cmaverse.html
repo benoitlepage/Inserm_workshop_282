@@ -23,7 +23,7 @@
 <meta name="author" content="Benoît Lepage" />
 
 
-<meta name="date" content="2025-10-09" />
+<meta name="date" content="2025-10-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -205,7 +205,18 @@ div.csl-indent {
 <li class="chapter" data-level="5.3.2" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#for-continuous-outcomes"><i class="fa fa-check"></i><b>5.3.2</b> For continuous outcomes</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="estimate-rnde-and-rnie-by-tmle.html"><a href="estimate-rnde-and-rnie-by-tmle.html"><i class="fa fa-check"></i><b>6</b> Estimate rNDE and rNIE by TMLE</a></li>
+<li class="chapter" data-level="6" data-path="estimate-rnde-and-rnie-by-double-robust-estimators.html"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html"><i class="fa fa-check"></i><b>6</b> Estimate rNDE and rNIE by double robust estimators</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="estimate-rnde-and-rnie-by-double-robust-estimators.html"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#g-computation-algorithm-to-compute-randomized-natural-direct-and-indirect-effects"><i class="fa fa-check"></i><b>6.1</b> G-computation algorithm to compute randomized Natural Direct and Indirect effects</a></li>
+<li class="chapter" data-level="6.2" data-path="estimate-rnde-and-rnie-by-double-robust-estimators.html"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#packages-to-get-double-robust-estimations"><i class="fa fa-check"></i><b>6.2</b> Packages to get double robust estimations</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ltmle-package-with-interval-censored-survival-data.html"><a href="ltmle-package-with-interval-censored-survival-data.html"><i class="fa fa-check"></i><b>7</b> <code>ltmle</code> package with interval censored survival data</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="ltmle-package-with-interval-censored-survival-data.html"><a href="ltmle-package-with-interval-censored-survival-data.html#setting"><i class="fa fa-check"></i><b>7.1</b> Setting</a></li>
+<li class="chapter" data-level="7.2" data-path="ltmle-package-with-interval-censored-survival-data.html"><a href="ltmle-package-with-interval-censored-survival-data.html#data-generating-function"><i class="fa fa-check"></i><b>7.2</b> Data generating function</a></li>
+<li class="chapter" data-level="7.3" data-path="ltmle-package-with-interval-censored-survival-data.html"><a href="ltmle-package-with-interval-censored-survival-data.html#inspect-the-data-generated"><i class="fa fa-check"></i><b>7.3</b> Inspect the data generated</a></li>
+<li class="chapter" data-level="7.4" data-path="ltmle-package-with-interval-censored-survival-data.html"><a href="ltmle-package-with-interval-censored-survival-data.html#estimate-the-controlled-direct-effect"><i class="fa fa-check"></i><b>7.4</b> Estimate the controlled direct effect</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -245,30 +256,30 @@ CDE(M=0) &amp;= \mathbb{E}(Y_{A=1,M=0}) - \mathbb{E}(Y_{A=0,M=0})
 <p>Using those 3 models, we can simulated counterfactual values (under <span class="math inline">\(\{A=1,M=0\}\)</span> and <span class="math inline">\(\{A=0,M=0\}\)</span>) exactly as what we did in the introduction chapter to simulate the data set <code>df</code>.</p>
 <p>In the results, the model of the mediator is not needed for the CDE, but it is needed to estimate the interventional (stochastic) direct and indirect effects.</p>
 <p>Note that for the model of the intermediate confounder <code>occupation</code>, physical activity (<code>phys</code>) was not included as a predictor whereas it was present in the corresponding equation of the data-generating system: Can this “misspecification” result in some bias? (I don’t know the answer, it might be interesting to test on simulations).</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="applying-the-cmaverse.html#cb36-1" tabindex="-1"></a><span class="fu">library</span>(CMAverse)</span>
-<span id="cb36-2"><a href="applying-the-cmaverse.html#cb36-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb36-3"><a href="applying-the-cmaverse.html#cb36-3" tabindex="-1"></a>gformula_death_RD <span class="ot">&lt;-</span> <span class="fu">cmest</span>(<span class="at">data =</span> df, </span>
-<span id="cb36-4"><a href="applying-the-cmaverse.html#cb36-4" tabindex="-1"></a>                           <span class="at">model =</span> <span class="st">&quot;gformula&quot;</span>, <span class="co"># for parametric g-computation</span></span>
-<span id="cb36-5"><a href="applying-the-cmaverse.html#cb36-5" tabindex="-1"></a>                           <span class="at">outcome =</span> <span class="st">&quot;death&quot;</span>, <span class="co"># outcome variable</span></span>
-<span id="cb36-6"><a href="applying-the-cmaverse.html#cb36-6" tabindex="-1"></a>                           <span class="at">exposure =</span> <span class="st">&quot;edu&quot;</span>, <span class="co"># exposure variable</span></span>
-<span id="cb36-7"><a href="applying-the-cmaverse.html#cb36-7" tabindex="-1"></a>                           <span class="at">mediator =</span> <span class="st">&quot;smoking&quot;</span>, <span class="co"># mediator</span></span>
-<span id="cb36-8"><a href="applying-the-cmaverse.html#cb36-8" tabindex="-1"></a>                           <span class="at">basec =</span> <span class="fu">c</span>(<span class="st">&quot;sex&quot;</span>,     </span>
-<span id="cb36-9"><a href="applying-the-cmaverse.html#cb36-9" tabindex="-1"></a>                                     <span class="st">&quot;low_par_edu&quot;</span>), <span class="co"># baseline confounders</span></span>
-<span id="cb36-10"><a href="applying-the-cmaverse.html#cb36-10" tabindex="-1"></a>                           <span class="at">postc =</span> <span class="fu">c</span>(<span class="st">&quot;phys&quot;</span>, </span>
-<span id="cb36-11"><a href="applying-the-cmaverse.html#cb36-11" tabindex="-1"></a>                                     <span class="st">&quot;occupation&quot;</span>), <span class="co"># intermediate confounders </span></span>
-<span id="cb36-12"><a href="applying-the-cmaverse.html#cb36-12" tabindex="-1"></a>                           <span class="at">EMint =</span> <span class="cn">TRUE</span>, <span class="co"># exposures*mediator interaction</span></span>
-<span id="cb36-13"><a href="applying-the-cmaverse.html#cb36-13" tabindex="-1"></a>                           <span class="at">mreg =</span> <span class="fu">list</span>(<span class="st">&quot;logistic&quot;</span>), <span class="co"># g(M=1|L1,A,L0)</span></span>
-<span id="cb36-14"><a href="applying-the-cmaverse.html#cb36-14" tabindex="-1"></a>                           <span class="at">yreg =</span> <span class="st">&quot;linear&quot;</span>,<span class="co"># Qbar.L2 = P(Y=1|M,L1,A,L0) </span></span>
-<span id="cb36-15"><a href="applying-the-cmaverse.html#cb36-15" tabindex="-1"></a>                           <span class="at">postcreg =</span> <span class="fu">list</span>(<span class="st">&quot;logistic&quot;</span>, <span class="st">&quot;logistic&quot;</span>), </span>
-<span id="cb36-16"><a href="applying-the-cmaverse.html#cb36-16" tabindex="-1"></a>                           <span class="at">astar =</span> <span class="dv">0</span>,</span>
-<span id="cb36-17"><a href="applying-the-cmaverse.html#cb36-17" tabindex="-1"></a>                           <span class="at">a =</span> <span class="dv">1</span>,</span>
-<span id="cb36-18"><a href="applying-the-cmaverse.html#cb36-18" tabindex="-1"></a>                           <span class="at">mval =</span> <span class="fu">list</span>(<span class="dv">0</span>), <span class="co"># do(M=0) to estimate CDE(M=0)</span></span>
-<span id="cb36-19"><a href="applying-the-cmaverse.html#cb36-19" tabindex="-1"></a>                           <span class="at">estimation =</span> <span class="st">&quot;imputation&quot;</span>, <span class="co"># if model= gformula</span></span>
-<span id="cb36-20"><a href="applying-the-cmaverse.html#cb36-20" tabindex="-1"></a>                           <span class="at">inference =</span> <span class="st">&quot;bootstrap&quot;</span>,</span>
-<span id="cb36-21"><a href="applying-the-cmaverse.html#cb36-21" tabindex="-1"></a>                           <span class="at">boot.ci.type =</span> <span class="st">&quot;per&quot;</span>, <span class="co"># percentiles, other option: &quot;bca&quot;</span></span>
-<span id="cb36-22"><a href="applying-the-cmaverse.html#cb36-22" tabindex="-1"></a>                           <span class="at">nboot =</span> <span class="dv">2</span>) <span class="co"># use a large number of bootstrap samples</span></span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="applying-the-cmaverse.html#cb39-1" tabindex="-1"></a><span class="fu">library</span>(CMAverse)</span>
+<span id="cb39-2"><a href="applying-the-cmaverse.html#cb39-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb39-3"><a href="applying-the-cmaverse.html#cb39-3" tabindex="-1"></a>gformula_death_RD <span class="ot">&lt;-</span> <span class="fu">cmest</span>(<span class="at">data =</span> df, </span>
+<span id="cb39-4"><a href="applying-the-cmaverse.html#cb39-4" tabindex="-1"></a>                           <span class="at">model =</span> <span class="st">&quot;gformula&quot;</span>, <span class="co"># for parametric g-computation</span></span>
+<span id="cb39-5"><a href="applying-the-cmaverse.html#cb39-5" tabindex="-1"></a>                           <span class="at">outcome =</span> <span class="st">&quot;death&quot;</span>, <span class="co"># outcome variable</span></span>
+<span id="cb39-6"><a href="applying-the-cmaverse.html#cb39-6" tabindex="-1"></a>                           <span class="at">exposure =</span> <span class="st">&quot;edu&quot;</span>, <span class="co"># exposure variable</span></span>
+<span id="cb39-7"><a href="applying-the-cmaverse.html#cb39-7" tabindex="-1"></a>                           <span class="at">mediator =</span> <span class="st">&quot;smoking&quot;</span>, <span class="co"># mediator</span></span>
+<span id="cb39-8"><a href="applying-the-cmaverse.html#cb39-8" tabindex="-1"></a>                           <span class="at">basec =</span> <span class="fu">c</span>(<span class="st">&quot;sex&quot;</span>,     </span>
+<span id="cb39-9"><a href="applying-the-cmaverse.html#cb39-9" tabindex="-1"></a>                                     <span class="st">&quot;low_par_edu&quot;</span>), <span class="co"># baseline confounders</span></span>
+<span id="cb39-10"><a href="applying-the-cmaverse.html#cb39-10" tabindex="-1"></a>                           <span class="at">postc =</span> <span class="fu">c</span>(<span class="st">&quot;phys&quot;</span>, </span>
+<span id="cb39-11"><a href="applying-the-cmaverse.html#cb39-11" tabindex="-1"></a>                                     <span class="st">&quot;occupation&quot;</span>), <span class="co"># intermediate confounders </span></span>
+<span id="cb39-12"><a href="applying-the-cmaverse.html#cb39-12" tabindex="-1"></a>                           <span class="at">EMint =</span> <span class="cn">TRUE</span>, <span class="co"># exposures*mediator interaction</span></span>
+<span id="cb39-13"><a href="applying-the-cmaverse.html#cb39-13" tabindex="-1"></a>                           <span class="at">mreg =</span> <span class="fu">list</span>(<span class="st">&quot;logistic&quot;</span>), <span class="co"># g(M=1|L1,A,L0)</span></span>
+<span id="cb39-14"><a href="applying-the-cmaverse.html#cb39-14" tabindex="-1"></a>                           <span class="at">yreg =</span> <span class="st">&quot;linear&quot;</span>,<span class="co"># Qbar.L2 = P(Y=1|M,L1,A,L0) </span></span>
+<span id="cb39-15"><a href="applying-the-cmaverse.html#cb39-15" tabindex="-1"></a>                           <span class="at">postcreg =</span> <span class="fu">list</span>(<span class="st">&quot;logistic&quot;</span>, <span class="st">&quot;logistic&quot;</span>), </span>
+<span id="cb39-16"><a href="applying-the-cmaverse.html#cb39-16" tabindex="-1"></a>                           <span class="at">astar =</span> <span class="dv">0</span>,</span>
+<span id="cb39-17"><a href="applying-the-cmaverse.html#cb39-17" tabindex="-1"></a>                           <span class="at">a =</span> <span class="dv">1</span>,</span>
+<span id="cb39-18"><a href="applying-the-cmaverse.html#cb39-18" tabindex="-1"></a>                           <span class="at">mval =</span> <span class="fu">list</span>(<span class="dv">0</span>), <span class="co"># do(M=0) to estimate CDE(M=0)</span></span>
+<span id="cb39-19"><a href="applying-the-cmaverse.html#cb39-19" tabindex="-1"></a>                           <span class="at">estimation =</span> <span class="st">&quot;imputation&quot;</span>, <span class="co"># if model= gformula</span></span>
+<span id="cb39-20"><a href="applying-the-cmaverse.html#cb39-20" tabindex="-1"></a>                           <span class="at">inference =</span> <span class="st">&quot;bootstrap&quot;</span>,</span>
+<span id="cb39-21"><a href="applying-the-cmaverse.html#cb39-21" tabindex="-1"></a>                           <span class="at">boot.ci.type =</span> <span class="st">&quot;per&quot;</span>, <span class="co"># percentiles, other option: &quot;bca&quot;</span></span>
+<span id="cb39-22"><a href="applying-the-cmaverse.html#cb39-22" tabindex="-1"></a>                           <span class="at">nboot =</span> <span class="dv">2</span>) <span class="co"># use a large number of bootstrap samples</span></span></code></pre></div>
 <pre><code>##   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%</code></pre>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="applying-the-cmaverse.html#cb38-1" tabindex="-1"></a><span class="fu">summary</span>(gformula_death_RD)</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="applying-the-cmaverse.html#cb41-1" tabindex="-1"></a><span class="fu">summary</span>(gformula_death_RD)</span></code></pre></div>
 <pre><code>## Causal Mediation Analysis
 ## 
 ## # Outcome regression:
@@ -431,34 +442,34 @@ CDE(M=0) &amp;= \mathbb{E}(Y_{A=1,M=0}) - \mathbb{E}(Y_{A=0,M=0})
     sw = sw_A \times sw_M = \frac{P(A_i)}{P(A_i \mid L(0))} \times \frac{P(M_i \mid A)}{P(M_i \mid L(0),A,L(1))}
   \end{align*}\]</span></p>
 <p>An MSM of the mediator is also estimated (depending only on the exposure, confounding is handled by weighting). This MSM is not useful to estimate the CDE, but is needed to estimated the “interventional” or “stochastic” natural direct and indirect effects.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="applying-the-cmaverse.html#cb40-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb40-2"><a href="applying-the-cmaverse.html#cb40-2" tabindex="-1"></a>iptw_death_RD <span class="ot">&lt;-</span> <span class="fu">cmest</span>(<span class="at">data =</span> df, </span>
-<span id="cb40-3"><a href="applying-the-cmaverse.html#cb40-3" tabindex="-1"></a>                       <span class="at">model =</span> <span class="st">&quot;msm&quot;</span>, <span class="co"># using MSM estimated by IPTW</span></span>
-<span id="cb40-4"><a href="applying-the-cmaverse.html#cb40-4" tabindex="-1"></a>                       <span class="at">outcome =</span> <span class="st">&quot;death&quot;</span>, <span class="co"># outcome variable</span></span>
-<span id="cb40-5"><a href="applying-the-cmaverse.html#cb40-5" tabindex="-1"></a>                       <span class="at">exposure =</span> <span class="st">&quot;edu&quot;</span>, <span class="co"># exposure variable</span></span>
-<span id="cb40-6"><a href="applying-the-cmaverse.html#cb40-6" tabindex="-1"></a>                       <span class="at">mediator =</span> <span class="st">&quot;smoking&quot;</span>, <span class="co"># mediator</span></span>
-<span id="cb40-7"><a href="applying-the-cmaverse.html#cb40-7" tabindex="-1"></a>                       <span class="at">basec =</span> <span class="fu">c</span>(<span class="st">&quot;sex&quot;</span>,     </span>
-<span id="cb40-8"><a href="applying-the-cmaverse.html#cb40-8" tabindex="-1"></a>                                 <span class="st">&quot;low_par_edu&quot;</span>), <span class="co"># baseline confounders</span></span>
-<span id="cb40-9"><a href="applying-the-cmaverse.html#cb40-9" tabindex="-1"></a>                       <span class="at">postc =</span> <span class="fu">c</span>(<span class="st">&quot;phys&quot;</span>, </span>
-<span id="cb40-10"><a href="applying-the-cmaverse.html#cb40-10" tabindex="-1"></a>                                 <span class="st">&quot;occupation&quot;</span>), <span class="co"># intermediate confounders </span></span>
-<span id="cb40-11"><a href="applying-the-cmaverse.html#cb40-11" tabindex="-1"></a>                       <span class="at">EMint =</span> <span class="cn">TRUE</span>, <span class="co"># exposures*mediator interaction</span></span>
-<span id="cb40-12"><a href="applying-the-cmaverse.html#cb40-12" tabindex="-1"></a>                       <span class="at">ereg =</span> <span class="st">&quot;logistic&quot;</span>, <span class="co"># exposure regression model g(A=1|L(0))</span></span>
-<span id="cb40-13"><a href="applying-the-cmaverse.html#cb40-13" tabindex="-1"></a>                       <span class="at">mreg =</span> <span class="fu">list</span>(<span class="st">&quot;logistic&quot;</span>), <span class="co"># g(M=1|L1,A,L0)</span></span>
-<span id="cb40-14"><a href="applying-the-cmaverse.html#cb40-14" tabindex="-1"></a>                       <span class="at">yreg =</span> <span class="st">&quot;linear&quot;</span>,<span class="co"># Qbar.L2 = P(Y=1|M,L1,A,L0) </span></span>
-<span id="cb40-15"><a href="applying-the-cmaverse.html#cb40-15" tabindex="-1"></a>                       <span class="at">postcreg =</span> <span class="fu">list</span>(<span class="st">&quot;logistic&quot;</span>, <span class="st">&quot;logistic&quot;</span>), <span class="co"># Qbar.L1 = P(L1=1|A,L0)</span></span>
-<span id="cb40-16"><a href="applying-the-cmaverse.html#cb40-16" tabindex="-1"></a>                       <span class="at">wmnomreg =</span> <span class="fu">list</span>(<span class="st">&quot;logistic&quot;</span>), <span class="co">#g(M=1|A) wgt nominator</span></span>
-<span id="cb40-17"><a href="applying-the-cmaverse.html#cb40-17" tabindex="-1"></a>                       <span class="at">wmdenomreg =</span> <span class="fu">list</span>(<span class="st">&quot;logistic&quot;</span>), <span class="co"># g(M=1|L1,A,L(0)) wgt denominator</span></span>
-<span id="cb40-18"><a href="applying-the-cmaverse.html#cb40-18" tabindex="-1"></a>                       <span class="at">astar =</span> <span class="dv">0</span>,</span>
-<span id="cb40-19"><a href="applying-the-cmaverse.html#cb40-19" tabindex="-1"></a>                       <span class="at">a =</span> <span class="dv">1</span>,</span>
-<span id="cb40-20"><a href="applying-the-cmaverse.html#cb40-20" tabindex="-1"></a>                       <span class="at">mval =</span> <span class="fu">list</span>(<span class="dv">0</span>), <span class="co"># do(M=0) to estimate CDE_m</span></span>
-<span id="cb40-21"><a href="applying-the-cmaverse.html#cb40-21" tabindex="-1"></a>                       <span class="at">estimation =</span> <span class="st">&quot;imputation&quot;</span>, <span class="co"># if model= gformula</span></span>
-<span id="cb40-22"><a href="applying-the-cmaverse.html#cb40-22" tabindex="-1"></a>                       <span class="at">inference =</span> <span class="st">&quot;bootstrap&quot;</span>,</span>
-<span id="cb40-23"><a href="applying-the-cmaverse.html#cb40-23" tabindex="-1"></a>                       <span class="at">boot.ci.type =</span> <span class="st">&quot;per&quot;</span>, <span class="co"># for percentile, other option: &quot;bca&quot;</span></span>
-<span id="cb40-24"><a href="applying-the-cmaverse.html#cb40-24" tabindex="-1"></a>                       <span class="at">nboot =</span> <span class="dv">2</span>) <span class="co"># we should use a large number of bootstrap samples</span></span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="applying-the-cmaverse.html#cb43-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb43-2"><a href="applying-the-cmaverse.html#cb43-2" tabindex="-1"></a>iptw_death_RD <span class="ot">&lt;-</span> <span class="fu">cmest</span>(<span class="at">data =</span> df, </span>
+<span id="cb43-3"><a href="applying-the-cmaverse.html#cb43-3" tabindex="-1"></a>                       <span class="at">model =</span> <span class="st">&quot;msm&quot;</span>, <span class="co"># using MSM estimated by IPTW</span></span>
+<span id="cb43-4"><a href="applying-the-cmaverse.html#cb43-4" tabindex="-1"></a>                       <span class="at">outcome =</span> <span class="st">&quot;death&quot;</span>, <span class="co"># outcome variable</span></span>
+<span id="cb43-5"><a href="applying-the-cmaverse.html#cb43-5" tabindex="-1"></a>                       <span class="at">exposure =</span> <span class="st">&quot;edu&quot;</span>, <span class="co"># exposure variable</span></span>
+<span id="cb43-6"><a href="applying-the-cmaverse.html#cb43-6" tabindex="-1"></a>                       <span class="at">mediator =</span> <span class="st">&quot;smoking&quot;</span>, <span class="co"># mediator</span></span>
+<span id="cb43-7"><a href="applying-the-cmaverse.html#cb43-7" tabindex="-1"></a>                       <span class="at">basec =</span> <span class="fu">c</span>(<span class="st">&quot;sex&quot;</span>,     </span>
+<span id="cb43-8"><a href="applying-the-cmaverse.html#cb43-8" tabindex="-1"></a>                                 <span class="st">&quot;low_par_edu&quot;</span>), <span class="co"># baseline confounders</span></span>
+<span id="cb43-9"><a href="applying-the-cmaverse.html#cb43-9" tabindex="-1"></a>                       <span class="at">postc =</span> <span class="fu">c</span>(<span class="st">&quot;phys&quot;</span>, </span>
+<span id="cb43-10"><a href="applying-the-cmaverse.html#cb43-10" tabindex="-1"></a>                                 <span class="st">&quot;occupation&quot;</span>), <span class="co"># intermediate confounders </span></span>
+<span id="cb43-11"><a href="applying-the-cmaverse.html#cb43-11" tabindex="-1"></a>                       <span class="at">EMint =</span> <span class="cn">TRUE</span>, <span class="co"># exposures*mediator interaction</span></span>
+<span id="cb43-12"><a href="applying-the-cmaverse.html#cb43-12" tabindex="-1"></a>                       <span class="at">ereg =</span> <span class="st">&quot;logistic&quot;</span>, <span class="co"># exposure regression model g(A=1|L(0))</span></span>
+<span id="cb43-13"><a href="applying-the-cmaverse.html#cb43-13" tabindex="-1"></a>                       <span class="at">mreg =</span> <span class="fu">list</span>(<span class="st">&quot;logistic&quot;</span>), <span class="co"># g(M=1|L1,A,L0)</span></span>
+<span id="cb43-14"><a href="applying-the-cmaverse.html#cb43-14" tabindex="-1"></a>                       <span class="at">yreg =</span> <span class="st">&quot;linear&quot;</span>,<span class="co"># Qbar.L2 = P(Y=1|M,L1,A,L0) </span></span>
+<span id="cb43-15"><a href="applying-the-cmaverse.html#cb43-15" tabindex="-1"></a>                       <span class="at">postcreg =</span> <span class="fu">list</span>(<span class="st">&quot;logistic&quot;</span>, <span class="st">&quot;logistic&quot;</span>), <span class="co"># Qbar.L1 = P(L1=1|A,L0)</span></span>
+<span id="cb43-16"><a href="applying-the-cmaverse.html#cb43-16" tabindex="-1"></a>                       <span class="at">wmnomreg =</span> <span class="fu">list</span>(<span class="st">&quot;logistic&quot;</span>), <span class="co">#g(M=1|A) wgt nominator</span></span>
+<span id="cb43-17"><a href="applying-the-cmaverse.html#cb43-17" tabindex="-1"></a>                       <span class="at">wmdenomreg =</span> <span class="fu">list</span>(<span class="st">&quot;logistic&quot;</span>), <span class="co"># g(M=1|L1,A,L(0)) wgt denominator</span></span>
+<span id="cb43-18"><a href="applying-the-cmaverse.html#cb43-18" tabindex="-1"></a>                       <span class="at">astar =</span> <span class="dv">0</span>,</span>
+<span id="cb43-19"><a href="applying-the-cmaverse.html#cb43-19" tabindex="-1"></a>                       <span class="at">a =</span> <span class="dv">1</span>,</span>
+<span id="cb43-20"><a href="applying-the-cmaverse.html#cb43-20" tabindex="-1"></a>                       <span class="at">mval =</span> <span class="fu">list</span>(<span class="dv">0</span>), <span class="co"># do(M=0) to estimate CDE_m</span></span>
+<span id="cb43-21"><a href="applying-the-cmaverse.html#cb43-21" tabindex="-1"></a>                       <span class="at">estimation =</span> <span class="st">&quot;imputation&quot;</span>, <span class="co"># if model= gformula</span></span>
+<span id="cb43-22"><a href="applying-the-cmaverse.html#cb43-22" tabindex="-1"></a>                       <span class="at">inference =</span> <span class="st">&quot;bootstrap&quot;</span>,</span>
+<span id="cb43-23"><a href="applying-the-cmaverse.html#cb43-23" tabindex="-1"></a>                       <span class="at">boot.ci.type =</span> <span class="st">&quot;per&quot;</span>, <span class="co"># for percentile, other option: &quot;bca&quot;</span></span>
+<span id="cb43-24"><a href="applying-the-cmaverse.html#cb43-24" tabindex="-1"></a>                       <span class="at">nboot =</span> <span class="dv">2</span>) <span class="co"># we should use a large number of bootstrap samples</span></span></code></pre></div>
 <pre><code>##   |                                                                              |                                                                      |   0%</code></pre>
 <pre><code>##   |                                                                              |===================================                                   |  50%</code></pre>
 <pre><code>##   |                                                                              |======================================================================| 100%</code></pre>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="applying-the-cmaverse.html#cb44-1" tabindex="-1"></a><span class="fu">summary</span>(iptw_death_RD)</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="applying-the-cmaverse.html#cb47-1" tabindex="-1"></a><span class="fu">summary</span>(iptw_death_RD)</span></code></pre></div>
 <pre><code>## Causal Mediation Analysis
 ## 
 ## # Outcome regression:

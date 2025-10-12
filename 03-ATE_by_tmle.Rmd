@@ -46,7 +46,7 @@ The variance of the target parameter can then be calculated using the variance o
 \text{var} \hat{\Psi}(A=1)_\text{TMLE} = \frac{\text{var} \hat{D}^*}{n}
 \end{equation*}
 
-```{r Psi_ATE_tmle, echo=TRUE}
+```{r Psi_ATE_tmle, echo=TRUE, message=FALSE, warning=FALSE, eval = TRUE}
 rm(list = ls())
 df <- read.csv2("data/df.csv")
 
@@ -124,7 +124,7 @@ sqrt(var(IC)/nrow(df))
 ```
 
 We can see that we can get the same output using the `ltmle` package (cf. `?ltmle` to see how the function works):
-```{r Psi_ATE_tmle_package, echo=TRUE, eval = FALSE}
+```{r Psi_ATE_tmle_package, echo=TRUE, message=FALSE, warning=FALSE, eval = TRUE}
 rm(list = ls())
 df <- read.csv2("data/df.csv")
 
@@ -178,11 +178,11 @@ Here is an example for our estimation of the Average Total Effect (ATE).
 The `SuperLearner` package includes a set of algorithms with default parameters (showed by `listWrappers()`). Because the simulated data set only have 2 binary baseline variables, the set $\mathcal{M}$ of possible statistical models is limited. In order to estimate the ATE, we will include a library with:
 
   - `SL.mean`, the null-model which only predict the marginal mean (it can be used as a reference for a bad model);
-  - `SL.glm`, a glm using the main terms from the `Qform` and `gform` argument;
+  - `SL.glm`, a glm using the main terms from the `Qform` and `gform` argument; We will also add a `screen` algorithm which first applies a selection prodedure on the predictors of the learner.
   - `SL.interaction.back`, a step-by-step backward GLM prodecure (based on the AIC), starting with all $2 \times 2$ interactions between main terms. This function is customized from the `SL.step.interaction` available with the `ltmle` and `SuperLearner` packages, where the `direction` argument is set to `both` by default. 
   - `SL.hal9001` fit the "Highly Adaptive Lasso (HAL) algorithm. See the [vignette](https://cran.r-project.org/web//packages/hal9001/vignettes/intro_hal9001.html) for more information on the HAL algorithm. One of its advantage is a very fast rate of convergence.
 
-```{r Psi_ATE_ltmle, echo=TRUE, eval = FALSE}
+```{r Psi_ATE_ltmle, echo=TRUE, message=FALSE, warning=FALSE, eval = TRUE}
 library(SuperLearner)
 library(hal9001)
 # Below, we use the same ltmle() function than previously, 
@@ -269,8 +269,10 @@ environment(SL.hal9001.Qbar) <-asNamespace("SuperLearner")
 
 ## the algorithms we would like to use can be specified separately for the Q and 
 # g functions
-SL.library <- list(Q=c("SL.mean","SL.glm","SL.interaction.back", "SL.hal9001"),
-                   g=c("SL.mean","SL.glm","SL.interaction.back", "SL.hal9001"))
+SL.library <- list(Q=list("SL.mean", "SL.glm", c("SL.glm", "screen.corP"), 
+                       "SL.interaction.back", "SL.hal9001"),
+                   g=list("SL.mean", "SL.glm", c("SL.glm", "screen.corP"), 
+                       "SL.interaction.back", "SL.hal9001"))
 
 set.seed(1234)
 Psi_ATE_tmle <- ltmle(data = data_ltmle,
@@ -292,39 +294,23 @@ summary(Psi_ATE_tmle, estimator = "tmle")
 #     95% Conf Interval: (0.17031, 0.2026) 
     
 ## We can see how the SuperLearner used the algorithms for the g function
-Psi_ATE_tmle$fit$g[[1]]
 # we see that the Risk is high for the bad model (SL.mean)
-# and very similar for the 3 other models
-#                              Risk        Coef
-# SL.mean_All             0.2409651 0.004074661 # risk is higher for the bad model
-# SL.glm_All              0.2358587 0.000000000
-# SL.interaction.back_All 0.2358587 0.995925339
-# SL.hal9001_All          0.2358824 0.000000000
-# [[1]]$A0_PM2.5
+# and very similar for the other models
+Psi_ATE_tmle$fit$g[[1]]
 
-# for the g function, the SuperLearner predicts the treatment mechanism
-# base on a mix between the glm and the customized xgboost algorithm.
-
-## We can see how the SuperLearner used the algorithms for the g function
+## We can see how the SuperLearner used the algorithms for the Q function
 Psi_ATE_tmle$fit$Q
-#                              Risk       Coef
-#                              Risk      Coef
-# SL.mean_All             0.1905554 0.0000000 # risk is higher for the bad model
-# SL.glm_All              0.1775983 0.6619501
-# SL.interaction.back_All 0.1775983 0.0000000
-# SL.hal9001_All          0.1776157 0.3380499
 
-# The SuperLearner predicts both the treatment mechanism g and the Q function
-# from a mix between the glm (or the main term glm) and the 
-# HAL algorithm. 
-# However, the choice between the SL.glm and the SL.interaction.back 
-# procedure was arbitrary: as we can see the Risk is exactly the same for both 
-# algorithms. The final model from the step-by-step procedure was much probably 
-# a main term glm.
+# The SuperLearner predicts the Q function using a mix between the glm and 
+# the HAL algorithm. 
+# However, the choice between the 2 SL.glm and SL.interaction.back 
+# was arbitrary: as we can see the Risk is exactly the same for the 3 
+# algorithms. The final model from the step-by-step procedure and the glm after
+# the screening procedure were probably the same "main term" glm.
 
 
-## The `ltmle` package can also be used to estimate the effect of binary exposures
-## on continous outcomes
+## The `ltmle` package can also be used to estimate the effect of categorical 
+## exposures on continous outcomes
 Qform <- c(score="Q.kplus1 ~ sex + low_par_edu + edu")
 gform <- c("edu ~ sex + low_par_edu")
 
@@ -345,16 +331,11 @@ Psi_ATE_tmle_score <- ltmle(data = subset(df,
                       SL.library = SL.library,
                       variance.method = "ic")
 summary(Psi_ATE_tmle_score, estimator = "tmle")
-# Additive Treatment Effect:
-#    Parameter Estimate:  -19.76 
-#     Estimated Std Err:  0.37746 
-#               p-value:  <2e-16 
-#     95% Conf Interval: (-20.5, -19.021) 
 ```
-The TMLE estimation of the ATE from the `ltmle` package for death probability and mean quality of life is +18.65% (95% CI=[17.03%, +20.26%]) and -19.76 [-20.5, -19.021].
+On the difference scale, the TMLE estimation of the ATE from the `ltmle` package for death probability and quantitative score is +18.65% (95% CI=[17.03%, +20.26%]) and -19.76 [-20.5, -19.021] respectively.
 
 Note that the `ltmle` package can also be used to calculate the IPTW estimation of the ATE and the CDE.
-```{r Psi_ATE_ltmle_iptw, echo=TRUE, eval = FALSE}
+```{r Psi_ATE_ltmle_iptw, echo=TRUE, message=FALSE, warning=FALSE, eval = TRUE}
 # using the output from the previous ltmle() procedure
 summary(Psi_ATE_tmle, estimator = "iptw")
 # Additive Treatment Effect:
@@ -370,5 +351,5 @@ summary(Psi_ATE_tmle_score, estimator = "iptw")
 #               p-value:  <2e-16 
 #     95% Conf Interval: (-20.515, -19.012) 
 ```
-The IPTW estimation of the ATE from the `ltmle` package for death probability and mean quality of life is +18.66% (95% CI=[+17.03%, +20.29%]) and -19.76 [-20.52, -19.01].
+On a difference scale, the IPTW estimation of the ATE from the `ltmle` package for death probability and the quantitative score is +18.66% (95% CI=[+17.03%, +20.29%]) and -19.76 [-20.52, -19.01], respectively.
 

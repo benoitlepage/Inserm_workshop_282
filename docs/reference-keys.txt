@@ -2,6 +2,7 @@ fig:qrcode
 fig:figDAGM1
 eq:MSMATEmarg
 eq:MSMCDE
+fig:figDAG2
 introduction
 data-generating-system
 reminders---estimate-the-ate
@@ -25,4 +26,11 @@ iptw-estmation-using-the-ltmle-package
 tmle-estimator-of-the-cde
 for-binary-outcomes
 for-continuous-outcomes
-estimate-rnde-and-rnie-by-tmle
+estimate-rnde-and-rnie-by-double-robust-estimators
+g-computation-algorithm-to-compute-randomized-natural-direct-and-indirect-effects
+packages-to-get-double-robust-estimations
+ltmle-package-with-interval-censored-survival-data
+setting
+data-generating-function
+inspect-the-data-generated
+estimate-the-controlled-direct-effect

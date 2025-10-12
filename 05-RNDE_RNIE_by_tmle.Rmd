@@ -1,2 +1,212 @@
-# Estimate rNDE and rNIE by TMLE 
+# Estimate rNDE and rNIE by double robust estimators 
 
+A very general presentation of randomized Natural Direct and Indirect effects is described in [@Diaz2023].
+
+The causal estimands are: 
+\begin{align*}
+  rNDE &= \mathbb{E}\left(Y_{A=1,G_{A=0}}\right) - \mathbb{E}\left(Y_{A=0,G_{A=0}}\right) \\
+  rNIE &= \mathbb{E}\left(Y_{A=1,G_{A=1}}\right) - \mathbb{E}\left(Y_{A=1,G_{A=0}}\right) \\
+\end{align*}
+
+It is possible to identify the causal estimand $\theta = \mathbb{E}\left(Y_{a^\prime,G_{a^*}} \right)$ by the following statistical estimand:
+\begin{align*}
+  \theta &= \mathbb{E}\left[ \sum_{m \in M} \varphi(a^\prime,m) \times \lambda(a^*,m) \right], \text{ where}\\
+  \varphi(a^\prime,m) &= \sum_{l(0),l(1)} \mathbb{E}\left(Y \mid l(0),A=a^\prime,l(1),m\right)\times P(L(1)=l(1) \mid l(0),a^\prime) \times P(L(0)=l(0) \\
+  \lambda(a^*,m) &= \sum_{l(0),l(1)} P\left(M=m,L(1)=l(1) \mid A=a^*, l(0) \right) \times P(L(0)=l(0)) 
+\end{align*}
+
+## G-computation algorithm to compute randomized Natural Direct and Indirect effects
+A general g-computation algorithm that can be used to estimate randomized (interventional) Natural Direct and Indirect Effects is described below:
+
+The components $\varphi(a^\prime,m)$ and $\lambda(a^*,m)$ can be estimated using 2 $Q$ functions that we need to estimate:
+\begin{equation*}
+  \theta = \mathbb{E}\left(Y_{a^\prime,G_{a^*}} \right) = \sum_{m} Q_{L,0}(a^\prime,m) \times Q_{M,0}(a^*,m)
+\end{equation*}
+The first component $Q_{L,0}(m)$ for a given value of $m\in \{0,1\}$, is estimated by iterative conditional expectation:
+\begin{align*}
+  Q_{L,3} &= Y \\
+  Q_{L,2}(m) &= \mathbb{E}\left(Q_{L,3} \mid L(0),A,L(1),M=m\right) \\
+  Q_{L,1}(a^\prime,m) &= \mathbb{E}\left(Q_{L,2} \mid L(0),A=a^\prime\right) \\
+  Q_{L,0}(a^\prime,m) &= \mathbb{E}\left(Q_{L,1}\right) = \varphi(a^\prime,m)
+\end{align*}
+The second component $Q_{M,0}(m)$ for the same value $m$ is also estimated by iterative conditional expectation:
+\begin{align*}
+  Q_{M,1}(a^*,m) &= \mathbb{E}\left(\mathbb{I}(M=m) \mid L(0), A=a^* \right) \\
+  Q_{M,0}(a^*,m) &= \mathbb{E}\left(Q_{M,1}\right) = \lambda(a^*,m)
+\end{align*}
+
+Applied to our example:
+```{r rNDE_and_rNIE_gcomp, echo=TRUE, message=FALSE, warning=FALSE}
+rm(list = ls())
+df <- read.csv2("data/df.csv")
+## We need to estimate theta under 3 scenarios: 
+scenarios <- data.frame(a_prime = c(0,1,1),
+                        a_star = c(0,0,1), 
+                        theta = rep(NA, 3))
+## For EY_{A=0,G_{A=0}} (ie: a' = 0, a* = 0)
+for(s in 1:3){
+  Q_L0_list <- list() # we will estimate 2 Q_L0 (one for each value of M)
+  Q_M0_list <- list() # we will estimate 2 Q_M0 (one for each value of M)
+  for(i in 1:2) {
+    # Set the value of the mediator
+    m <- i - 1
+    # Estimate Q_L0 under A=a' and M=m
+    Q_L3 <- df$death
+    df_m <- df
+    df_m$smoking <- m
+    Q_L2 <- predict(glm(Q_L3 ~ sex + low_par_edu + phys + occupation + 
+                          edu * smoking,
+                        family = "binomial", data = df),
+                    newdata = df_m,
+                    type = "response")
+    df_aprime <- df
+    df_aprime$edu <- scenarios$a_prime[s]
+    Q_L1 <- predict(glm(Q_L2 ~ sex + low_par_edu + edu,
+                        family = "quasibinomial", data = df),
+                    newdata = df_aprime,
+                    type = "response")
+    Q_L0 <- mean(Q_L1)
+    Q_L0_list[i] <- Q_L0
+    
+    # Estimate Q_M0 under M=m
+    df_astar <- df
+    df_astar$edu <- scenarios$a_star[s]
+    Q_M1 <- predict(glm(as.numeric(smoking == m) ~ sex + low_par_edu + edu,
+                        family = "binomial", data = df),
+                    newdata = df_astar,
+                    type = "response")
+    Q_M0 <- mean(Q_M1)
+    Q_M0_list[i] <- Q_M0
+  }
+  # calculate theta for the scenario s
+  scenarios$theta[s] <- ((Q_L0_list[[1]] * Q_M0_list[[1]]) + 
+                           (Q_L0_list[[2]] * Q_M0_list[[2]]))
+}
+
+## The rNDE = EY(A=1,G_A=0) - EY(A=0,G_A=0)
+rNDE <- (scenarios$theta[scenarios$a_prime == 1 & scenarios$a_star == 0] - 
+           scenarios$theta[scenarios$a_prime == 0 & scenarios$a_star == 0])
+rNDE
+
+## The rNIE = EY(A=1,G_A=1) - EY(A=1,G_A=0)
+rNIE <- (scenarios$theta[scenarios$a_prime == 1 & scenarios$a_star == 1] - 
+           scenarios$theta[scenarios$a_prime == 1 & scenarios$a_star == 0])
+rNIE
+
+## The total effect rTE = EY(A=1,G_A=1) - EY(A=0,G_A=0)
+rTE <- (scenarios$theta[scenarios$a_prime == 1 & scenarios$a_star == 1] - 
+           scenarios$theta[scenarios$a_prime == 0 & scenarios$a_star == 0])
+rTE
+```
+
+
+
+## Packages to get double robust estimations
+The `medoutcon` [package](https://github.com/nhejazi/medoutcon) [@Hejazi2022],[@Diaz2020] enables the estimation of Randomized/Interventional Direct and Indirect Effects (analogues of the Natural direct and indirect effects) by one-step estimation or TMLE. In this package, the one-step estimator relies on "cross-fitting" and the TMLE relies on cross-validation. 
+
+More practical details can be found in the [Materials for the workshop "Modern Causal Mediation Analysis" at the 2024 Society for Epidemiologic Research (SER) annual meeting in Austin, TX](https://codex.nimahejazi.org/ser2024_mediation_workshop/) and the [Materials for the workshop "Modern Causal Mediation Analysis" at the 2025 Society for Epidemiologic Research (SER) annual meeting in Boston, MA ](https://codex.nimahejazi.org/ser2025_mediation_workshop/).
+
+This package is associated with the `tlverse` [ecosystem](https://tlverse.org/tlverse-handbook/) which has been developed for applying Targeted Learning methodology in practice. To use the `medoutcon` package, we will need:
+
+  - the `sl3` [package](https://github.com/tlverse/sl3) (to implement SuperLearning) 
+  - and the Highly-adaptive lasso `hal9001` [package](https://cran.r-project.org/web/packages/hal9001/index.html) to estimate some functions of interest.
+
+Note that the `medoutcon` package can deal with multiple mediators, but only a single binary intermediate confounder $L(1)$. Other alternative packages have been developed (but usually still at a development stage):
+
+  - For causal structures with a low-dimensional mediator (1 binary or categorical variable) and high-dimensional intermediate confounding (with several variables, possibly continuous), the `lcm` [package](https://github.com/nt-williams/lcm) can be used. This package was mainly developed to deal with longitudinal causal mediation (lcm), with repeated waves of "exposure -> intermediate confounder -> mediator" structures.
+  - For causal structures with multiple mediators and multiple intermediate confounders, the `HDmediation` [package](https://github.com/nt-williams/HDmediation) could be used instead.
+
+Below, we apply the one-step estimator to our data with 1 intermediate confounders affected by the exposure. Using the HAL algorithm will deal with possible exposure-interaction terms.
+
+```{r medoutcon1, echo=TRUE, eval = TRUE}
+# remotes::install_github("nhejazi/medoutcon")
+# remotes::install_github("nhejazi/medoutcon", INSTALL_opts=c("--no-multiarch"))
+# https://arxiv.org/pdf/1912.09936
+rm(list = ls())
+df <- read.csv2("data/df.csv")
+
+library(tidyverse)
+library(sl3)
+library(medoutcon)
+library(hal9001)
+
+## Because the medoutcon package can only deal with 1 intermediate numeric confounder,
+## we will use an example where:
+##  - the intermediate confounder is "occupation"
+##  - the mediators of interest are "smoking" and "physical activity"
+
+
+## 1) binary outcome 
+# ---------------------------------------------------------------------------- #
+### Compute one-step estimate of the randomized natural direct effect
+set.seed(1234)
+os_de <- medoutcon(W = df[,c("sex", "low_par_edu")], # matrix of L(0)
+                   A = df$edu, # numeric vector of the exposure
+                   Z = df$occupation, # numeric vector L(1) (only 1 variable)
+                   M = df[,c("phys", "smoking")], # numeric vector or matrix
+                   Y = df$death, # numeric vector
+                   effect = "direct",
+                   b_learners = sl3::Lrnr_hal9001$new(), # outcome regression
+                   estimator = "onestep")
+os_de
+
+# The output gives a list containing:
+#  - theta = the estimand
+#  - var = variance of the estimand
+#  - eif = the efficient influence curve
+os_de$theta
+sqrt(os_de$var)
+sqrt(var(os_de$eif) / nrow(df))
+
+### Compute one-step estimate of the randomized natural indirect effect
+set.seed(1234)
+os_ie <- medoutcon(W = df[,c("sex","low_par_edu")], #matrix of baseline L(0)
+                   A = df$edu, # numeric vector of the exposure
+                   Z = df$occupation, # numeric vector L(1) (only 1 variable)
+                   M = df[,c("phys", "smoking")], # numeric vector or matrix
+                   Y = df$death, # numeric vector
+                   effect = "indirect",
+                   b_learners = sl3::Lrnr_hal9001$new(), # outcome regression
+                   estimator = "onestep")
+os_ie
+
+
+### In order to estimate the total effect TE = EY_{A=1,M(A=1) }- EY_{A=0,M(A=0)}
+set.seed(1234)
+EY_1M1 <- medoutcon(W = df[,c("sex","low_par_edu")], #matrix of baseline L(0)
+                    A = df$edu, # numeric vector of the exposure
+                    Z = df$occupation, # numeric vector L(1) (only 1 variable)
+                    M = df[,c("phys", "smoking")], # numeric vector or matrix
+                    Y = df$death, # numeric vector
+                    contrast = c(1,1),
+                    b_learners = sl3::Lrnr_hal9001$new(), # outcome regression
+                    estimator = "onestep")
+EY_1M1
+
+set.seed(1234)
+EY_0M0 <- medoutcon(W = df[,c("sex","low_par_edu")], #matrix of baseline L(0)
+                    A = df$edu, # numeric vector of the exposure
+                    Z = df$occupation, # numeric vector L(1) (only 1 variable)
+                    M = df[,c("phys", "smoking")], # numeric vector or matrix
+                    Y = df$death, # numeric vector
+                    contrast = c(0,0),
+                    b_learners = sl3::Lrnr_hal9001$new(), # outcome regression
+                    estimator = "onestep")
+EY_0M0
+
+## The total effect (global effect can be calculated by:
+rTE <- EY_1M1$theta - EY_0M0$theta
+rTE
+
+## se
+se_rTE <- sqrt(var(EY_1M1$eif - EY_0M0$eif) / nrow(df))
+se_rTE
+
+## 95%CI
+c(rTE - qnorm(0.975) * se_rTE,
+  rTE + qnorm(0.975) * se_rTE)
+```
+
+Beware, in simulations, the TMLE estimator of the `medoutcon` function seemed to be biased compared to the one-step estimator.
+
+In 2025, there are some packages same can enable us to get double robust estimation of randomized direct and indirect effects. However, most of them are still in development so it might be a better to test them on simulations before implementing them in real data analyses.

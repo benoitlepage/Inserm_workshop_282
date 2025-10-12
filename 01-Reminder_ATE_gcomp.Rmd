@@ -58,7 +58,7 @@ ATE_score_gcomp
 
 
 A 95% confidence interval can be estimated applying a bootstrap procedure. An example is given in the following code.
-```{r gcomp_ATE_ic95, echo=TRUE, eval = FALSE}
+```{r gcomp_ATE_ic95, echo=TRUE}
 ## set seed for reproducibility
 set.seed(1234)
 B <- 10 # use a large number here (at least 200 to 1000)

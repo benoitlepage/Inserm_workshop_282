@@ -23,11 +23,11 @@ The following steps describe the implementation of the g-computation estimator b
 \hat{\Psi}^{\text{CDE}_m}_{\text{gcomp}} = \frac{1}{n} \sum_{i=1}^n \left[ \hat{\overline{Q}}_{L(1)}(A=1)_i - \hat{\overline{Q}}_{L(1)}(A=0)_i \right]
 \end{equation}
 
-Note that G-computation by iterative expectation is preferable if the set of intermediate confounders $L(1)$ is high-dimensional as we only need to fit 1 model by counterfactual scenario (for a whole set of $L(1)$ variables) in the procedure described below, whereas at least 1 model by $L(1)$ variable and by counterfactual scenario are needed with parametric g-computation.
+Note that G-computation by iterative expectation is preferable if the set of intermediate confounders $L(1)$ is high-dimensional as we only need to fit 2 models by counterfactual scenario (for a whole set of $L(1)$ variables) in the procedure described below, whereas at least 1 model by $L(1)$ variable and the model of the outcome are needed with parametric g-computation.
 
 In the following example, we will focus on the estimand $CDE(M=0) = \mathbb{E}(Y_{A=1,M=0}) - \mathbb{E}(Y_{A=0,M=0})$.
 
-```{r gcomp_ice_CDE, echo=TRUE}
+```{r gcomp_ice_CDE, echo=TRUE, message=FALSE, warning=FALSE, eval = TRUE}
 rm(list = ls())
 df <- read.csv2("data/df.csv")
 
@@ -40,9 +40,9 @@ score_model <- glm(score ~ sex + low_par_edu + edu + phys + occupation +
                      smoking + edu:smoking,
                    family = "gaussian", data = df)
 
-# 2) Generate predicted values by evaluating the regression setting the exposure
-#    and the mediator at exposure history of interest:
-#    {A=1,M=0},{A=0,M=0}
+## 2) Generate predicted values by evaluating the regression setting the exposure
+##    and the mediator at exposure history of interest:
+##    {A=1,M=0},{A=0,M=0}
 data_Ais0_Mis0 <- data_Ais1_Mis0 <- df
 
 data_Ais0_Mis0$edu <- 0
@@ -101,7 +101,7 @@ Applying g-computation by iterative expectation, the CDE setting the mediator to
 ### G-computation by ICE using the `ltmle` package
 
 The `ltmle` package can be used to estimate Controlled Direct Effects by g-computation, as shown below.
-```{r gcomp_ltmle, echo=TRUE}
+```{r gcomp_ltmle, echo=TRUE, message=FALSE, warning=FALSE, eval = TRUE}
 library(ltmle)
 rm(list = ls())
 df <- read.csv2("data/df.csv")
@@ -123,7 +123,7 @@ Q_formulas_score <- c(phys = "Q.kplus1 ~ sex + low_par_edu + edu",
                     score = "Q.kplus1 ~ sex + low_par_edu + phys + occupation +
                              edu * smoking") # add interaction
 ## 2) Define g formulas (needed for the ltmle package) but they are not used
-#    with the g-computation estimator
+##    with the g-computation estimator
 g_formulas <- c("edu ~ sex + low_par_edu", 
                 "smoking ~ sex + low_par_edu + edu + phys + occupation")
 
@@ -246,12 +246,12 @@ In order to fit the MSM \@ref(eq:MSMCDE), we can use a linear regression of the 
 
 where $sw_i$ is the product of two weights $sw_i = sw_{A,i} \times sw_{M,i}$, 
 
-$sw_{A,i}=\frac{P(A=a_i)}{P(A=a_i \mid L(0)=l(0)_i)}$ and $sw_{M,i}=\frac{P(M=m_i \mid A=a_i)}{P(M = m_i \mid A=a_i,L(0)=l(0)_i), L(1)=l(1)_i}$. 
+$sw_{A,i}=\frac{P(A=a_i)}{P(A=a_i \mid L(0)=l(0)_i)}$ and $sw_{M,i}=\frac{P(M=m_i \mid A=a_i)}{P(M = m_i \mid A=a_i,L(0)=l(0)_i, L(1)=l(1)_i)}$. 
 
 The "no-unmeasured confounding" assumption is addressed by the application of weights  $sw_i$, which balances confounders $L(0)$ relative to the exposure-outcome $A-Y$ relationship, and balance the set of confounders $\{L(0),A,L(1)\}$ relative to the mediator-outcome $M-Y$ relationship. 
 
 Below, we estimate the CDE by hand:
-```{r Psi_CDE_MSM_IPTW2, echo=TRUE}
+```{r Psi_CDE_MSM_IPTW2, echo=TRUE, message=FALSE, warning=FALSE, eval = TRUE}
 ### MSM of CDE, estimated by IPTW
 rm(list = ls())
 df <- read.csv2("data/df.csv")
@@ -324,7 +324,7 @@ coef(msm_cde_logit)
 
 ### IPTW estmation using the ltmle package
 The `ltmle` package can be used to estimate Controlled Direct Effects by IPTW, as shown below.
-```{r iptw_ltmle, echo=TRUE}
+```{r iptw_ltmle, echo=TRUE, message=FALSE, warning=FALSE, eval = TRUE}
 library(ltmle)
 rm(list = ls())
 df <- read.csv2("data/df.csv")
@@ -387,7 +387,7 @@ And as with the IPTW method, the TMLE procedure relies also on the estimation of
 
 
 ### For binary outcomes
-```{r Psi_CDE_ltmle_bin, echo=TRUE, eval = FALSE}
+```{r Psi_CDE_ltmle_bin, echo=TRUE, message=FALSE, warning=FALSE, eval = TRUE}
 rm(list = ls())
 df <- read.csv2("data/df.csv")
 
@@ -480,20 +480,20 @@ summary(CDE_ltmle_M0_death, estimator = "tmle")
 The controlled direct effect of education on the probability of death, had the mediator been set to 0 for every participant, estimated by TMLE, is 7.03%, 95%CI=[4.96%, 9.10%].
 
 Note that an estimation by IPTW is also available (because it relies on the g-functions that have been estimated in the process)
-```{r Psi_CDE_ltmle_bin2, echo=TRUE, eval = FALSE}
+```{r Psi_CDE_ltmle_bin2, echo=TRUE, message=FALSE, warning=FALSE, eval = TRUE}
 summary(CDE_ltmle_M0_death, estimator = "iptw")
 ```
 
 You can check which learner has been used:
-```{r Psi_CDE_ltmle_bin3, echo=TRUE, eval = FALSE}
+```{r Psi_CDE_ltmle_bin3, echo=TRUE, message=FALSE, warning=FALSE, eval = TRUE}
 ## for the propensity scores g
 CDE_ltmle_M0_death$fit$g
 
 ## for the models of the outcome (Qbar)
 CDE_ltmle_M0_death$fit$Q
 
-## In practice, the ltmle function estimate an MSM with 2 parameters 
-## (enough to compare 2 counterfactual scenarios)
+## In practice, the ltmle function estimates an MSM with 2 parameters 
+## (which is enough to compare 2 counterfactual scenarios)
 CDE_ltmle_M0_death$msm
 
 ## You can check the distribution of the g-functions to check the 
@@ -503,8 +503,8 @@ boxplot(CDE_ltmle_M0_death$cum.g[,,2])
 # Note: cum.g indicates the distribution before truncation at 0.01
 #       cum.g.unbounded indicates the distribution after truncation at 0.01
 
-## The influence curve of the 2 parameter of the MSM are givent in the IC vector
-# this is used to apply a delta method to calculate the confidence intervals
+## The influence curve of the 2 parameters of the MSM are given in the IC matrix
+# this is used to calculate the confidence intervals (by delta method)
 summary(CDE_ltmle_M0_death$IC)
 
 ## the fit$Qstar vector is a list of the fluctuation models
@@ -516,7 +516,7 @@ CDE_ltmle_M0_death$fit$Qstar
 ### For continuous outcomes
 As previously, for continuous outcomes, the `ltmle` package transforms the outcome on a 0 to 1 continuous scale, $Y_\text{transformed} = \frac{Y - \min(Y)}{\max(Y) - \min(Y)}$, so that quasi-binomial parametric models can be used in the computation procedure. Mean predictions are then back-transformed on the original scale.
 
-```{r Psi_CDE_ltmle_cont, echo=TRUE, eval = FALSE}
+```{r Psi_CDE_ltmle_cont, echo=TRUE, message=FALSE, warning=FALSE, eval = TRUE}
 ## Define the data set with the continuous outcome score
 data_continuous <- subset(df, select = c(sex, low_par_edu,
                                          edu, phys, occupation,

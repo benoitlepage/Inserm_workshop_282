@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 Estimate rNDE and rNIE by double robust estimators | Inserm Workshop 282 - practical session</title>
+  <meta name="description" content="Chapter 6 Estimate rNDE and rNIE by double robust estimators | Inserm Workshop 282 - practical session" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 Estimate rNDE and rNIE by double robust estimators | Inserm Workshop 282 - practical session" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Chapter 6 Estimate rNDE and rNIE by double robust estimators | Inserm Workshop 282 - practical session" />
+  <meta name="github-repo" content="Inserm_workshop_282" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 Estimate rNDE and rNIE by double robust estimators | Inserm Workshop 282 - practical session" />
+  
+  <meta name="twitter:description" content="Chapter 6 Estimate rNDE and rNIE by double robust estimators | Inserm Workshop 282 - practical session" />
+  
+
+<meta name="author" content="Benoît Lepage" />
+
+
+<meta name="date" content="2025-10-12" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="estimate-the-cde-using-the-ltmle-package.html"/>
+<link rel="next" href="ltmle-package-with-interval-censored-survival-data.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Inserm_workshop_282</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#data-generating-system"><i class="fa fa-check"></i><b>1.1</b> Data generating system</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="reminders---estimate-the-ate.html"><a href="reminders---estimate-the-ate.html"><i class="fa fa-check"></i><b>2</b> Reminders - Estimate the ATE</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="reminders---estimate-the-ate.html"><a href="reminders---estimate-the-ate.html#estimation-of-the-average-total-effect-ate-by-g-computation"><i class="fa fa-check"></i><b>2.1</b> Estimation of the Average Total Effect (ATE) by g-computation</a></li>
+<li class="chapter" data-level="2.2" data-path="reminders---estimate-the-ate.html"><a href="reminders---estimate-the-ate.html#estimation-of-the-ate-by-iptw"><i class="fa fa-check"></i><b>2.2</b> Estimation of the ATE by IPTW</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="reminders---estimate-the-ate.html"><a href="reminders---estimate-the-ate.html#classic-horvitz-thompson-estimator"><i class="fa fa-check"></i><b>2.2.1</b> “Classic” Horvitz Thompson estimator</a></li>
+<li class="chapter" data-level="2.2.2" data-path="reminders---estimate-the-ate.html"><a href="reminders---estimate-the-ate.html#stabilized-iptw-for-the-ate"><i class="fa fa-check"></i><b>2.2.2</b> Stabilized IPTW for the ATE</a></li>
+<li class="chapter" data-level="2.2.3" data-path="reminders---estimate-the-ate.html"><a href="reminders---estimate-the-ate.html#using-an-msm-estimated-by-iptw"><i class="fa fa-check"></i><b>2.2.3</b> Using an MSM estimated by IPTW</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="applying-the-cmaverse.html"><a href="applying-the-cmaverse.html"><i class="fa fa-check"></i><b>3</b> Applying the CMAverse</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="applying-the-cmaverse.html"><a href="applying-the-cmaverse.html#estimation-by-parametric-g-computation"><i class="fa fa-check"></i><b>3.1</b> Estimation by “parametric” g-computation</a></li>
+<li class="chapter" data-level="3.2" data-path="applying-the-cmaverse.html"><a href="applying-the-cmaverse.html#estimation-by-msm-estimated-by-iptw"><i class="fa fa-check"></i><b>3.2</b> Estimation by MSM estimated by IPTW</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="estimate-the-ate-by-tmle.html"><a href="estimate-the-ate-by-tmle.html"><i class="fa fa-check"></i><b>4</b> Estimate the ATE by TMLE</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="estimate-the-ate-by-tmle.html"><a href="estimate-the-ate-by-tmle.html#tmle-for-the-ate"><i class="fa fa-check"></i><b>4.1</b> TMLE for the ATE</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html"><i class="fa fa-check"></i><b>5</b> Estimate the CDE using the <code>ltmle</code> package</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#ChapGcomp-CDE-ICE"><i class="fa fa-check"></i><b>5.1</b> G-computation by iterative conditional expectation</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#algorithm-and-manual-calculation"><i class="fa fa-check"></i><b>5.1.1</b> Algorithm and manual calculation</a></li>
+<li class="chapter" data-level="5.1.2" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#g-computation-by-ice-using-the-ltmle-package"><i class="fa fa-check"></i><b>5.1.2</b> G-computation by ICE using the <code>ltmle</code> package</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#iptw-estimator-of-the-cde"><i class="fa fa-check"></i><b>5.2</b> IPTW estimator of the CDE</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#estimation-of-the-msm-coefficients-by-iptw"><i class="fa fa-check"></i><b>5.2.1</b> Estimation of the MSM coefficients by IPTW</a></li>
+<li class="chapter" data-level="5.2.2" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#iptw-estmation-using-the-ltmle-package"><i class="fa fa-check"></i><b>5.2.2</b> IPTW estmation using the ltmle package</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#tmle-estimator-of-the-cde"><i class="fa fa-check"></i><b>5.3</b> TMLE estimator of the CDE</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#for-binary-outcomes"><i class="fa fa-check"></i><b>5.3.1</b> For binary outcomes</a></li>
+<li class="chapter" data-level="5.3.2" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#for-continuous-outcomes"><i class="fa fa-check"></i><b>5.3.2</b> For continuous outcomes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="estimate-rnde-and-rnie-by-double-robust-estimators.html"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html"><i class="fa fa-check"></i><b>6</b> Estimate rNDE and rNIE by double robust estimators</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="estimate-rnde-and-rnie-by-double-robust-estimators.html"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#g-computation-algorithm-to-compute-randomized-natural-direct-and-indirect-effects"><i class="fa fa-check"></i><b>6.1</b> G-computation algorithm to compute randomized Natural Direct and Indirect effects</a></li>
+<li class="chapter" data-level="6.2" data-path="estimate-rnde-and-rnie-by-double-robust-estimators.html"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#packages-to-get-double-robust-estimations"><i class="fa fa-check"></i><b>6.2</b> Packages to get double robust estimations</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ltmle-package-with-interval-censored-survival-data.html"><a href="ltmle-package-with-interval-censored-survival-data.html"><i class="fa fa-check"></i><b>7</b> <code>ltmle</code> package with interval censored survival data</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="ltmle-package-with-interval-censored-survival-data.html"><a href="ltmle-package-with-interval-censored-survival-data.html#setting"><i class="fa fa-check"></i><b>7.1</b> Setting</a></li>
+<li class="chapter" data-level="7.2" data-path="ltmle-package-with-interval-censored-survival-data.html"><a href="ltmle-package-with-interval-censored-survival-data.html#data-generating-function"><i class="fa fa-check"></i><b>7.2</b> Data generating function</a></li>
+<li class="chapter" data-level="7.3" data-path="ltmle-package-with-interval-censored-survival-data.html"><a href="ltmle-package-with-interval-censored-survival-data.html#inspect-the-data-generated"><i class="fa fa-check"></i><b>7.3</b> Inspect the data generated</a></li>
+<li class="chapter" data-level="7.4" data-path="ltmle-package-with-interval-censored-survival-data.html"><a href="ltmle-package-with-interval-censored-survival-data.html#estimate-the-controlled-direct-effect"><i class="fa fa-check"></i><b>7.4</b> Estimate the controlled direct effect</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Inserm Workshop 282 - practical session</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="estimate-rnde-and-rnie-by-double-robust-estimators" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Chapter 6</span> Estimate rNDE and rNIE by double robust estimators<a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#estimate-rnde-and-rnie-by-double-robust-estimators" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>A very general presentation of randomized Natural Direct and Indirect effects is described in <span class="citation">(<a href="#ref-Diaz2023">Iván Díaz, Williams, and Rudolph 2023</a>)</span>.</p>
+<p>The causal estimands are:
+<span class="math display">\[\begin{align*}
+  rNDE &amp;= \mathbb{E}\left(Y_{A=1,G_{A=0}}\right) - \mathbb{E}\left(Y_{A=0,G_{A=0}}\right) \\
+  rNIE &amp;= \mathbb{E}\left(Y_{A=1,G_{A=1}}\right) - \mathbb{E}\left(Y_{A=1,G_{A=0}}\right) \\
+\end{align*}\]</span></p>
+<p>It is possible to identify the causal estimand <span class="math inline">\(\theta = \mathbb{E}\left(Y_{a^\prime,G_{a^*}} \right)\)</span> by the following statistical estimand:
+<span class="math display">\[\begin{align*}
+  \theta &amp;= \mathbb{E}\left[ \sum_{m \in M} \varphi(a^\prime,m) \times \lambda(a^*,m) \right], \text{ where}\\
+  \varphi(a^\prime,m) &amp;= \sum_{l(0),l(1)} \mathbb{E}\left(Y \mid l(0),A=a^\prime,l(1),m\right)\times P(L(1)=l(1) \mid l(0),a^\prime) \times P(L(0)=l(0) \\
+  \lambda(a^*,m) &amp;= \sum_{l(0),l(1)} P\left(M=m,L(1)=l(1) \mid A=a^*, l(0) \right) \times P(L(0)=l(0))
+\end{align*}\]</span></p>
+<div id="g-computation-algorithm-to-compute-randomized-natural-direct-and-indirect-effects" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> G-computation algorithm to compute randomized Natural Direct and Indirect effects<a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#g-computation-algorithm-to-compute-randomized-natural-direct-and-indirect-effects" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A general g-computation algorithm that can be used to estimate randomized (interventional) Natural Direct and Indirect Effects is described below:</p>
+<p>The components <span class="math inline">\(\varphi(a^\prime,m)\)</span> and <span class="math inline">\(\lambda(a^*,m)\)</span> can be estimated using 2 <span class="math inline">\(Q\)</span> functions that we need to estimate:
+<span class="math display">\[\begin{equation*}
+  \theta = \mathbb{E}\left(Y_{a^\prime,G_{a^*}} \right) = \sum_{m} Q_{L,0}(a^\prime,m) \times Q_{M,0}(a^*,m)
+\end{equation*}\]</span>
+The first component <span class="math inline">\(Q_{L,0}(m)\)</span> for a given value of <span class="math inline">\(m\in \{0,1\}\)</span>, is estimated by iterative conditional expectation:
+<span class="math display">\[\begin{align*}
+  Q_{L,3} &amp;= Y \\
+  Q_{L,2}(m) &amp;= \mathbb{E}\left(Q_{L,3} \mid L(0),A,L(1),M=m\right) \\
+  Q_{L,1}(a^\prime,m) &amp;= \mathbb{E}\left(Q_{L,2} \mid L(0),A=a^\prime\right) \\
+  Q_{L,0}(a^\prime,m) &amp;= \mathbb{E}\left(Q_{L,1}\right) = \varphi(a^\prime,m)
+\end{align*}\]</span>
+The second component <span class="math inline">\(Q_{M,0}(m)\)</span> for the same value <span class="math inline">\(m\)</span> is also estimated by iterative conditional expectation:
+<span class="math display">\[\begin{align*}
+  Q_{M,1}(a^*,m) &amp;= \mathbb{E}\left(\mathbb{I}(M=m) \mid L(0), A=a^* \right) \\
+  Q_{M,0}(a^*,m) &amp;= \mathbb{E}\left(Q_{M,1}\right) = \lambda(a^*,m)
+\end{align*}\]</span></p>
+<p>Applied to our example:</p>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-1" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb132-2"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-2" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(<span class="st">&quot;data/df.csv&quot;</span>)</span>
+<span id="cb132-3"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-3" tabindex="-1"></a><span class="do">## We need to estimate theta under 3 scenarios: </span></span>
+<span id="cb132-4"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-4" tabindex="-1"></a>scenarios <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a_prime =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>),</span>
+<span id="cb132-5"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-5" tabindex="-1"></a>                        <span class="at">a_star =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>), </span>
+<span id="cb132-6"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-6" tabindex="-1"></a>                        <span class="at">theta =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">3</span>))</span>
+<span id="cb132-7"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-7" tabindex="-1"></a><span class="do">## For EY_{A=0,G_{A=0}} (ie: a&#39; = 0, a* = 0)</span></span>
+<span id="cb132-8"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-8" tabindex="-1"></a><span class="cf">for</span>(s <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>){</span>
+<span id="cb132-9"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-9" tabindex="-1"></a>  Q_L0_list <span class="ot">&lt;-</span> <span class="fu">list</span>() <span class="co"># we will estimate 2 Q_L0 (one for each value of M)</span></span>
+<span id="cb132-10"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-10" tabindex="-1"></a>  Q_M0_list <span class="ot">&lt;-</span> <span class="fu">list</span>() <span class="co"># we will estimate 2 Q_M0 (one for each value of M)</span></span>
+<span id="cb132-11"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-11" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>) {</span>
+<span id="cb132-12"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-12" tabindex="-1"></a>    <span class="co"># Set the value of the mediator</span></span>
+<span id="cb132-13"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-13" tabindex="-1"></a>    m <span class="ot">&lt;-</span> i <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb132-14"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-14" tabindex="-1"></a>    <span class="co"># Estimate Q_L0 under A=a&#39; and M=m</span></span>
+<span id="cb132-15"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-15" tabindex="-1"></a>    Q_L3 <span class="ot">&lt;-</span> df<span class="sc">$</span>death</span>
+<span id="cb132-16"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-16" tabindex="-1"></a>    df_m <span class="ot">&lt;-</span> df</span>
+<span id="cb132-17"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-17" tabindex="-1"></a>    df_m<span class="sc">$</span>smoking <span class="ot">&lt;-</span> m</span>
+<span id="cb132-18"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-18" tabindex="-1"></a>    Q_L2 <span class="ot">&lt;-</span> <span class="fu">predict</span>(<span class="fu">glm</span>(Q_L3 <span class="sc">~</span> sex <span class="sc">+</span> low_par_edu <span class="sc">+</span> phys <span class="sc">+</span> occupation <span class="sc">+</span> </span>
+<span id="cb132-19"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-19" tabindex="-1"></a>                          edu <span class="sc">*</span> smoking,</span>
+<span id="cb132-20"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-20" tabindex="-1"></a>                        <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> df),</span>
+<span id="cb132-21"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-21" tabindex="-1"></a>                    <span class="at">newdata =</span> df_m,</span>
+<span id="cb132-22"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-22" tabindex="-1"></a>                    <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb132-23"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-23" tabindex="-1"></a>    df_aprime <span class="ot">&lt;-</span> df</span>
+<span id="cb132-24"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-24" tabindex="-1"></a>    df_aprime<span class="sc">$</span>edu <span class="ot">&lt;-</span> scenarios<span class="sc">$</span>a_prime[s]</span>
+<span id="cb132-25"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-25" tabindex="-1"></a>    Q_L1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(<span class="fu">glm</span>(Q_L2 <span class="sc">~</span> sex <span class="sc">+</span> low_par_edu <span class="sc">+</span> edu,</span>
+<span id="cb132-26"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-26" tabindex="-1"></a>                        <span class="at">family =</span> <span class="st">&quot;quasibinomial&quot;</span>, <span class="at">data =</span> df),</span>
+<span id="cb132-27"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-27" tabindex="-1"></a>                    <span class="at">newdata =</span> df_aprime,</span>
+<span id="cb132-28"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-28" tabindex="-1"></a>                    <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb132-29"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-29" tabindex="-1"></a>    Q_L0 <span class="ot">&lt;-</span> <span class="fu">mean</span>(Q_L1)</span>
+<span id="cb132-30"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-30" tabindex="-1"></a>    Q_L0_list[i] <span class="ot">&lt;-</span> Q_L0</span>
+<span id="cb132-31"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-31" tabindex="-1"></a>    </span>
+<span id="cb132-32"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-32" tabindex="-1"></a>    <span class="co"># Estimate Q_M0 under M=m</span></span>
+<span id="cb132-33"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-33" tabindex="-1"></a>    df_astar <span class="ot">&lt;-</span> df</span>
+<span id="cb132-34"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-34" tabindex="-1"></a>    df_astar<span class="sc">$</span>edu <span class="ot">&lt;-</span> scenarios<span class="sc">$</span>a_star[s]</span>
+<span id="cb132-35"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-35" tabindex="-1"></a>    Q_M1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(<span class="fu">glm</span>(<span class="fu">as.numeric</span>(smoking <span class="sc">==</span> m) <span class="sc">~</span> sex <span class="sc">+</span> low_par_edu <span class="sc">+</span> edu,</span>
+<span id="cb132-36"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-36" tabindex="-1"></a>                        <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> df),</span>
+<span id="cb132-37"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-37" tabindex="-1"></a>                    <span class="at">newdata =</span> df_astar,</span>
+<span id="cb132-38"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-38" tabindex="-1"></a>                    <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb132-39"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-39" tabindex="-1"></a>    Q_M0 <span class="ot">&lt;-</span> <span class="fu">mean</span>(Q_M1)</span>
+<span id="cb132-40"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-40" tabindex="-1"></a>    Q_M0_list[i] <span class="ot">&lt;-</span> Q_M0</span>
+<span id="cb132-41"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-41" tabindex="-1"></a>  }</span>
+<span id="cb132-42"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-42" tabindex="-1"></a>  <span class="co"># calculate theta for the scenario s</span></span>
+<span id="cb132-43"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-43" tabindex="-1"></a>  scenarios<span class="sc">$</span>theta[s] <span class="ot">&lt;-</span> ((Q_L0_list[[<span class="dv">1</span>]] <span class="sc">*</span> Q_M0_list[[<span class="dv">1</span>]]) <span class="sc">+</span> </span>
+<span id="cb132-44"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-44" tabindex="-1"></a>                           (Q_L0_list[[<span class="dv">2</span>]] <span class="sc">*</span> Q_M0_list[[<span class="dv">2</span>]]))</span>
+<span id="cb132-45"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-45" tabindex="-1"></a>}</span>
+<span id="cb132-46"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-46" tabindex="-1"></a></span>
+<span id="cb132-47"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-47" tabindex="-1"></a><span class="do">## The rNDE = EY(A=1,G_A=0) - EY(A=0,G_A=0)</span></span>
+<span id="cb132-48"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-48" tabindex="-1"></a>rNDE <span class="ot">&lt;-</span> (scenarios<span class="sc">$</span>theta[scenarios<span class="sc">$</span>a_prime <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> scenarios<span class="sc">$</span>a_star <span class="sc">==</span> <span class="dv">0</span>] <span class="sc">-</span> </span>
+<span id="cb132-49"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-49" tabindex="-1"></a>           scenarios<span class="sc">$</span>theta[scenarios<span class="sc">$</span>a_prime <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> scenarios<span class="sc">$</span>a_star <span class="sc">==</span> <span class="dv">0</span>])</span>
+<span id="cb132-50"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb132-50" tabindex="-1"></a>rNDE</span></code></pre></div>
+<pre><code>## [1] 0.1370682</code></pre>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb134-1" tabindex="-1"></a><span class="do">## The rNIE = EY(A=1,G_A=1) - EY(A=1,G_A=0)</span></span>
+<span id="cb134-2"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb134-2" tabindex="-1"></a>rNIE <span class="ot">&lt;-</span> (scenarios<span class="sc">$</span>theta[scenarios<span class="sc">$</span>a_prime <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> scenarios<span class="sc">$</span>a_star <span class="sc">==</span> <span class="dv">1</span>] <span class="sc">-</span> </span>
+<span id="cb134-3"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb134-3" tabindex="-1"></a>           scenarios<span class="sc">$</span>theta[scenarios<span class="sc">$</span>a_prime <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> scenarios<span class="sc">$</span>a_star <span class="sc">==</span> <span class="dv">0</span>])</span>
+<span id="cb134-4"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb134-4" tabindex="-1"></a>rNIE</span></code></pre></div>
+<pre><code>## [1] 0.04941265</code></pre>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb136-1" tabindex="-1"></a><span class="do">## The total effect rTE = EY(A=1,G_A=1) - EY(A=0,G_A=0)</span></span>
+<span id="cb136-2"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb136-2" tabindex="-1"></a>rTE <span class="ot">&lt;-</span> (scenarios<span class="sc">$</span>theta[scenarios<span class="sc">$</span>a_prime <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> scenarios<span class="sc">$</span>a_star <span class="sc">==</span> <span class="dv">1</span>] <span class="sc">-</span> </span>
+<span id="cb136-3"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb136-3" tabindex="-1"></a>           scenarios<span class="sc">$</span>theta[scenarios<span class="sc">$</span>a_prime <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> scenarios<span class="sc">$</span>a_star <span class="sc">==</span> <span class="dv">0</span>])</span>
+<span id="cb136-4"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb136-4" tabindex="-1"></a>rTE</span></code></pre></div>
+<pre><code>## [1] 0.1864809</code></pre>
+</div>
+<div id="packages-to-get-double-robust-estimations" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Packages to get double robust estimations<a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#packages-to-get-double-robust-estimations" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The <code>medoutcon</code> <a href="https://github.com/nhejazi/medoutcon">package</a> <span class="citation">(<a href="#ref-Hejazi2022">Hejazi, Rudolph, and Díaz 2022</a>)</span>,<span class="citation">(<a href="#ref-Diaz2020">I. Díaz et al. 2020</a>)</span> enables the estimation of Randomized/Interventional Direct and Indirect Effects (analogues of the Natural direct and indirect effects) by one-step estimation or TMLE. In this package, the one-step estimator relies on “cross-fitting” and the TMLE relies on cross-validation.</p>
+<p>More practical details can be found in the <a href="https://codex.nimahejazi.org/ser2024_mediation_workshop/">Materials for the workshop “Modern Causal Mediation Analysis” at the 2024 Society for Epidemiologic Research (SER) annual meeting in Austin, TX</a> and the <a href="https://codex.nimahejazi.org/ser2025_mediation_workshop/">Materials for the workshop “Modern Causal Mediation Analysis” at the 2025 Society for Epidemiologic Research (SER) annual meeting in Boston, MA</a>.</p>
+<p>This package is associated with the <code>tlverse</code> <a href="https://tlverse.org/tlverse-handbook/">ecosystem</a> which has been developed for applying Targeted Learning methodology in practice. To use the <code>medoutcon</code> package, we will need:</p>
+<ul>
+<li>the <code>sl3</code> <a href="https://github.com/tlverse/sl3">package</a> (to implement SuperLearning)</li>
+<li>and the Highly-adaptive lasso <code>hal9001</code> <a href="https://cran.r-project.org/web/packages/hal9001/index.html">package</a> to estimate some functions of interest.</li>
+</ul>
+<p>Note that the <code>medoutcon</code> package can deal with multiple mediators, but only a single binary intermediate confounder <span class="math inline">\(L(1)\)</span>. Other alternative packages have been developed (but usually still at a development stage):</p>
+<ul>
+<li>For causal structures with a low-dimensional mediator (1 binary or categorical variable) and high-dimensional intermediate confounding (with several variables, possibly continuous), the <code>lcm</code> <a href="https://github.com/nt-williams/lcm">package</a> can be used. This package was mainly developed to deal with longitudinal causal mediation (lcm), with repeated waves of “exposure -&gt; intermediate confounder -&gt; mediator” structures.</li>
+<li>For causal structures with multiple mediators and multiple intermediate confounders, the <code>HDmediation</code> <a href="https://github.com/nt-williams/HDmediation">package</a> could be used instead.</li>
+</ul>
+<p>Below, we apply the one-step estimator to our data with 1 intermediate confounders affected by the exposure. Using the HAL algorithm will deal with possible exposure-interaction terms.</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb138-1" tabindex="-1"></a><span class="co"># remotes::install_github(&quot;nhejazi/medoutcon&quot;)</span></span>
+<span id="cb138-2"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb138-2" tabindex="-1"></a><span class="co"># remotes::install_github(&quot;nhejazi/medoutcon&quot;, INSTALL_opts=c(&quot;--no-multiarch&quot;))</span></span>
+<span id="cb138-3"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb138-3" tabindex="-1"></a><span class="co"># https://arxiv.org/pdf/1912.09936</span></span>
+<span id="cb138-4"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb138-4" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb138-5"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb138-5" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(<span class="st">&quot;data/df.csv&quot;</span>)</span>
+<span id="cb138-6"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb138-6" tabindex="-1"></a></span>
+<span id="cb138-7"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb138-7" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.1     ✔ stringr   1.5.2
+## ✔ ggplot2   4.0.0     ✔ tibble    3.3.0
+## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+## ✔ purrr     1.0.4     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ purrr::accumulate() masks foreach::accumulate()
+## ✖ dplyr::filter()     masks stats::filter()
+## ✖ dplyr::lag()        masks stats::lag()
+## ✖ dplyr::sym()        masks ggplot2::sym(), r2symbols::sym()
+## ✖ purrr::when()       masks foreach::when()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb140-1" tabindex="-1"></a><span class="fu">library</span>(sl3)</span></code></pre></div>
+<pre><code>## Registered S3 methods overwritten by &#39;lava&#39;:
+##   method           from  
+##   print.estimate   EValue
+##   summary.estimate EValue</code></pre>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb142-1" tabindex="-1"></a><span class="fu">library</span>(medoutcon)</span></code></pre></div>
+<pre><code>## medoutcon v0.2.4: Efficient Natural and Interventional Causal Mediation Analysis</code></pre>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb144-1" tabindex="-1"></a><span class="fu">library</span>(hal9001)</span>
+<span id="cb144-2"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb144-2" tabindex="-1"></a></span>
+<span id="cb144-3"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb144-3" tabindex="-1"></a><span class="do">## Because the medoutcon package can only deal with 1 intermediate numeric confounder,</span></span>
+<span id="cb144-4"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb144-4" tabindex="-1"></a><span class="do">## we will use an example where:</span></span>
+<span id="cb144-5"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb144-5" tabindex="-1"></a><span class="do">##  - the intermediate confounder is &quot;occupation&quot;</span></span>
+<span id="cb144-6"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb144-6" tabindex="-1"></a><span class="do">##  - the mediators of interest are &quot;smoking&quot; and &quot;physical activity&quot;</span></span>
+<span id="cb144-7"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb144-7" tabindex="-1"></a></span>
+<span id="cb144-8"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb144-8" tabindex="-1"></a></span>
+<span id="cb144-9"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb144-9" tabindex="-1"></a><span class="do">## 1) binary outcome </span></span>
+<span id="cb144-10"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb144-10" tabindex="-1"></a><span class="co"># ---------------------------------------------------------------------------- #</span></span>
+<span id="cb144-11"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb144-11" tabindex="-1"></a><span class="do">### Compute one-step estimate of the randomized natural direct effect</span></span>
+<span id="cb144-12"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb144-12" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb144-13"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb144-13" tabindex="-1"></a>os_de <span class="ot">&lt;-</span> <span class="fu">medoutcon</span>(<span class="at">W =</span> df[,<span class="fu">c</span>(<span class="st">&quot;sex&quot;</span>, <span class="st">&quot;low_par_edu&quot;</span>)], <span class="co"># matrix of L(0)</span></span>
+<span id="cb144-14"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb144-14" tabindex="-1"></a>                   <span class="at">A =</span> df<span class="sc">$</span>edu, <span class="co"># numeric vector of the exposure</span></span>
+<span id="cb144-15"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb144-15" tabindex="-1"></a>                   <span class="at">Z =</span> df<span class="sc">$</span>occupation, <span class="co"># numeric vector L(1) (only 1 variable)</span></span>
+<span id="cb144-16"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb144-16" tabindex="-1"></a>                   <span class="at">M =</span> df[,<span class="fu">c</span>(<span class="st">&quot;phys&quot;</span>, <span class="st">&quot;smoking&quot;</span>)], <span class="co"># numeric vector or matrix</span></span>
+<span id="cb144-17"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb144-17" tabindex="-1"></a>                   <span class="at">Y =</span> df<span class="sc">$</span>death, <span class="co"># numeric vector</span></span>
+<span id="cb144-18"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb144-18" tabindex="-1"></a>                   <span class="at">effect =</span> <span class="st">&quot;direct&quot;</span>,</span>
+<span id="cb144-19"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb144-19" tabindex="-1"></a>                   <span class="at">b_learners =</span> sl3<span class="sc">::</span>Lrnr_hal9001<span class="sc">$</span><span class="fu">new</span>(), <span class="co"># outcome regression</span></span>
+<span id="cb144-20"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb144-20" tabindex="-1"></a>                   <span class="at">estimator =</span> <span class="st">&quot;onestep&quot;</span>)</span>
+<span id="cb144-21"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb144-21" tabindex="-1"></a>os_de</span></code></pre></div>
+<pre><code>## Interventional Direct Effect
+## Estimator: onestep
+## Estimate: 0.135
+## Std. Error: 0.008
+## 95% CI: [0.119, 0.151]</code></pre>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb146-1" tabindex="-1"></a><span class="co"># The output gives a list containing:</span></span>
+<span id="cb146-2"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb146-2" tabindex="-1"></a><span class="co">#  - theta = the estimand</span></span>
+<span id="cb146-3"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb146-3" tabindex="-1"></a><span class="co">#  - var = variance of the estimand</span></span>
+<span id="cb146-4"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb146-4" tabindex="-1"></a><span class="co">#  - eif = the efficient influence curve</span></span>
+<span id="cb146-5"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb146-5" tabindex="-1"></a>os_de<span class="sc">$</span>theta</span></code></pre></div>
+<pre><code>## [1] 0.1347152</code></pre>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb148-1" tabindex="-1"></a><span class="fu">sqrt</span>(os_de<span class="sc">$</span>var)</span></code></pre></div>
+<pre><code>## [1] 0.008076797</code></pre>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb150-1" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">var</span>(os_de<span class="sc">$</span>eif) <span class="sc">/</span> <span class="fu">nrow</span>(df))</span></code></pre></div>
+<pre><code>## [1] 0.008076797</code></pre>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb152-1" tabindex="-1"></a><span class="do">### Compute one-step estimate of the randomized natural indirect effect</span></span>
+<span id="cb152-2"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb152-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb152-3"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb152-3" tabindex="-1"></a>os_ie <span class="ot">&lt;-</span> <span class="fu">medoutcon</span>(<span class="at">W =</span> df[,<span class="fu">c</span>(<span class="st">&quot;sex&quot;</span>,<span class="st">&quot;low_par_edu&quot;</span>)], <span class="co">#matrix of baseline L(0)</span></span>
+<span id="cb152-4"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb152-4" tabindex="-1"></a>                   <span class="at">A =</span> df<span class="sc">$</span>edu, <span class="co"># numeric vector of the exposure</span></span>
+<span id="cb152-5"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb152-5" tabindex="-1"></a>                   <span class="at">Z =</span> df<span class="sc">$</span>occupation, <span class="co"># numeric vector L(1) (only 1 variable)</span></span>
+<span id="cb152-6"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb152-6" tabindex="-1"></a>                   <span class="at">M =</span> df[,<span class="fu">c</span>(<span class="st">&quot;phys&quot;</span>, <span class="st">&quot;smoking&quot;</span>)], <span class="co"># numeric vector or matrix</span></span>
+<span id="cb152-7"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb152-7" tabindex="-1"></a>                   <span class="at">Y =</span> df<span class="sc">$</span>death, <span class="co"># numeric vector</span></span>
+<span id="cb152-8"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb152-8" tabindex="-1"></a>                   <span class="at">effect =</span> <span class="st">&quot;indirect&quot;</span>,</span>
+<span id="cb152-9"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb152-9" tabindex="-1"></a>                   <span class="at">b_learners =</span> sl3<span class="sc">::</span>Lrnr_hal9001<span class="sc">$</span><span class="fu">new</span>(), <span class="co"># outcome regression</span></span>
+<span id="cb152-10"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb152-10" tabindex="-1"></a>                   <span class="at">estimator =</span> <span class="st">&quot;onestep&quot;</span>)</span>
+<span id="cb152-11"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb152-11" tabindex="-1"></a>os_ie</span></code></pre></div>
+<pre><code>## Interventional Indirect Effect
+## Estimator: onestep
+## Estimate: 0.05
+## Std. Error: 0.004
+## 95% CI: [0.043, 0.057]</code></pre>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb154-1" tabindex="-1"></a><span class="do">### In order to estimate the total effect TE = EY_{A=1,M(A=1) }- EY_{A=0,M(A=0)}</span></span>
+<span id="cb154-2"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb154-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb154-3"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb154-3" tabindex="-1"></a>EY_1M1 <span class="ot">&lt;-</span> <span class="fu">medoutcon</span>(<span class="at">W =</span> df[,<span class="fu">c</span>(<span class="st">&quot;sex&quot;</span>,<span class="st">&quot;low_par_edu&quot;</span>)], <span class="co">#matrix of baseline L(0)</span></span>
+<span id="cb154-4"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb154-4" tabindex="-1"></a>                    <span class="at">A =</span> df<span class="sc">$</span>edu, <span class="co"># numeric vector of the exposure</span></span>
+<span id="cb154-5"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb154-5" tabindex="-1"></a>                    <span class="at">Z =</span> df<span class="sc">$</span>occupation, <span class="co"># numeric vector L(1) (only 1 variable)</span></span>
+<span id="cb154-6"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb154-6" tabindex="-1"></a>                    <span class="at">M =</span> df[,<span class="fu">c</span>(<span class="st">&quot;phys&quot;</span>, <span class="st">&quot;smoking&quot;</span>)], <span class="co"># numeric vector or matrix</span></span>
+<span id="cb154-7"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb154-7" tabindex="-1"></a>                    <span class="at">Y =</span> df<span class="sc">$</span>death, <span class="co"># numeric vector</span></span>
+<span id="cb154-8"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb154-8" tabindex="-1"></a>                    <span class="at">contrast =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),</span>
+<span id="cb154-9"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb154-9" tabindex="-1"></a>                    <span class="at">b_learners =</span> sl3<span class="sc">::</span>Lrnr_hal9001<span class="sc">$</span><span class="fu">new</span>(), <span class="co"># outcome regression</span></span>
+<span id="cb154-10"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb154-10" tabindex="-1"></a>                    <span class="at">estimator =</span> <span class="st">&quot;onestep&quot;</span>)</span>
+<span id="cb154-11"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb154-11" tabindex="-1"></a>EY_1M1</span></code></pre></div>
+<pre><code>## Counterfactual TSM
+## Contrast: A = 1, M(A = 1)
+## Estimator: onestep
+## Estimate: 0.328
+## Std. Error: 0.006
+## 95% CI: [0.316, 0.34]</code></pre>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb156-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb156-2"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb156-2" tabindex="-1"></a>EY_0M0 <span class="ot">&lt;-</span> <span class="fu">medoutcon</span>(<span class="at">W =</span> df[,<span class="fu">c</span>(<span class="st">&quot;sex&quot;</span>,<span class="st">&quot;low_par_edu&quot;</span>)], <span class="co">#matrix of baseline L(0)</span></span>
+<span id="cb156-3"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb156-3" tabindex="-1"></a>                    <span class="at">A =</span> df<span class="sc">$</span>edu, <span class="co"># numeric vector of the exposure</span></span>
+<span id="cb156-4"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb156-4" tabindex="-1"></a>                    <span class="at">Z =</span> df<span class="sc">$</span>occupation, <span class="co"># numeric vector L(1) (only 1 variable)</span></span>
+<span id="cb156-5"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb156-5" tabindex="-1"></a>                    <span class="at">M =</span> df[,<span class="fu">c</span>(<span class="st">&quot;phys&quot;</span>, <span class="st">&quot;smoking&quot;</span>)], <span class="co"># numeric vector or matrix</span></span>
+<span id="cb156-6"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb156-6" tabindex="-1"></a>                    <span class="at">Y =</span> df<span class="sc">$</span>death, <span class="co"># numeric vector</span></span>
+<span id="cb156-7"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb156-7" tabindex="-1"></a>                    <span class="at">contrast =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb156-8"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb156-8" tabindex="-1"></a>                    <span class="at">b_learners =</span> sl3<span class="sc">::</span>Lrnr_hal9001<span class="sc">$</span><span class="fu">new</span>(), <span class="co"># outcome regression</span></span>
+<span id="cb156-9"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb156-9" tabindex="-1"></a>                    <span class="at">estimator =</span> <span class="st">&quot;onestep&quot;</span>)</span>
+<span id="cb156-10"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb156-10" tabindex="-1"></a>EY_0M0</span></code></pre></div>
+<pre><code>## Counterfactual TSM
+## Contrast: A = 0, M(A = 0)
+## Estimator: onestep
+## Estimate: 0.143
+## Std. Error: 0.006
+## 95% CI: [0.132, 0.154]</code></pre>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb158-1" tabindex="-1"></a><span class="do">## The total effect (global effect can be calculated by:</span></span>
+<span id="cb158-2"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb158-2" tabindex="-1"></a>rTE <span class="ot">&lt;-</span> EY_1M1<span class="sc">$</span>theta <span class="sc">-</span> EY_0M0<span class="sc">$</span>theta</span>
+<span id="cb158-3"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb158-3" tabindex="-1"></a>rTE</span></code></pre></div>
+<pre><code>## [1] 0.1849101</code></pre>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb160-1" tabindex="-1"></a><span class="do">## se</span></span>
+<span id="cb160-2"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb160-2" tabindex="-1"></a>se_rTE <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">var</span>(EY_1M1<span class="sc">$</span>eif <span class="sc">-</span> EY_0M0<span class="sc">$</span>eif) <span class="sc">/</span> <span class="fu">nrow</span>(df))</span>
+<span id="cb160-3"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb160-3" tabindex="-1"></a>se_rTE</span></code></pre></div>
+<pre><code>## [1] 0.008343679</code></pre>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb162-1" tabindex="-1"></a><span class="do">## 95%CI</span></span>
+<span id="cb162-2"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb162-2" tabindex="-1"></a><span class="fu">c</span>(rTE <span class="sc">-</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> se_rTE,</span>
+<span id="cb162-3"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#cb162-3" tabindex="-1"></a>  rTE <span class="sc">+</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> se_rTE)</span></code></pre></div>
+<pre><code>## [1] 0.1685568 0.2012634</code></pre>
+<p>Beware, in simulations, the TMLE estimator of the <code>medoutcon</code> function seemed to be biased compared to the one-step estimator.</p>
+<p>In 2025, there are some packages same can enable us to get double robust estimation of randomized direct and indirect effects. However, most of them are still in development so it might be a better to test them on simulations before implementing them in real data analyses.</p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-Diaz2020" class="csl-entry">
+Díaz, I, N S Hejazi, K E Rudolph, and M J van Der Laan. 2020. <span>“<span class="nocase">Nonparametric efficient causal mediation with intermediate confounders</span>.”</span> <em>Biometrika</em> 108 (3): 627–41. <a href="https://doi.org/10.1093/biomet/asaa085">https://doi.org/10.1093/biomet/asaa085</a>.
+</div>
+<div id="ref-Diaz2023" class="csl-entry">
+Díaz, Iván, Nicholas Williams, and Kara E Rudolph. 2023. <span>“<span class="nocase">Efficient and flexible mediation analysis with time-varying mediators, treatments, and confounders</span>.”</span> <em>Journal of Causal Inference</em> 11 (1): 20220077. <a href="https://doi.org/10.1515/jci-2022-0077">https://doi.org/10.1515/jci-2022-0077</a>.
+</div>
+<div id="ref-Hejazi2022" class="csl-entry">
+Hejazi, Nima S., Kara E. Rudolph, and Iván Díaz. 2022. <span>“‘Medoutcon‘: Nonparametric Efficient Causal Mediation Analysis with Machine Learning in ‘r‘.”</span> <em>Journal of Open Source Software</em> 7 (69): 3979. <a href="https://doi.org/10.21105/joss.03979">https://doi.org/10.21105/joss.03979</a>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="estimate-the-cde-using-the-ltmle-package.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ltmle-package-with-interval-censored-survival-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": false,
+    "twitter": false,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/benoitlepage/Inserm_workshop_282/05-RNDE_RNIE_by_tmle.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["_main.pdf"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

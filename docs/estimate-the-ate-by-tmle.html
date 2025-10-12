@@ -23,7 +23,7 @@
 <meta name="author" content="Benoît Lepage" />
 
 
-<meta name="date" content="2025-10-09" />
+<meta name="date" content="2025-10-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -205,7 +205,18 @@ div.csl-indent {
 <li class="chapter" data-level="5.3.2" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#for-continuous-outcomes"><i class="fa fa-check"></i><b>5.3.2</b> For continuous outcomes</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="estimate-rnde-and-rnie-by-tmle.html"><a href="estimate-rnde-and-rnie-by-tmle.html"><i class="fa fa-check"></i><b>6</b> Estimate rNDE and rNIE by TMLE</a></li>
+<li class="chapter" data-level="6" data-path="estimate-rnde-and-rnie-by-double-robust-estimators.html"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html"><i class="fa fa-check"></i><b>6</b> Estimate rNDE and rNIE by double robust estimators</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="estimate-rnde-and-rnie-by-double-robust-estimators.html"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#g-computation-algorithm-to-compute-randomized-natural-direct-and-indirect-effects"><i class="fa fa-check"></i><b>6.1</b> G-computation algorithm to compute randomized Natural Direct and Indirect effects</a></li>
+<li class="chapter" data-level="6.2" data-path="estimate-rnde-and-rnie-by-double-robust-estimators.html"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#packages-to-get-double-robust-estimations"><i class="fa fa-check"></i><b>6.2</b> Packages to get double robust estimations</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ltmle-package-with-interval-censored-survival-data.html"><a href="ltmle-package-with-interval-censored-survival-data.html"><i class="fa fa-check"></i><b>7</b> <code>ltmle</code> package with interval censored survival data</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="ltmle-package-with-interval-censored-survival-data.html"><a href="ltmle-package-with-interval-censored-survival-data.html#setting"><i class="fa fa-check"></i><b>7.1</b> Setting</a></li>
+<li class="chapter" data-level="7.2" data-path="ltmle-package-with-interval-censored-survival-data.html"><a href="ltmle-package-with-interval-censored-survival-data.html#data-generating-function"><i class="fa fa-check"></i><b>7.2</b> Data generating function</a></li>
+<li class="chapter" data-level="7.3" data-path="ltmle-package-with-interval-censored-survival-data.html"><a href="ltmle-package-with-interval-censored-survival-data.html#inspect-the-data-generated"><i class="fa fa-check"></i><b>7.3</b> Inspect the data generated</a></li>
+<li class="chapter" data-level="7.4" data-path="ltmle-package-with-interval-censored-survival-data.html"><a href="ltmle-package-with-interval-censored-survival-data.html#estimate-the-controlled-direct-effect"><i class="fa fa-check"></i><b>7.4</b> Estimate the controlled direct effect</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -265,334 +276,511 @@ D^*(Q_0,g_0) = \frac{I(A=1)}{g_0(A=1 \mid L(0))}(Y - \bar{Q}_0(A,L(O))) + \bar{Q
 <span class="math display">\[\begin{equation*}
 \text{var} \hat{\Psi}(A=1)_\text{TMLE} = \frac{\text{var} \hat{D}^*}{n}
 \end{equation*}\]</span></p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="estimate-the-ate-by-tmle.html#cb46-1" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
-<span id="cb46-2"><a href="estimate-the-ate-by-tmle.html#cb46-2" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(<span class="st">&quot;data/df.csv&quot;</span>)</span>
-<span id="cb46-3"><a href="estimate-the-ate-by-tmle.html#cb46-3" tabindex="-1"></a></span>
-<span id="cb46-4"><a href="estimate-the-ate-by-tmle.html#cb46-4" tabindex="-1"></a><span class="do">## 1) Estimate Qbar and predict Qbar when the exposure (&quot;education&quot;) is set to 1</span></span>
-<span id="cb46-5"><a href="estimate-the-ate-by-tmle.html#cb46-5" tabindex="-1"></a>Q_fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(death <span class="sc">~</span> edu <span class="sc">+</span> sex <span class="sc">+</span> low_par_edu,</span>
-<span id="cb46-6"><a href="estimate-the-ate-by-tmle.html#cb46-6" tabindex="-1"></a>             <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> df)</span>
-<span id="cb46-7"><a href="estimate-the-ate-by-tmle.html#cb46-7" tabindex="-1"></a>data_A1 <span class="ot">&lt;-</span> df</span>
-<span id="cb46-8"><a href="estimate-the-ate-by-tmle.html#cb46-8" tabindex="-1"></a>data_A1<span class="sc">$</span>edu <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb46-9"><a href="estimate-the-ate-by-tmle.html#cb46-9" tabindex="-1"></a></span>
-<span id="cb46-10"><a href="estimate-the-ate-by-tmle.html#cb46-10" tabindex="-1"></a><span class="co"># predict the Qvar function when setting the exposure to A=1, on the logit scale</span></span>
-<span id="cb46-11"><a href="estimate-the-ate-by-tmle.html#cb46-11" tabindex="-1"></a>logitQ <span class="ot">&lt;-</span> <span class="fu">predict</span>(Q_fit, <span class="at">newdata =</span> data_A1, <span class="at">type =</span> <span class="st">&quot;link&quot;</span>)</span>
-<span id="cb46-12"><a href="estimate-the-ate-by-tmle.html#cb46-12" tabindex="-1"></a></span>
-<span id="cb46-13"><a href="estimate-the-ate-by-tmle.html#cb46-13" tabindex="-1"></a><span class="do">## 2) Estimate the treatment mechanism</span></span>
-<span id="cb46-14"><a href="estimate-the-ate-by-tmle.html#cb46-14" tabindex="-1"></a>g_L <span class="ot">&lt;-</span> <span class="fu">glm</span>(edu <span class="sc">~</span> sex <span class="sc">+</span> low_par_edu,</span>
-<span id="cb46-15"><a href="estimate-the-ate-by-tmle.html#cb46-15" tabindex="-1"></a>           <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> df)</span>
-<span id="cb46-16"><a href="estimate-the-ate-by-tmle.html#cb46-16" tabindex="-1"></a><span class="co"># predict the probabilities g(A=1 | L(0)) = P(A0_PM2.5=1|L(0))</span></span>
-<span id="cb46-17"><a href="estimate-the-ate-by-tmle.html#cb46-17" tabindex="-1"></a>g1_L <span class="ot">&lt;-</span> <span class="fu">predict</span>(g_L, <span class="at">type=</span><span class="st">&quot;response&quot;</span>)</span>
-<span id="cb46-18"><a href="estimate-the-ate-by-tmle.html#cb46-18" tabindex="-1"></a></span>
-<span id="cb46-19"><a href="estimate-the-ate-by-tmle.html#cb46-19" tabindex="-1"></a><span class="fu">head</span>(g1_L)</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="estimate-the-ate-by-tmle.html#cb49-1" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb49-2"><a href="estimate-the-ate-by-tmle.html#cb49-2" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(<span class="st">&quot;data/df.csv&quot;</span>)</span>
+<span id="cb49-3"><a href="estimate-the-ate-by-tmle.html#cb49-3" tabindex="-1"></a></span>
+<span id="cb49-4"><a href="estimate-the-ate-by-tmle.html#cb49-4" tabindex="-1"></a><span class="do">## 1) Estimate Qbar and predict Qbar when the exposure (&quot;education&quot;) is set to 1</span></span>
+<span id="cb49-5"><a href="estimate-the-ate-by-tmle.html#cb49-5" tabindex="-1"></a>Q_fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(death <span class="sc">~</span> edu <span class="sc">+</span> sex <span class="sc">+</span> low_par_edu,</span>
+<span id="cb49-6"><a href="estimate-the-ate-by-tmle.html#cb49-6" tabindex="-1"></a>             <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> df)</span>
+<span id="cb49-7"><a href="estimate-the-ate-by-tmle.html#cb49-7" tabindex="-1"></a>data_A1 <span class="ot">&lt;-</span> df</span>
+<span id="cb49-8"><a href="estimate-the-ate-by-tmle.html#cb49-8" tabindex="-1"></a>data_A1<span class="sc">$</span>edu <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb49-9"><a href="estimate-the-ate-by-tmle.html#cb49-9" tabindex="-1"></a></span>
+<span id="cb49-10"><a href="estimate-the-ate-by-tmle.html#cb49-10" tabindex="-1"></a><span class="co"># predict the Qvar function when setting the exposure to A=1, on the logit scale</span></span>
+<span id="cb49-11"><a href="estimate-the-ate-by-tmle.html#cb49-11" tabindex="-1"></a>logitQ <span class="ot">&lt;-</span> <span class="fu">predict</span>(Q_fit, <span class="at">newdata =</span> data_A1, <span class="at">type =</span> <span class="st">&quot;link&quot;</span>)</span>
+<span id="cb49-12"><a href="estimate-the-ate-by-tmle.html#cb49-12" tabindex="-1"></a></span>
+<span id="cb49-13"><a href="estimate-the-ate-by-tmle.html#cb49-13" tabindex="-1"></a><span class="do">## 2) Estimate the treatment mechanism</span></span>
+<span id="cb49-14"><a href="estimate-the-ate-by-tmle.html#cb49-14" tabindex="-1"></a>g_L <span class="ot">&lt;-</span> <span class="fu">glm</span>(edu <span class="sc">~</span> sex <span class="sc">+</span> low_par_edu,</span>
+<span id="cb49-15"><a href="estimate-the-ate-by-tmle.html#cb49-15" tabindex="-1"></a>           <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, <span class="at">data =</span> df)</span>
+<span id="cb49-16"><a href="estimate-the-ate-by-tmle.html#cb49-16" tabindex="-1"></a><span class="co"># predict the probabilities g(A=1 | L(0)) = P(A0_PM2.5=1|L(0))</span></span>
+<span id="cb49-17"><a href="estimate-the-ate-by-tmle.html#cb49-17" tabindex="-1"></a>g1_L <span class="ot">&lt;-</span> <span class="fu">predict</span>(g_L, <span class="at">type=</span><span class="st">&quot;response&quot;</span>)</span>
+<span id="cb49-18"><a href="estimate-the-ate-by-tmle.html#cb49-18" tabindex="-1"></a></span>
+<span id="cb49-19"><a href="estimate-the-ate-by-tmle.html#cb49-19" tabindex="-1"></a><span class="fu">head</span>(g1_L)</span></code></pre></div>
 <pre><code>##         1         2         3         4         5         6 
 ## 0.6608369 0.6071248 0.6071248 0.4495011 0.6071248 0.6071248</code></pre>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="estimate-the-ate-by-tmle.html#cb48-1" tabindex="-1"></a><span class="co"># It is useful to check the distribution of gA_L, as values close to 0 or 1 are </span></span>
-<span id="cb48-2"><a href="estimate-the-ate-by-tmle.html#cb48-2" tabindex="-1"></a><span class="co"># indicators of near positivity violation and can result in large variance for the </span></span>
-<span id="cb48-3"><a href="estimate-the-ate-by-tmle.html#cb48-3" tabindex="-1"></a><span class="co"># estimation. </span></span>
-<span id="cb48-4"><a href="estimate-the-ate-by-tmle.html#cb48-4" tabindex="-1"></a><span class="co"># In case of near positivity violation, gA_L values can be truncated to decrease</span></span>
-<span id="cb48-5"><a href="estimate-the-ate-by-tmle.html#cb48-5" tabindex="-1"></a><span class="co"># the variance (at the cost a increased bias).</span></span>
-<span id="cb48-6"><a href="estimate-the-ate-by-tmle.html#cb48-6" tabindex="-1"></a><span class="fu">summary</span>(g1_L)</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="estimate-the-ate-by-tmle.html#cb51-1" tabindex="-1"></a><span class="co"># It is useful to check the distribution of gA_L, as values close to 0 or 1 are </span></span>
+<span id="cb51-2"><a href="estimate-the-ate-by-tmle.html#cb51-2" tabindex="-1"></a><span class="co"># indicators of near positivity violation and can result in large variance for the </span></span>
+<span id="cb51-3"><a href="estimate-the-ate-by-tmle.html#cb51-3" tabindex="-1"></a><span class="co"># estimation. </span></span>
+<span id="cb51-4"><a href="estimate-the-ate-by-tmle.html#cb51-4" tabindex="-1"></a><span class="co"># In case of near positivity violation, gA_L values can be truncated to decrease</span></span>
+<span id="cb51-5"><a href="estimate-the-ate-by-tmle.html#cb51-5" tabindex="-1"></a><span class="co"># the variance (at the cost a increased bias).</span></span>
+<span id="cb51-6"><a href="estimate-the-ate-by-tmle.html#cb51-6" tabindex="-1"></a><span class="fu">summary</span>(g1_L)</span></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##  0.4495  0.5073  0.6071  0.5953  0.6608  0.6608</code></pre>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="estimate-the-ate-by-tmle.html#cb50-1" tabindex="-1"></a><span class="co"># there is no positivity issues in this example.</span></span>
-<span id="cb50-2"><a href="estimate-the-ate-by-tmle.html#cb50-2" tabindex="-1"></a></span>
-<span id="cb50-3"><a href="estimate-the-ate-by-tmle.html#cb50-3" tabindex="-1"></a><span class="do">## 3) Determine a parametric family of fluctuations of Qbar. </span></span>
-<span id="cb50-4"><a href="estimate-the-ate-by-tmle.html#cb50-4" tabindex="-1"></a><span class="co"># The fluctuation model is a model of logitQbar and g(A=1|L(0)) </span></span>
-<span id="cb50-5"><a href="estimate-the-ate-by-tmle.html#cb50-5" tabindex="-1"></a></span>
-<span id="cb50-6"><a href="estimate-the-ate-by-tmle.html#cb50-6" tabindex="-1"></a><span class="co"># The clever covariate H(A,L(0)) depends on g(A=1|L(0)):</span></span>
-<span id="cb50-7"><a href="estimate-the-ate-by-tmle.html#cb50-7" tabindex="-1"></a>H <span class="ot">&lt;-</span> (df<span class="sc">$</span>edu <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">/</span> g1_L</span>
-<span id="cb50-8"><a href="estimate-the-ate-by-tmle.html#cb50-8" tabindex="-1"></a></span>
-<span id="cb50-9"><a href="estimate-the-ate-by-tmle.html#cb50-9" tabindex="-1"></a><span class="co"># Update the initial fit Qbar from step 1.</span></span>
-<span id="cb50-10"><a href="estimate-the-ate-by-tmle.html#cb50-10" tabindex="-1"></a><span class="co"># This is achieved by holding Qbar fixed (as intercept) while estimating the</span></span>
-<span id="cb50-11"><a href="estimate-the-ate-by-tmle.html#cb50-11" tabindex="-1"></a><span class="co"># coefficient epsilon for H</span></span>
-<span id="cb50-12"><a href="estimate-the-ate-by-tmle.html#cb50-12" tabindex="-1"></a></span>
-<span id="cb50-13"><a href="estimate-the-ate-by-tmle.html#cb50-13" tabindex="-1"></a><span class="co"># for example we could use the following fluctuation model (from the &quot;Targeted </span></span>
-<span id="cb50-14"><a href="estimate-the-ate-by-tmle.html#cb50-14" tabindex="-1"></a><span class="co"># Learning&quot; book)</span></span>
-<span id="cb50-15"><a href="estimate-the-ate-by-tmle.html#cb50-15" tabindex="-1"></a>update_fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(df<span class="sc">$</span>death <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">offset</span>(logitQ) <span class="sc">+</span> H,</span>
-<span id="cb50-16"><a href="estimate-the-ate-by-tmle.html#cb50-16" tabindex="-1"></a>                  <span class="at">family =</span> <span class="st">&quot;quasibinomial&quot;</span>)</span>
-<span id="cb50-17"><a href="estimate-the-ate-by-tmle.html#cb50-17" tabindex="-1"></a><span class="fu">coef</span>(update_fit)</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="estimate-the-ate-by-tmle.html#cb53-1" tabindex="-1"></a><span class="co"># there is no positivity issues in this example.</span></span>
+<span id="cb53-2"><a href="estimate-the-ate-by-tmle.html#cb53-2" tabindex="-1"></a></span>
+<span id="cb53-3"><a href="estimate-the-ate-by-tmle.html#cb53-3" tabindex="-1"></a><span class="do">## 3) Determine a parametric family of fluctuations of Qbar. </span></span>
+<span id="cb53-4"><a href="estimate-the-ate-by-tmle.html#cb53-4" tabindex="-1"></a><span class="co"># The fluctuation model is a model of logitQbar and g(A=1|L(0)) </span></span>
+<span id="cb53-5"><a href="estimate-the-ate-by-tmle.html#cb53-5" tabindex="-1"></a></span>
+<span id="cb53-6"><a href="estimate-the-ate-by-tmle.html#cb53-6" tabindex="-1"></a><span class="co"># The clever covariate H(A,L(0)) depends on g(A=1|L(0)):</span></span>
+<span id="cb53-7"><a href="estimate-the-ate-by-tmle.html#cb53-7" tabindex="-1"></a>H <span class="ot">&lt;-</span> (df<span class="sc">$</span>edu <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">/</span> g1_L</span>
+<span id="cb53-8"><a href="estimate-the-ate-by-tmle.html#cb53-8" tabindex="-1"></a></span>
+<span id="cb53-9"><a href="estimate-the-ate-by-tmle.html#cb53-9" tabindex="-1"></a><span class="co"># Update the initial fit Qbar from step 1.</span></span>
+<span id="cb53-10"><a href="estimate-the-ate-by-tmle.html#cb53-10" tabindex="-1"></a><span class="co"># This is achieved by holding Qbar fixed (as intercept) while estimating the</span></span>
+<span id="cb53-11"><a href="estimate-the-ate-by-tmle.html#cb53-11" tabindex="-1"></a><span class="co"># coefficient epsilon for H</span></span>
+<span id="cb53-12"><a href="estimate-the-ate-by-tmle.html#cb53-12" tabindex="-1"></a></span>
+<span id="cb53-13"><a href="estimate-the-ate-by-tmle.html#cb53-13" tabindex="-1"></a><span class="co"># for example we could use the following fluctuation model (from the &quot;Targeted </span></span>
+<span id="cb53-14"><a href="estimate-the-ate-by-tmle.html#cb53-14" tabindex="-1"></a><span class="co"># Learning&quot; book)</span></span>
+<span id="cb53-15"><a href="estimate-the-ate-by-tmle.html#cb53-15" tabindex="-1"></a>update_fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(df<span class="sc">$</span>death <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> <span class="fu">offset</span>(logitQ) <span class="sc">+</span> H,</span>
+<span id="cb53-16"><a href="estimate-the-ate-by-tmle.html#cb53-16" tabindex="-1"></a>                  <span class="at">family =</span> <span class="st">&quot;quasibinomial&quot;</span>)</span>
+<span id="cb53-17"><a href="estimate-the-ate-by-tmle.html#cb53-17" tabindex="-1"></a><span class="fu">coef</span>(update_fit)</span></code></pre></div>
 <pre><code>##             H 
 ## -1.658129e-05</code></pre>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="estimate-the-ate-by-tmle.html#cb52-1" tabindex="-1"></a>Qstar <span class="ot">&lt;-</span> <span class="fu">predict</span>(update_fit, <span class="at">data =</span> <span class="fu">data.frame</span>(logitQ, H), <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb52-2"><a href="estimate-the-ate-by-tmle.html#cb52-2" tabindex="-1"></a></span>
-<span id="cb52-3"><a href="estimate-the-ate-by-tmle.html#cb52-3" tabindex="-1"></a><span class="co"># In the ltmle package, the fluctuation parametric model is slightly different</span></span>
-<span id="cb52-4"><a href="estimate-the-ate-by-tmle.html#cb52-4" tabindex="-1"></a><span class="co"># (but with the same purpose). The &quot;clever covariate&quot; H is scaled and used as a </span></span>
-<span id="cb52-5"><a href="estimate-the-ate-by-tmle.html#cb52-5" tabindex="-1"></a><span class="co"># weight in the parametric quasi-logistic regression</span></span>
-<span id="cb52-6"><a href="estimate-the-ate-by-tmle.html#cb52-6" tabindex="-1"></a>S1 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">nrow</span>(df))</span>
-<span id="cb52-7"><a href="estimate-the-ate-by-tmle.html#cb52-7" tabindex="-1"></a>update_fit_ltmle <span class="ot">&lt;-</span> <span class="fu">glm</span>(df<span class="sc">$</span>death <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> S1 <span class="sc">+</span> <span class="fu">offset</span>(logitQ),</span>
-<span id="cb52-8"><a href="estimate-the-ate-by-tmle.html#cb52-8" tabindex="-1"></a>                        <span class="at">family =</span> <span class="st">&quot;quasibinomial&quot;</span>,</span>
-<span id="cb52-9"><a href="estimate-the-ate-by-tmle.html#cb52-9" tabindex="-1"></a>                        <span class="at">weights =</span> <span class="fu">scale</span>(H, <span class="at">center =</span> <span class="cn">FALSE</span>))</span>
-<span id="cb52-10"><a href="estimate-the-ate-by-tmle.html#cb52-10" tabindex="-1"></a><span class="fu">coef</span>(update_fit_ltmle)</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="estimate-the-ate-by-tmle.html#cb55-1" tabindex="-1"></a>Qstar <span class="ot">&lt;-</span> <span class="fu">predict</span>(update_fit, <span class="at">data =</span> <span class="fu">data.frame</span>(logitQ, H), <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb55-2"><a href="estimate-the-ate-by-tmle.html#cb55-2" tabindex="-1"></a></span>
+<span id="cb55-3"><a href="estimate-the-ate-by-tmle.html#cb55-3" tabindex="-1"></a><span class="co"># In the ltmle package, the fluctuation parametric model is slightly different</span></span>
+<span id="cb55-4"><a href="estimate-the-ate-by-tmle.html#cb55-4" tabindex="-1"></a><span class="co"># (but with the same purpose). The &quot;clever covariate&quot; H is scaled and used as a </span></span>
+<span id="cb55-5"><a href="estimate-the-ate-by-tmle.html#cb55-5" tabindex="-1"></a><span class="co"># weight in the parametric quasi-logistic regression</span></span>
+<span id="cb55-6"><a href="estimate-the-ate-by-tmle.html#cb55-6" tabindex="-1"></a>S1 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">nrow</span>(df))</span>
+<span id="cb55-7"><a href="estimate-the-ate-by-tmle.html#cb55-7" tabindex="-1"></a>update_fit_ltmle <span class="ot">&lt;-</span> <span class="fu">glm</span>(df<span class="sc">$</span>death <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> S1 <span class="sc">+</span> <span class="fu">offset</span>(logitQ),</span>
+<span id="cb55-8"><a href="estimate-the-ate-by-tmle.html#cb55-8" tabindex="-1"></a>                        <span class="at">family =</span> <span class="st">&quot;quasibinomial&quot;</span>,</span>
+<span id="cb55-9"><a href="estimate-the-ate-by-tmle.html#cb55-9" tabindex="-1"></a>                        <span class="at">weights =</span> <span class="fu">scale</span>(H, <span class="at">center =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb55-10"><a href="estimate-the-ate-by-tmle.html#cb55-10" tabindex="-1"></a><span class="fu">coef</span>(update_fit_ltmle)</span></code></pre></div>
 <pre><code>##           S1 
 ## -2.80861e-05</code></pre>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="estimate-the-ate-by-tmle.html#cb54-1" tabindex="-1"></a><span class="do">## 4) Update the initial estimate of Qbar using the fluctuation parametric model</span></span>
-<span id="cb54-2"><a href="estimate-the-ate-by-tmle.html#cb54-2" tabindex="-1"></a>Qstar_ltmle <span class="ot">&lt;-</span> <span class="fu">predict</span>(update_fit_ltmle, </span>
-<span id="cb54-3"><a href="estimate-the-ate-by-tmle.html#cb54-3" tabindex="-1"></a>                       <span class="at">data =</span> <span class="fu">data.frame</span>(logitQ, H), </span>
-<span id="cb54-4"><a href="estimate-the-ate-by-tmle.html#cb54-4" tabindex="-1"></a>                       <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb54-5"><a href="estimate-the-ate-by-tmle.html#cb54-5" tabindex="-1"></a><span class="fu">head</span>(Qstar_ltmle)</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="estimate-the-ate-by-tmle.html#cb57-1" tabindex="-1"></a><span class="do">## 4) Update the initial estimate of Qbar using the fluctuation parametric model</span></span>
+<span id="cb57-2"><a href="estimate-the-ate-by-tmle.html#cb57-2" tabindex="-1"></a>Qstar_ltmle <span class="ot">&lt;-</span> <span class="fu">predict</span>(update_fit_ltmle, </span>
+<span id="cb57-3"><a href="estimate-the-ate-by-tmle.html#cb57-3" tabindex="-1"></a>                       <span class="at">data =</span> <span class="fu">data.frame</span>(logitQ, H), </span>
+<span id="cb57-4"><a href="estimate-the-ate-by-tmle.html#cb57-4" tabindex="-1"></a>                       <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb57-5"><a href="estimate-the-ate-by-tmle.html#cb57-5" tabindex="-1"></a><span class="fu">head</span>(Qstar_ltmle)</span></code></pre></div>
 <pre><code>##         1         2         3         4         5         6 
 ## 0.3073922 0.4243074 0.4243074 0.3015693 0.4243074 0.4243074</code></pre>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="estimate-the-ate-by-tmle.html#cb56-1" tabindex="-1"></a><span class="co">#         1         2         3         4         5         6 </span></span>
-<span id="cb56-2"><a href="estimate-the-ate-by-tmle.html#cb56-2" tabindex="-1"></a><span class="co"># 0.2872412 0.3441344 0.3441344 0.2591356 0.3441344 0.3441344</span></span>
-<span id="cb56-3"><a href="estimate-the-ate-by-tmle.html#cb56-3" tabindex="-1"></a></span>
-<span id="cb56-4"><a href="estimate-the-ate-by-tmle.html#cb56-4" tabindex="-1"></a><span class="do">## 5) Obtain the substition estimator of Psi_Ais1</span></span>
-<span id="cb56-5"><a href="estimate-the-ate-by-tmle.html#cb56-5" tabindex="-1"></a>Psi_Ais1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(Qstar_ltmle)</span>
-<span id="cb56-6"><a href="estimate-the-ate-by-tmle.html#cb56-6" tabindex="-1"></a>Psi_Ais1</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="estimate-the-ate-by-tmle.html#cb59-1" tabindex="-1"></a><span class="co">#         1         2         3         4         5         6 </span></span>
+<span id="cb59-2"><a href="estimate-the-ate-by-tmle.html#cb59-2" tabindex="-1"></a><span class="co"># 0.2872412 0.3441344 0.3441344 0.2591356 0.3441344 0.3441344</span></span>
+<span id="cb59-3"><a href="estimate-the-ate-by-tmle.html#cb59-3" tabindex="-1"></a></span>
+<span id="cb59-4"><a href="estimate-the-ate-by-tmle.html#cb59-4" tabindex="-1"></a><span class="do">## 5) Obtain the substition estimator of Psi_Ais1</span></span>
+<span id="cb59-5"><a href="estimate-the-ate-by-tmle.html#cb59-5" tabindex="-1"></a>Psi_Ais1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(Qstar_ltmle)</span>
+<span id="cb59-6"><a href="estimate-the-ate-by-tmle.html#cb59-6" tabindex="-1"></a>Psi_Ais1</span></code></pre></div>
 <pre><code>## [1] 0.3306626</code></pre>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="estimate-the-ate-by-tmle.html#cb58-1" tabindex="-1"></a><span class="do">## 5) Calculate standard errors based on the influence curve of the TMLE</span></span>
-<span id="cb58-2"><a href="estimate-the-ate-by-tmle.html#cb58-2" tabindex="-1"></a>IC <span class="ot">&lt;-</span> H <span class="sc">*</span> (df<span class="sc">$</span>death <span class="sc">-</span> Qstar_ltmle) <span class="sc">+</span> Qstar_ltmle <span class="sc">-</span> Psi_Ais1</span>
-<span id="cb58-3"><a href="estimate-the-ate-by-tmle.html#cb58-3" tabindex="-1"></a><span class="fu">head</span>(IC)</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="estimate-the-ate-by-tmle.html#cb61-1" tabindex="-1"></a><span class="do">## 5) Calculate standard errors based on the influence curve of the TMLE</span></span>
+<span id="cb61-2"><a href="estimate-the-ate-by-tmle.html#cb61-2" tabindex="-1"></a>IC <span class="ot">&lt;-</span> H <span class="sc">*</span> (df<span class="sc">$</span>death <span class="sc">-</span> Qstar_ltmle) <span class="sc">+</span> Qstar_ltmle <span class="sc">-</span> Psi_Ais1</span>
+<span id="cb61-3"><a href="estimate-the-ate-by-tmle.html#cb61-3" tabindex="-1"></a><span class="fu">head</span>(IC)</span></code></pre></div>
 <pre><code>##           1           2           3           4           5           6 
 ## -0.48842639  0.09364473  0.09364473  1.52469745  0.09364473  1.04187255</code></pre>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="estimate-the-ate-by-tmle.html#cb60-1" tabindex="-1"></a><span class="co"># the influence curve has a mean of 0</span></span>
-<span id="cb60-2"><a href="estimate-the-ate-by-tmle.html#cb60-2" tabindex="-1"></a><span class="fu">summary</span>(IC)</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="estimate-the-ate-by-tmle.html#cb63-1" tabindex="-1"></a><span class="co"># the influence curve has a mean of 0</span></span>
+<span id="cb63-2"><a href="estimate-the-ate-by-tmle.html#cb63-2" tabindex="-1"></a><span class="fu">summary</span>(IC)</span></code></pre></div>
 <pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
 ## -0.69999 -0.48843 -0.02909  0.00000  0.09364  1.52470</code></pre>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="estimate-the-ate-by-tmle.html#cb62-1" tabindex="-1"></a><span class="co"># The standard error of the target parameter Psi(A=1) can be estimated by :</span></span>
-<span id="cb62-2"><a href="estimate-the-ate-by-tmle.html#cb62-2" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">var</span>(IC)<span class="sc">/</span><span class="fu">nrow</span>(df))</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="estimate-the-ate-by-tmle.html#cb65-1" tabindex="-1"></a><span class="co"># The standard error of the target parameter Psi(A=1) can be estimated by :</span></span>
+<span id="cb65-2"><a href="estimate-the-ate-by-tmle.html#cb65-2" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">var</span>(IC)<span class="sc">/</span><span class="fu">nrow</span>(df))</span></code></pre></div>
 <pre><code>## [1] 0.006090826</code></pre>
 <p>We can see that we can get the same output using the <code>ltmle</code> package (cf. <code>?ltmle</code> to see how the function works):</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="estimate-the-ate-by-tmle.html#cb64-1" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
-<span id="cb64-2"><a href="estimate-the-ate-by-tmle.html#cb64-2" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(<span class="st">&quot;data/df.csv&quot;</span>)</span>
-<span id="cb64-3"><a href="estimate-the-ate-by-tmle.html#cb64-3" tabindex="-1"></a></span>
-<span id="cb64-4"><a href="estimate-the-ate-by-tmle.html#cb64-4" tabindex="-1"></a><span class="fu">library</span>(ltmle)</span>
-<span id="cb64-5"><a href="estimate-the-ate-by-tmle.html#cb64-5" tabindex="-1"></a></span>
-<span id="cb64-6"><a href="estimate-the-ate-by-tmle.html#cb64-6" tabindex="-1"></a><span class="co"># The Qform and gform arguments are defined from the DAG</span></span>
-<span id="cb64-7"><a href="estimate-the-ate-by-tmle.html#cb64-7" tabindex="-1"></a>Qform <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">death=</span><span class="st">&quot;Q.kplus1 ~ sex + low_par_edu + edu&quot;</span>)</span>
-<span id="cb64-8"><a href="estimate-the-ate-by-tmle.html#cb64-8" tabindex="-1"></a>gform <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;edu ~ sex + low_par_edu&quot;</span>)</span>
-<span id="cb64-9"><a href="estimate-the-ate-by-tmle.html#cb64-9" tabindex="-1"></a></span>
-<span id="cb64-10"><a href="estimate-the-ate-by-tmle.html#cb64-10" tabindex="-1"></a><span class="co"># in the ltmle package, the data set should be formated so that the order of the </span></span>
-<span id="cb64-11"><a href="estimate-the-ate-by-tmle.html#cb64-11" tabindex="-1"></a><span class="co"># columns corresponds to the time-ordering of the model</span></span>
-<span id="cb64-12"><a href="estimate-the-ate-by-tmle.html#cb64-12" tabindex="-1"></a>data_ltmle <span class="ot">&lt;-</span> <span class="fu">subset</span>(df, </span>
-<span id="cb64-13"><a href="estimate-the-ate-by-tmle.html#cb64-13" tabindex="-1"></a>                     <span class="at">select =</span> <span class="fu">c</span>(sex, low_par_edu, edu, death))</span>
-<span id="cb64-14"><a href="estimate-the-ate-by-tmle.html#cb64-14" tabindex="-1"></a></span>
-<span id="cb64-15"><a href="estimate-the-ate-by-tmle.html#cb64-15" tabindex="-1"></a><span class="co"># the counterfactual intervention is defined in the abar argument</span></span>
-<span id="cb64-16"><a href="estimate-the-ate-by-tmle.html#cb64-16" tabindex="-1"></a>abar <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb64-17"><a href="estimate-the-ate-by-tmle.html#cb64-17" tabindex="-1"></a></span>
-<span id="cb64-18"><a href="estimate-the-ate-by-tmle.html#cb64-18" tabindex="-1"></a>Psi_Ais1 <span class="ot">&lt;-</span> <span class="fu">ltmle</span>(data_ltmle,</span>
-<span id="cb64-19"><a href="estimate-the-ate-by-tmle.html#cb64-19" tabindex="-1"></a>                  <span class="at">Anodes =</span> <span class="st">&quot;edu&quot;</span>,</span>
-<span id="cb64-20"><a href="estimate-the-ate-by-tmle.html#cb64-20" tabindex="-1"></a>                  <span class="at">Ynodes =</span> <span class="st">&quot;death&quot;</span>,</span>
-<span id="cb64-21"><a href="estimate-the-ate-by-tmle.html#cb64-21" tabindex="-1"></a>                  <span class="at">Qform =</span> Qform,</span>
-<span id="cb64-22"><a href="estimate-the-ate-by-tmle.html#cb64-22" tabindex="-1"></a>                  <span class="at">gform =</span> gform,</span>
-<span id="cb64-23"><a href="estimate-the-ate-by-tmle.html#cb64-23" tabindex="-1"></a>                  <span class="at">gbounds =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="dv">1</span>), <span class="co"># by default, g function truncated at 0.01</span></span>
-<span id="cb64-24"><a href="estimate-the-ate-by-tmle.html#cb64-24" tabindex="-1"></a>                  <span class="at">abar =</span> abar,</span>
-<span id="cb64-25"><a href="estimate-the-ate-by-tmle.html#cb64-25" tabindex="-1"></a>                  <span class="at">SL.library =</span> <span class="st">&quot;glm&quot;</span>,</span>
-<span id="cb64-26"><a href="estimate-the-ate-by-tmle.html#cb64-26" tabindex="-1"></a>                  <span class="at">variance.method =</span> <span class="st">&quot;ic&quot;</span>)</span>
-<span id="cb64-27"><a href="estimate-the-ate-by-tmle.html#cb64-27" tabindex="-1"></a></span>
-<span id="cb64-28"><a href="estimate-the-ate-by-tmle.html#cb64-28" tabindex="-1"></a><span class="co"># from the ltmle() function, we can get the point estimate, its standard error, </span></span>
-<span id="cb64-29"><a href="estimate-the-ate-by-tmle.html#cb64-29" tabindex="-1"></a><span class="co"># 95% confidence interval and the p-value for the null hypothesis.</span></span>
-<span id="cb64-30"><a href="estimate-the-ate-by-tmle.html#cb64-30" tabindex="-1"></a><span class="fu">summary</span>(Psi_Ais1, <span class="st">&quot;tmle&quot;</span>)</span>
-<span id="cb64-31"><a href="estimate-the-ate-by-tmle.html#cb64-31" tabindex="-1"></a></span>
-<span id="cb64-32"><a href="estimate-the-ate-by-tmle.html#cb64-32" tabindex="-1"></a><span class="co"># The ltmle() function returns an object with several outputs.</span></span>
-<span id="cb64-33"><a href="estimate-the-ate-by-tmle.html#cb64-33" tabindex="-1"></a><span class="co"># We can see that g functions are the same as in the previous manual calculation</span></span>
-<span id="cb64-34"><a href="estimate-the-ate-by-tmle.html#cb64-34" tabindex="-1"></a><span class="fu">head</span>(Psi_Ais1<span class="sc">$</span>cum.g)</span>
-<span id="cb64-35"><a href="estimate-the-ate-by-tmle.html#cb64-35" tabindex="-1"></a></span>
-<span id="cb64-36"><a href="estimate-the-ate-by-tmle.html#cb64-36" tabindex="-1"></a><span class="co"># we can get the estimation of the epsilon parameter from the fluctuation model</span></span>
-<span id="cb64-37"><a href="estimate-the-ate-by-tmle.html#cb64-37" tabindex="-1"></a>Psi_Ais1<span class="sc">$</span>fit<span class="sc">$</span>Qstar</span>
-<span id="cb64-38"><a href="estimate-the-ate-by-tmle.html#cb64-38" tabindex="-1"></a></span>
-<span id="cb64-39"><a href="estimate-the-ate-by-tmle.html#cb64-39" tabindex="-1"></a><span class="co"># we can get the updated Qbar functions:</span></span>
-<span id="cb64-40"><a href="estimate-the-ate-by-tmle.html#cb64-40" tabindex="-1"></a><span class="fu">head</span>(Psi_Ais1<span class="sc">$</span>Qstar)</span>
-<span id="cb64-41"><a href="estimate-the-ate-by-tmle.html#cb64-41" tabindex="-1"></a></span>
-<span id="cb64-42"><a href="estimate-the-ate-by-tmle.html#cb64-42" tabindex="-1"></a><span class="co"># we can get the influence curve </span></span>
-<span id="cb64-43"><a href="estimate-the-ate-by-tmle.html#cb64-43" tabindex="-1"></a><span class="fu">head</span>(Psi_Ais1<span class="sc">$</span>IC<span class="sc">$</span>tmle)</span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="estimate-the-ate-by-tmle.html#cb67-1" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb67-2"><a href="estimate-the-ate-by-tmle.html#cb67-2" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(<span class="st">&quot;data/df.csv&quot;</span>)</span>
+<span id="cb67-3"><a href="estimate-the-ate-by-tmle.html#cb67-3" tabindex="-1"></a></span>
+<span id="cb67-4"><a href="estimate-the-ate-by-tmle.html#cb67-4" tabindex="-1"></a><span class="fu">library</span>(ltmle)</span>
+<span id="cb67-5"><a href="estimate-the-ate-by-tmle.html#cb67-5" tabindex="-1"></a></span>
+<span id="cb67-6"><a href="estimate-the-ate-by-tmle.html#cb67-6" tabindex="-1"></a><span class="co"># The Qform and gform arguments are defined from the DAG</span></span>
+<span id="cb67-7"><a href="estimate-the-ate-by-tmle.html#cb67-7" tabindex="-1"></a>Qform <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">death=</span><span class="st">&quot;Q.kplus1 ~ sex + low_par_edu + edu&quot;</span>)</span>
+<span id="cb67-8"><a href="estimate-the-ate-by-tmle.html#cb67-8" tabindex="-1"></a>gform <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;edu ~ sex + low_par_edu&quot;</span>)</span>
+<span id="cb67-9"><a href="estimate-the-ate-by-tmle.html#cb67-9" tabindex="-1"></a></span>
+<span id="cb67-10"><a href="estimate-the-ate-by-tmle.html#cb67-10" tabindex="-1"></a><span class="co"># in the ltmle package, the data set should be formated so that the order of the </span></span>
+<span id="cb67-11"><a href="estimate-the-ate-by-tmle.html#cb67-11" tabindex="-1"></a><span class="co"># columns corresponds to the time-ordering of the model</span></span>
+<span id="cb67-12"><a href="estimate-the-ate-by-tmle.html#cb67-12" tabindex="-1"></a>data_ltmle <span class="ot">&lt;-</span> <span class="fu">subset</span>(df, </span>
+<span id="cb67-13"><a href="estimate-the-ate-by-tmle.html#cb67-13" tabindex="-1"></a>                     <span class="at">select =</span> <span class="fu">c</span>(sex, low_par_edu, edu, death))</span>
+<span id="cb67-14"><a href="estimate-the-ate-by-tmle.html#cb67-14" tabindex="-1"></a></span>
+<span id="cb67-15"><a href="estimate-the-ate-by-tmle.html#cb67-15" tabindex="-1"></a><span class="co"># the counterfactual intervention is defined in the abar argument</span></span>
+<span id="cb67-16"><a href="estimate-the-ate-by-tmle.html#cb67-16" tabindex="-1"></a>abar <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb67-17"><a href="estimate-the-ate-by-tmle.html#cb67-17" tabindex="-1"></a></span>
+<span id="cb67-18"><a href="estimate-the-ate-by-tmle.html#cb67-18" tabindex="-1"></a>Psi_Ais1 <span class="ot">&lt;-</span> <span class="fu">ltmle</span>(data_ltmle,</span>
+<span id="cb67-19"><a href="estimate-the-ate-by-tmle.html#cb67-19" tabindex="-1"></a>                  <span class="at">Anodes =</span> <span class="st">&quot;edu&quot;</span>,</span>
+<span id="cb67-20"><a href="estimate-the-ate-by-tmle.html#cb67-20" tabindex="-1"></a>                  <span class="at">Ynodes =</span> <span class="st">&quot;death&quot;</span>,</span>
+<span id="cb67-21"><a href="estimate-the-ate-by-tmle.html#cb67-21" tabindex="-1"></a>                  <span class="at">Qform =</span> Qform,</span>
+<span id="cb67-22"><a href="estimate-the-ate-by-tmle.html#cb67-22" tabindex="-1"></a>                  <span class="at">gform =</span> gform,</span>
+<span id="cb67-23"><a href="estimate-the-ate-by-tmle.html#cb67-23" tabindex="-1"></a>                  <span class="at">gbounds =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="dv">1</span>), <span class="co"># by default, g function truncated at 0.01</span></span>
+<span id="cb67-24"><a href="estimate-the-ate-by-tmle.html#cb67-24" tabindex="-1"></a>                  <span class="at">abar =</span> abar,</span>
+<span id="cb67-25"><a href="estimate-the-ate-by-tmle.html#cb67-25" tabindex="-1"></a>                  <span class="at">SL.library =</span> <span class="st">&quot;glm&quot;</span>,</span>
+<span id="cb67-26"><a href="estimate-the-ate-by-tmle.html#cb67-26" tabindex="-1"></a>                  <span class="at">variance.method =</span> <span class="st">&quot;ic&quot;</span>)</span>
+<span id="cb67-27"><a href="estimate-the-ate-by-tmle.html#cb67-27" tabindex="-1"></a></span>
+<span id="cb67-28"><a href="estimate-the-ate-by-tmle.html#cb67-28" tabindex="-1"></a><span class="co"># from the ltmle() function, we can get the point estimate, its standard error, </span></span>
+<span id="cb67-29"><a href="estimate-the-ate-by-tmle.html#cb67-29" tabindex="-1"></a><span class="co"># 95% confidence interval and the p-value for the null hypothesis.</span></span>
+<span id="cb67-30"><a href="estimate-the-ate-by-tmle.html#cb67-30" tabindex="-1"></a><span class="fu">summary</span>(Psi_Ais1, <span class="st">&quot;tmle&quot;</span>)</span></code></pre></div>
+<pre><code>## Estimator:  tmle 
+## Call:
+## ltmle(data = data_ltmle, Anodes = &quot;edu&quot;, Ynodes = &quot;death&quot;, Qform = Qform, 
+##     gform = gform, abar = abar, gbounds = c(0.01, 1), SL.library = &quot;glm&quot;, 
+##     variance.method = &quot;ic&quot;)
+## 
+##    Parameter Estimate:  0.33066 
+##     Estimated Std Err:  0.0060908 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (0.31872, 0.3426)</code></pre>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="estimate-the-ate-by-tmle.html#cb69-1" tabindex="-1"></a><span class="co"># The ltmle() function returns an object with several outputs.</span></span>
+<span id="cb69-2"><a href="estimate-the-ate-by-tmle.html#cb69-2" tabindex="-1"></a><span class="co"># We can see that g functions are the same as in the previous manual calculation</span></span>
+<span id="cb69-3"><a href="estimate-the-ate-by-tmle.html#cb69-3" tabindex="-1"></a><span class="fu">head</span>(Psi_Ais1<span class="sc">$</span>cum.g)</span></code></pre></div>
+<pre><code>##           [,1]
+## [1,] 0.6608369
+## [2,] 0.6071248
+## [3,] 0.6071248
+## [4,] 0.4495011
+## [5,] 0.6071248
+## [6,] 0.6071248</code></pre>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="estimate-the-ate-by-tmle.html#cb71-1" tabindex="-1"></a><span class="co"># we can get the estimation of the epsilon parameter from the fluctuation model</span></span>
+<span id="cb71-2"><a href="estimate-the-ate-by-tmle.html#cb71-2" tabindex="-1"></a>Psi_Ais1<span class="sc">$</span>fit<span class="sc">$</span>Qstar</span></code></pre></div>
+<pre><code>## $death
+## 
+## Call:  glm(formula = formula, family = family, data = data.frame(data, 
+##     weights), weights = weights, control = glm.control(maxit = 100))
+## 
+## Coefficients:
+##         S1  
+## -2.809e-05  
+## 
+## Degrees of Freedom: 5953 Total (i.e. Null);  5952 Residual
+## Null Deviance:       7342 
+## Residual Deviance: 7342  AIC: NA</code></pre>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="estimate-the-ate-by-tmle.html#cb73-1" tabindex="-1"></a><span class="co"># we can get the updated Qbar functions:</span></span>
+<span id="cb73-2"><a href="estimate-the-ate-by-tmle.html#cb73-2" tabindex="-1"></a><span class="fu">head</span>(Psi_Ais1<span class="sc">$</span>Qstar)</span></code></pre></div>
+<pre><code>## [1] 0.3073922 0.4243074 0.4243074 0.3015693 0.4243074 0.4243074</code></pre>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="estimate-the-ate-by-tmle.html#cb75-1" tabindex="-1"></a><span class="co"># we can get the influence curve </span></span>
+<span id="cb75-2"><a href="estimate-the-ate-by-tmle.html#cb75-2" tabindex="-1"></a><span class="fu">head</span>(Psi_Ais1<span class="sc">$</span>IC<span class="sc">$</span>tmle)</span></code></pre></div>
+<pre><code>## [1] -0.48842639  0.09364473  0.09364473  1.52469745  0.09364473  1.04187255</code></pre>
 <p>In practice, it is recommended to apply data-adaptive algorithms to estimate <span class="math inline">\(\bar{Q}\)</span> and <span class="math inline">\(g\)</span> functions: the <code>ltmle</code> package relies on the <code>SuperLearner</code> package. As indicated in the <a href="https://cran.r-project.org/web/packages/SuperLearner/vignettes/Guide-to-SuperLearner.html">Guide to SuperLearner</a>,
 The <code>SuperLearner</code> is “an algorithm that uses cross-validation to estimate the performance of multiple machine learning models, or the same model with different settings. It then creates an optimal weighted average of those models (ensemble learning) using the test data performance.”</p>
 <p>Here is an example for our estimation of the Average Total Effect (ATE).</p>
 <p>The <code>SuperLearner</code> package includes a set of algorithms with default parameters (showed by <code>listWrappers()</code>). Because the simulated data set only have 2 binary baseline variables, the set <span class="math inline">\(\mathcal{M}\)</span> of possible statistical models is limited. In order to estimate the ATE, we will include a library with:</p>
 <ul>
 <li><code>SL.mean</code>, the null-model which only predict the marginal mean (it can be used as a reference for a bad model);</li>
-<li><code>SL.glm</code>, a glm using the main terms from the <code>Qform</code> and <code>gform</code> argument;</li>
+<li><code>SL.glm</code>, a glm using the main terms from the <code>Qform</code> and <code>gform</code> argument; We will also add a <code>screen</code> algorithm which first applies a selection prodedure on the predictors of the learner.</li>
 <li><code>SL.interaction.back</code>, a step-by-step backward GLM prodecure (based on the AIC), starting with all <span class="math inline">\(2 \times 2\)</span> interactions between main terms. This function is customized from the <code>SL.step.interaction</code> available with the <code>ltmle</code> and <code>SuperLearner</code> packages, where the <code>direction</code> argument is set to <code>both</code> by default.</li>
 <li><code>SL.hal9001</code> fit the “Highly Adaptive Lasso (HAL) algorithm. See the <a href="https://cran.r-project.org/web//packages/hal9001/vignettes/intro_hal9001.html">vignette</a> for more information on the HAL algorithm. One of its advantage is a very fast rate of convergence.</li>
 </ul>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="estimate-the-ate-by-tmle.html#cb65-1" tabindex="-1"></a><span class="fu">library</span>(SuperLearner)</span>
-<span id="cb65-2"><a href="estimate-the-ate-by-tmle.html#cb65-2" tabindex="-1"></a><span class="fu">library</span>(hal9001)</span>
-<span id="cb65-3"><a href="estimate-the-ate-by-tmle.html#cb65-3" tabindex="-1"></a><span class="co"># Below, we use the same ltmle() function than previously, </span></span>
-<span id="cb65-4"><a href="estimate-the-ate-by-tmle.html#cb65-4" tabindex="-1"></a><span class="co"># and specify a family of algorithms to be used with the SuperLearner</span></span>
-<span id="cb65-5"><a href="estimate-the-ate-by-tmle.html#cb65-5" tabindex="-1"></a></span>
-<span id="cb65-6"><a href="estimate-the-ate-by-tmle.html#cb65-6" tabindex="-1"></a><span class="do">## we can change the default argument of the SL.xgboost algorithm and the </span></span>
-<span id="cb65-7"><a href="estimate-the-ate-by-tmle.html#cb65-7" tabindex="-1"></a><span class="do">## SL.step.interaction algorithm</span></span>
-<span id="cb65-8"><a href="estimate-the-ate-by-tmle.html#cb65-8" tabindex="-1"></a></span>
-<span id="cb65-9"><a href="estimate-the-ate-by-tmle.html#cb65-9" tabindex="-1"></a><span class="co"># We can check how arguments are used in the pre-specified algorithms</span></span>
-<span id="cb65-10"><a href="estimate-the-ate-by-tmle.html#cb65-10" tabindex="-1"></a>SL.step.interaction</span>
-<span id="cb65-11"><a href="estimate-the-ate-by-tmle.html#cb65-11" tabindex="-1"></a><span class="co"># function (Y, X, newX, family, direction = &quot;both&quot;, trace = 0, </span></span>
-<span id="cb65-12"><a href="estimate-the-ate-by-tmle.html#cb65-12" tabindex="-1"></a><span class="co">#     k = 2, ...) </span></span>
-<span id="cb65-13"><a href="estimate-the-ate-by-tmle.html#cb65-13" tabindex="-1"></a><span class="co"># {</span></span>
-<span id="cb65-14"><a href="estimate-the-ate-by-tmle.html#cb65-14" tabindex="-1"></a><span class="co">#     fit.glm &lt;- glm(Y ~ ., data = X, family = family)</span></span>
-<span id="cb65-15"><a href="estimate-the-ate-by-tmle.html#cb65-15" tabindex="-1"></a><span class="co">#     fit.step &lt;- step(fit.glm, scope = Y ~ .^2, direction = direction, </span></span>
-<span id="cb65-16"><a href="estimate-the-ate-by-tmle.html#cb65-16" tabindex="-1"></a><span class="co">#         trace = trace, k = k)</span></span>
-<span id="cb65-17"><a href="estimate-the-ate-by-tmle.html#cb65-17" tabindex="-1"></a><span class="co">#     pred &lt;- predict(fit.step, newdata = newX, type = &quot;response&quot;)</span></span>
-<span id="cb65-18"><a href="estimate-the-ate-by-tmle.html#cb65-18" tabindex="-1"></a><span class="co">#     fit &lt;- list(object = fit.step)</span></span>
-<span id="cb65-19"><a href="estimate-the-ate-by-tmle.html#cb65-19" tabindex="-1"></a><span class="co">#     out &lt;- list(pred = pred, fit = fit)</span></span>
-<span id="cb65-20"><a href="estimate-the-ate-by-tmle.html#cb65-20" tabindex="-1"></a><span class="co">#     class(out$fit) &lt;- c(&quot;SL.step&quot;)</span></span>
-<span id="cb65-21"><a href="estimate-the-ate-by-tmle.html#cb65-21" tabindex="-1"></a><span class="co">#     return(out)</span></span>
-<span id="cb65-22"><a href="estimate-the-ate-by-tmle.html#cb65-22" tabindex="-1"></a><span class="co"># }</span></span>
-<span id="cb65-23"><a href="estimate-the-ate-by-tmle.html#cb65-23" tabindex="-1"></a><span class="co"># &lt;bytecode: 0x000001b965ed0dc0&gt;</span></span>
-<span id="cb65-24"><a href="estimate-the-ate-by-tmle.html#cb65-24" tabindex="-1"></a><span class="co"># &lt;environment: namespace:SuperLearner&gt;</span></span>
-<span id="cb65-25"><a href="estimate-the-ate-by-tmle.html#cb65-25" tabindex="-1"></a></span>
-<span id="cb65-26"><a href="estimate-the-ate-by-tmle.html#cb65-26" tabindex="-1"></a><span class="co"># the SL.step.interaction can be adapted, changing some arguments:</span></span>
-<span id="cb65-27"><a href="estimate-the-ate-by-tmle.html#cb65-27" tabindex="-1"></a>SL.interaction.back <span class="ot">=</span> <span class="cf">function</span>(...) {</span>
-<span id="cb65-28"><a href="estimate-the-ate-by-tmle.html#cb65-28" tabindex="-1"></a>  <span class="fu">SL.step.interaction</span>(..., <span class="at">direction =</span> <span class="st">&quot;backward&quot;</span>)</span>
-<span id="cb65-29"><a href="estimate-the-ate-by-tmle.html#cb65-29" tabindex="-1"></a>}</span>
-<span id="cb65-30"><a href="estimate-the-ate-by-tmle.html#cb65-30" tabindex="-1"></a></span>
-<span id="cb65-31"><a href="estimate-the-ate-by-tmle.html#cb65-31" tabindex="-1"></a><span class="do">## The HAL algorithm implemented by default does not deal correctly with </span></span>
-<span id="cb65-32"><a href="estimate-the-ate-by-tmle.html#cb65-32" tabindex="-1"></a><span class="do">## continuous outcome, </span></span>
-<span id="cb65-33"><a href="estimate-the-ate-by-tmle.html#cb65-33" tabindex="-1"></a><span class="do">## However, we can define your own learner algorithm, following the template:</span></span>
-<span id="cb65-34"><a href="estimate-the-ate-by-tmle.html#cb65-34" tabindex="-1"></a>SL.template</span>
-<span id="cb65-35"><a href="estimate-the-ate-by-tmle.html#cb65-35" tabindex="-1"></a><span class="co"># function (Y, X, newX, family, obsWeights, id, ...) </span></span>
-<span id="cb65-36"><a href="estimate-the-ate-by-tmle.html#cb65-36" tabindex="-1"></a><span class="co"># {</span></span>
-<span id="cb65-37"><a href="estimate-the-ate-by-tmle.html#cb65-37" tabindex="-1"></a><span class="co">#     if (family$family == &quot;gaussian&quot;) {</span></span>
-<span id="cb65-38"><a href="estimate-the-ate-by-tmle.html#cb65-38" tabindex="-1"></a><span class="co">#     }</span></span>
-<span id="cb65-39"><a href="estimate-the-ate-by-tmle.html#cb65-39" tabindex="-1"></a><span class="co">#     if (family$family == &quot;binomial&quot;) {</span></span>
-<span id="cb65-40"><a href="estimate-the-ate-by-tmle.html#cb65-40" tabindex="-1"></a><span class="co">#     }</span></span>
-<span id="cb65-41"><a href="estimate-the-ate-by-tmle.html#cb65-41" tabindex="-1"></a><span class="co">#     pred &lt;- numeric()</span></span>
-<span id="cb65-42"><a href="estimate-the-ate-by-tmle.html#cb65-42" tabindex="-1"></a><span class="co">#     fit &lt;- vector(&quot;list&quot;, length = 0)</span></span>
-<span id="cb65-43"><a href="estimate-the-ate-by-tmle.html#cb65-43" tabindex="-1"></a><span class="co">#     class(fit) &lt;- c(&quot;SL.template&quot;)</span></span>
-<span id="cb65-44"><a href="estimate-the-ate-by-tmle.html#cb65-44" tabindex="-1"></a><span class="co">#     out &lt;- list(pred = pred, fit = fit)</span></span>
-<span id="cb65-45"><a href="estimate-the-ate-by-tmle.html#cb65-45" tabindex="-1"></a><span class="co">#     return(out)</span></span>
-<span id="cb65-46"><a href="estimate-the-ate-by-tmle.html#cb65-46" tabindex="-1"></a><span class="co"># }</span></span>
-<span id="cb65-47"><a href="estimate-the-ate-by-tmle.html#cb65-47" tabindex="-1"></a><span class="co"># &lt;bytecode: 0x00000291b737f2e0&gt;</span></span>
-<span id="cb65-48"><a href="estimate-the-ate-by-tmle.html#cb65-48" tabindex="-1"></a><span class="co"># &lt;environment: namespace:SuperLearner&gt;</span></span>
-<span id="cb65-49"><a href="estimate-the-ate-by-tmle.html#cb65-49" tabindex="-1"></a></span>
-<span id="cb65-50"><a href="estimate-the-ate-by-tmle.html#cb65-50" tabindex="-1"></a><span class="do">## We define your own HAL algorithm that can run on both continuous and binary outcomes</span></span>
-<span id="cb65-51"><a href="estimate-the-ate-by-tmle.html#cb65-51" tabindex="-1"></a>SL.hal9001.Qbar <span class="ot">&lt;-</span> <span class="cf">function</span> (Y, X, newX, family, obsWeights, id, <span class="at">max_degree =</span> <span class="dv">2</span>, </span>
-<span id="cb65-52"><a href="estimate-the-ate-by-tmle.html#cb65-52" tabindex="-1"></a>                             <span class="at">smoothness_orders =</span> <span class="dv">1</span>, <span class="at">num_knots =</span> <span class="dv">5</span>, ...) {</span>
-<span id="cb65-53"><a href="estimate-the-ate-by-tmle.html#cb65-53" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.matrix</span>(X)) </span>
-<span id="cb65-54"><a href="estimate-the-ate-by-tmle.html#cb65-54" tabindex="-1"></a>    X <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(X)</span>
-<span id="cb65-55"><a href="estimate-the-ate-by-tmle.html#cb65-55" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(newX) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.matrix</span>(newX)) </span>
-<span id="cb65-56"><a href="estimate-the-ate-by-tmle.html#cb65-56" tabindex="-1"></a>    newX <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(newX)</span>
-<span id="cb65-57"><a href="estimate-the-ate-by-tmle.html#cb65-57" tabindex="-1"></a>  </span>
-<span id="cb65-58"><a href="estimate-the-ate-by-tmle.html#cb65-58" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(<span class="fu">unique</span>(Y)) <span class="sc">==</span> <span class="dv">2</span>) { <span class="co"># for binomial family</span></span>
-<span id="cb65-59"><a href="estimate-the-ate-by-tmle.html#cb65-59" tabindex="-1"></a>    hal_fit <span class="ot">&lt;-</span> hal9001<span class="sc">::</span><span class="fu">fit_hal</span>(<span class="at">Y =</span> Y, <span class="at">X =</span> X, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, </span>
-<span id="cb65-60"><a href="estimate-the-ate-by-tmle.html#cb65-60" tabindex="-1"></a>                                <span class="at">weights =</span> obsWeights, <span class="at">id =</span> id, <span class="at">max_degree =</span> max_degree, </span>
-<span id="cb65-61"><a href="estimate-the-ate-by-tmle.html#cb65-61" tabindex="-1"></a>                                <span class="at">smoothness_orders =</span> smoothness_orders, <span class="at">num_knots =</span> num_knots, </span>
-<span id="cb65-62"><a href="estimate-the-ate-by-tmle.html#cb65-62" tabindex="-1"></a>                                ...)</span>
-<span id="cb65-63"><a href="estimate-the-ate-by-tmle.html#cb65-63" tabindex="-1"></a>  }</span>
-<span id="cb65-64"><a href="estimate-the-ate-by-tmle.html#cb65-64" tabindex="-1"></a>  </span>
-<span id="cb65-65"><a href="estimate-the-ate-by-tmle.html#cb65-65" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(<span class="fu">unique</span>(Y)) <span class="sc">&gt;</span> <span class="dv">2</span>) { <span class="co"># for quasibinomial family</span></span>
-<span id="cb65-66"><a href="estimate-the-ate-by-tmle.html#cb65-66" tabindex="-1"></a>    hal_fit <span class="ot">&lt;-</span> hal9001<span class="sc">::</span><span class="fu">fit_hal</span>(<span class="at">Y =</span> Y, <span class="at">X =</span> X, <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>, </span>
-<span id="cb65-67"><a href="estimate-the-ate-by-tmle.html#cb65-67" tabindex="-1"></a>                                <span class="at">weights =</span> obsWeights, <span class="at">id =</span> id, <span class="at">max_degree =</span> max_degree, </span>
-<span id="cb65-68"><a href="estimate-the-ate-by-tmle.html#cb65-68" tabindex="-1"></a>                                <span class="at">smoothness_orders =</span> smoothness_orders, <span class="at">num_knots =</span> num_knots, </span>
-<span id="cb65-69"><a href="estimate-the-ate-by-tmle.html#cb65-69" tabindex="-1"></a>                                ...)</span>
-<span id="cb65-70"><a href="estimate-the-ate-by-tmle.html#cb65-70" tabindex="-1"></a>  }</span>
-<span id="cb65-71"><a href="estimate-the-ate-by-tmle.html#cb65-71" tabindex="-1"></a>  </span>
-<span id="cb65-72"><a href="estimate-the-ate-by-tmle.html#cb65-72" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(newX)) {</span>
-<span id="cb65-73"><a href="estimate-the-ate-by-tmle.html#cb65-73" tabindex="-1"></a>    pred <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">predict</span>(hal_fit, <span class="at">new_data =</span> newX)</span>
-<span id="cb65-74"><a href="estimate-the-ate-by-tmle.html#cb65-74" tabindex="-1"></a>  }</span>
-<span id="cb65-75"><a href="estimate-the-ate-by-tmle.html#cb65-75" tabindex="-1"></a>  <span class="cf">else</span> {</span>
-<span id="cb65-76"><a href="estimate-the-ate-by-tmle.html#cb65-76" tabindex="-1"></a>    pred <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">predict</span>(hal_fit, <span class="at">new_data =</span> X)</span>
-<span id="cb65-77"><a href="estimate-the-ate-by-tmle.html#cb65-77" tabindex="-1"></a>  }</span>
-<span id="cb65-78"><a href="estimate-the-ate-by-tmle.html#cb65-78" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">object =</span> hal_fit)</span>
-<span id="cb65-79"><a href="estimate-the-ate-by-tmle.html#cb65-79" tabindex="-1"></a>  <span class="fu">class</span>(fit) <span class="ot">&lt;-</span> <span class="st">&quot;SL.hal9001&quot;</span></span>
-<span id="cb65-80"><a href="estimate-the-ate-by-tmle.html#cb65-80" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">pred =</span> pred, <span class="at">fit =</span> fit)</span>
-<span id="cb65-81"><a href="estimate-the-ate-by-tmle.html#cb65-81" tabindex="-1"></a>  <span class="fu">return</span>(out)</span>
-<span id="cb65-82"><a href="estimate-the-ate-by-tmle.html#cb65-82" tabindex="-1"></a>}</span>
-<span id="cb65-83"><a href="estimate-the-ate-by-tmle.html#cb65-83" tabindex="-1"></a><span class="fu">environment</span>(SL.hal9001.Qbar) <span class="ot">&lt;-</span><span class="fu">asNamespace</span>(<span class="st">&quot;SuperLearner&quot;</span>)</span>
-<span id="cb65-84"><a href="estimate-the-ate-by-tmle.html#cb65-84" tabindex="-1"></a></span>
-<span id="cb65-85"><a href="estimate-the-ate-by-tmle.html#cb65-85" tabindex="-1"></a><span class="do">## the algorithms we would like to use can be specified separately for the Q and </span></span>
-<span id="cb65-86"><a href="estimate-the-ate-by-tmle.html#cb65-86" tabindex="-1"></a><span class="co"># g functions</span></span>
-<span id="cb65-87"><a href="estimate-the-ate-by-tmle.html#cb65-87" tabindex="-1"></a>SL.library <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">Q=</span><span class="fu">c</span>(<span class="st">&quot;SL.mean&quot;</span>,<span class="st">&quot;SL.glm&quot;</span>,<span class="st">&quot;SL.interaction.back&quot;</span>, <span class="st">&quot;SL.hal9001&quot;</span>),</span>
-<span id="cb65-88"><a href="estimate-the-ate-by-tmle.html#cb65-88" tabindex="-1"></a>                   <span class="at">g=</span><span class="fu">c</span>(<span class="st">&quot;SL.mean&quot;</span>,<span class="st">&quot;SL.glm&quot;</span>,<span class="st">&quot;SL.interaction.back&quot;</span>, <span class="st">&quot;SL.hal9001&quot;</span>))</span>
-<span id="cb65-89"><a href="estimate-the-ate-by-tmle.html#cb65-89" tabindex="-1"></a></span>
-<span id="cb65-90"><a href="estimate-the-ate-by-tmle.html#cb65-90" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb65-91"><a href="estimate-the-ate-by-tmle.html#cb65-91" tabindex="-1"></a>Psi_ATE_tmle <span class="ot">&lt;-</span> <span class="fu">ltmle</span>(<span class="at">data =</span> data_ltmle,</span>
-<span id="cb65-92"><a href="estimate-the-ate-by-tmle.html#cb65-92" tabindex="-1"></a>                      <span class="at">Anodes =</span> <span class="st">&quot;edu&quot;</span>,</span>
-<span id="cb65-93"><a href="estimate-the-ate-by-tmle.html#cb65-93" tabindex="-1"></a>                      <span class="at">Ynodes =</span> <span class="st">&quot;death&quot;</span>,</span>
-<span id="cb65-94"><a href="estimate-the-ate-by-tmle.html#cb65-94" tabindex="-1"></a>                      <span class="at">Qform =</span> Qform,</span>
-<span id="cb65-95"><a href="estimate-the-ate-by-tmle.html#cb65-95" tabindex="-1"></a>                      <span class="at">gform =</span> gform,</span>
-<span id="cb65-96"><a href="estimate-the-ate-by-tmle.html#cb65-96" tabindex="-1"></a>                      <span class="at">gbounds =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="dv">1</span>),</span>
-<span id="cb65-97"><a href="estimate-the-ate-by-tmle.html#cb65-97" tabindex="-1"></a>                      <span class="at">abar =</span> <span class="fu">list</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="co"># vector of the counterfactual treatment</span></span>
-<span id="cb65-98"><a href="estimate-the-ate-by-tmle.html#cb65-98" tabindex="-1"></a>                      <span class="at">SL.library =</span> SL.library,</span>
-<span id="cb65-99"><a href="estimate-the-ate-by-tmle.html#cb65-99" tabindex="-1"></a>                      <span class="at">variance.method =</span> <span class="st">&quot;ic&quot;</span>)</span>
-<span id="cb65-100"><a href="estimate-the-ate-by-tmle.html#cb65-100" tabindex="-1"></a><span class="co"># The estimation is more computer intensive</span></span>
-<span id="cb65-101"><a href="estimate-the-ate-by-tmle.html#cb65-101" tabindex="-1"></a><span class="co"># The function give the ATE on the difference scale (as well, as RR and OR)</span></span>
-<span id="cb65-102"><a href="estimate-the-ate-by-tmle.html#cb65-102" tabindex="-1"></a><span class="fu">summary</span>(Psi_ATE_tmle, <span class="at">estimator =</span> <span class="st">&quot;tmle&quot;</span>)</span>
-<span id="cb65-103"><a href="estimate-the-ate-by-tmle.html#cb65-103" tabindex="-1"></a><span class="co"># Additive Treatment Effect:</span></span>
-<span id="cb65-104"><a href="estimate-the-ate-by-tmle.html#cb65-104" tabindex="-1"></a><span class="co">#    Parameter Estimate:  0.18646 </span></span>
-<span id="cb65-105"><a href="estimate-the-ate-by-tmle.html#cb65-105" tabindex="-1"></a><span class="co">#     Estimated Std Err:  0.0082369 </span></span>
-<span id="cb65-106"><a href="estimate-the-ate-by-tmle.html#cb65-106" tabindex="-1"></a><span class="co">#               p-value:  &lt;2e-16 </span></span>
-<span id="cb65-107"><a href="estimate-the-ate-by-tmle.html#cb65-107" tabindex="-1"></a><span class="co">#     95% Conf Interval: (0.17031, 0.2026) </span></span>
-<span id="cb65-108"><a href="estimate-the-ate-by-tmle.html#cb65-108" tabindex="-1"></a>    </span>
-<span id="cb65-109"><a href="estimate-the-ate-by-tmle.html#cb65-109" tabindex="-1"></a><span class="do">## We can see how the SuperLearner used the algorithms for the g function</span></span>
-<span id="cb65-110"><a href="estimate-the-ate-by-tmle.html#cb65-110" tabindex="-1"></a>Psi_ATE_tmle<span class="sc">$</span>fit<span class="sc">$</span>g[[<span class="dv">1</span>]]</span>
-<span id="cb65-111"><a href="estimate-the-ate-by-tmle.html#cb65-111" tabindex="-1"></a><span class="co"># we see that the Risk is high for the bad model (SL.mean)</span></span>
-<span id="cb65-112"><a href="estimate-the-ate-by-tmle.html#cb65-112" tabindex="-1"></a><span class="co"># and very similar for the 3 other models</span></span>
-<span id="cb65-113"><a href="estimate-the-ate-by-tmle.html#cb65-113" tabindex="-1"></a><span class="co">#                              Risk        Coef</span></span>
-<span id="cb65-114"><a href="estimate-the-ate-by-tmle.html#cb65-114" tabindex="-1"></a><span class="co"># SL.mean_All             0.2409651 0.004074661 # risk is higher for the bad model</span></span>
-<span id="cb65-115"><a href="estimate-the-ate-by-tmle.html#cb65-115" tabindex="-1"></a><span class="co"># SL.glm_All              0.2358587 0.000000000</span></span>
-<span id="cb65-116"><a href="estimate-the-ate-by-tmle.html#cb65-116" tabindex="-1"></a><span class="co"># SL.interaction.back_All 0.2358587 0.995925339</span></span>
-<span id="cb65-117"><a href="estimate-the-ate-by-tmle.html#cb65-117" tabindex="-1"></a><span class="co"># SL.hal9001_All          0.2358824 0.000000000</span></span>
-<span id="cb65-118"><a href="estimate-the-ate-by-tmle.html#cb65-118" tabindex="-1"></a><span class="co"># [[1]]$A0_PM2.5</span></span>
-<span id="cb65-119"><a href="estimate-the-ate-by-tmle.html#cb65-119" tabindex="-1"></a></span>
-<span id="cb65-120"><a href="estimate-the-ate-by-tmle.html#cb65-120" tabindex="-1"></a><span class="co"># for the g function, the SuperLearner predicts the treatment mechanism</span></span>
-<span id="cb65-121"><a href="estimate-the-ate-by-tmle.html#cb65-121" tabindex="-1"></a><span class="co"># base on a mix between the glm and the customized xgboost algorithm.</span></span>
-<span id="cb65-122"><a href="estimate-the-ate-by-tmle.html#cb65-122" tabindex="-1"></a></span>
-<span id="cb65-123"><a href="estimate-the-ate-by-tmle.html#cb65-123" tabindex="-1"></a><span class="do">## We can see how the SuperLearner used the algorithms for the g function</span></span>
-<span id="cb65-124"><a href="estimate-the-ate-by-tmle.html#cb65-124" tabindex="-1"></a>Psi_ATE_tmle<span class="sc">$</span>fit<span class="sc">$</span>Q</span>
-<span id="cb65-125"><a href="estimate-the-ate-by-tmle.html#cb65-125" tabindex="-1"></a><span class="co">#                              Risk       Coef</span></span>
-<span id="cb65-126"><a href="estimate-the-ate-by-tmle.html#cb65-126" tabindex="-1"></a><span class="co">#                              Risk      Coef</span></span>
-<span id="cb65-127"><a href="estimate-the-ate-by-tmle.html#cb65-127" tabindex="-1"></a><span class="co"># SL.mean_All             0.1905554 0.0000000 # risk is higher for the bad model</span></span>
-<span id="cb65-128"><a href="estimate-the-ate-by-tmle.html#cb65-128" tabindex="-1"></a><span class="co"># SL.glm_All              0.1775983 0.6619501</span></span>
-<span id="cb65-129"><a href="estimate-the-ate-by-tmle.html#cb65-129" tabindex="-1"></a><span class="co"># SL.interaction.back_All 0.1775983 0.0000000</span></span>
-<span id="cb65-130"><a href="estimate-the-ate-by-tmle.html#cb65-130" tabindex="-1"></a><span class="co"># SL.hal9001_All          0.1776157 0.3380499</span></span>
-<span id="cb65-131"><a href="estimate-the-ate-by-tmle.html#cb65-131" tabindex="-1"></a></span>
-<span id="cb65-132"><a href="estimate-the-ate-by-tmle.html#cb65-132" tabindex="-1"></a><span class="co"># The SuperLearner predicts both the treatment mechanism g and the Q function</span></span>
-<span id="cb65-133"><a href="estimate-the-ate-by-tmle.html#cb65-133" tabindex="-1"></a><span class="co"># from a mix between the glm (or the main term glm) and the </span></span>
-<span id="cb65-134"><a href="estimate-the-ate-by-tmle.html#cb65-134" tabindex="-1"></a><span class="co"># HAL algorithm. </span></span>
-<span id="cb65-135"><a href="estimate-the-ate-by-tmle.html#cb65-135" tabindex="-1"></a><span class="co"># However, the choice between the SL.glm and the SL.interaction.back </span></span>
-<span id="cb65-136"><a href="estimate-the-ate-by-tmle.html#cb65-136" tabindex="-1"></a><span class="co"># procedure was arbitrary: as we can see the Risk is exactly the same for both </span></span>
-<span id="cb65-137"><a href="estimate-the-ate-by-tmle.html#cb65-137" tabindex="-1"></a><span class="co"># algorithms. The final model from the step-by-step procedure was much probably </span></span>
-<span id="cb65-138"><a href="estimate-the-ate-by-tmle.html#cb65-138" tabindex="-1"></a><span class="co"># a main term glm.</span></span>
-<span id="cb65-139"><a href="estimate-the-ate-by-tmle.html#cb65-139" tabindex="-1"></a></span>
-<span id="cb65-140"><a href="estimate-the-ate-by-tmle.html#cb65-140" tabindex="-1"></a></span>
-<span id="cb65-141"><a href="estimate-the-ate-by-tmle.html#cb65-141" tabindex="-1"></a><span class="do">## The `ltmle` package can also be used to estimate the effect of binary exposures</span></span>
-<span id="cb65-142"><a href="estimate-the-ate-by-tmle.html#cb65-142" tabindex="-1"></a><span class="do">## on continous outcomes</span></span>
-<span id="cb65-143"><a href="estimate-the-ate-by-tmle.html#cb65-143" tabindex="-1"></a>Qform <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">score=</span><span class="st">&quot;Q.kplus1 ~ sex + low_par_edu + edu&quot;</span>)</span>
-<span id="cb65-144"><a href="estimate-the-ate-by-tmle.html#cb65-144" tabindex="-1"></a>gform <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;edu ~ sex + low_par_edu&quot;</span>)</span>
-<span id="cb65-145"><a href="estimate-the-ate-by-tmle.html#cb65-145" tabindex="-1"></a></span>
-<span id="cb65-146"><a href="estimate-the-ate-by-tmle.html#cb65-146" tabindex="-1"></a>SL.library <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">Q=</span><span class="fu">c</span>(<span class="st">&quot;SL.mean&quot;</span>,<span class="st">&quot;SL.glm&quot;</span>,<span class="st">&quot;SL.interaction.back&quot;</span>, <span class="st">&quot;SL.hal9001.Qbar&quot;</span>),</span>
-<span id="cb65-147"><a href="estimate-the-ate-by-tmle.html#cb65-147" tabindex="-1"></a>                   <span class="at">g=</span><span class="fu">c</span>(<span class="st">&quot;SL.mean&quot;</span>,<span class="st">&quot;SL.glm&quot;</span>,<span class="st">&quot;SL.interaction.back&quot;</span>, <span class="st">&quot;SL.hal9001&quot;</span>))</span>
-<span id="cb65-148"><a href="estimate-the-ate-by-tmle.html#cb65-148" tabindex="-1"></a></span>
-<span id="cb65-149"><a href="estimate-the-ate-by-tmle.html#cb65-149" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb65-150"><a href="estimate-the-ate-by-tmle.html#cb65-150" tabindex="-1"></a>Psi_ATE_tmle_score <span class="ot">&lt;-</span> <span class="fu">ltmle</span>(<span class="at">data =</span> <span class="fu">subset</span>(df, </span>
-<span id="cb65-151"><a href="estimate-the-ate-by-tmle.html#cb65-151" tabindex="-1"></a>                                          <span class="at">select =</span> <span class="fu">c</span>(sex, low_par_edu,</span>
-<span id="cb65-152"><a href="estimate-the-ate-by-tmle.html#cb65-152" tabindex="-1"></a>                                                     edu,</span>
-<span id="cb65-153"><a href="estimate-the-ate-by-tmle.html#cb65-153" tabindex="-1"></a>                                                     score)),</span>
-<span id="cb65-154"><a href="estimate-the-ate-by-tmle.html#cb65-154" tabindex="-1"></a>                      <span class="at">Anodes =</span> <span class="st">&quot;edu&quot;</span>,</span>
-<span id="cb65-155"><a href="estimate-the-ate-by-tmle.html#cb65-155" tabindex="-1"></a>                      <span class="at">Ynodes =</span> <span class="st">&quot;score&quot;</span>,</span>
-<span id="cb65-156"><a href="estimate-the-ate-by-tmle.html#cb65-156" tabindex="-1"></a>                      <span class="at">Qform =</span> Qform,</span>
-<span id="cb65-157"><a href="estimate-the-ate-by-tmle.html#cb65-157" tabindex="-1"></a>                      <span class="at">gform =</span> gform,</span>
-<span id="cb65-158"><a href="estimate-the-ate-by-tmle.html#cb65-158" tabindex="-1"></a>                      <span class="at">gbounds =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="dv">1</span>),</span>
-<span id="cb65-159"><a href="estimate-the-ate-by-tmle.html#cb65-159" tabindex="-1"></a>                      <span class="at">abar =</span> <span class="fu">list</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="co"># vector of the counterfactual treatment </span></span>
-<span id="cb65-160"><a href="estimate-the-ate-by-tmle.html#cb65-160" tabindex="-1"></a>                      <span class="at">SL.library =</span> SL.library,</span>
-<span id="cb65-161"><a href="estimate-the-ate-by-tmle.html#cb65-161" tabindex="-1"></a>                      <span class="at">variance.method =</span> <span class="st">&quot;ic&quot;</span>)</span>
-<span id="cb65-162"><a href="estimate-the-ate-by-tmle.html#cb65-162" tabindex="-1"></a><span class="fu">summary</span>(Psi_ATE_tmle_score, <span class="at">estimator =</span> <span class="st">&quot;tmle&quot;</span>)</span>
-<span id="cb65-163"><a href="estimate-the-ate-by-tmle.html#cb65-163" tabindex="-1"></a><span class="co"># Additive Treatment Effect:</span></span>
-<span id="cb65-164"><a href="estimate-the-ate-by-tmle.html#cb65-164" tabindex="-1"></a><span class="co">#    Parameter Estimate:  -19.76 </span></span>
-<span id="cb65-165"><a href="estimate-the-ate-by-tmle.html#cb65-165" tabindex="-1"></a><span class="co">#     Estimated Std Err:  0.37746 </span></span>
-<span id="cb65-166"><a href="estimate-the-ate-by-tmle.html#cb65-166" tabindex="-1"></a><span class="co">#               p-value:  &lt;2e-16 </span></span>
-<span id="cb65-167"><a href="estimate-the-ate-by-tmle.html#cb65-167" tabindex="-1"></a><span class="co">#     95% Conf Interval: (-20.5, -19.021) </span></span></code></pre></div>
-<p>The TMLE estimation of the ATE from the <code>ltmle</code> package for death probability and mean quality of life is +18.65% (95% CI=[17.03%, +20.26%]) and -19.76 [-20.5, -19.021].</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="estimate-the-ate-by-tmle.html#cb77-1" tabindex="-1"></a><span class="fu">library</span>(SuperLearner)</span>
+<span id="cb77-2"><a href="estimate-the-ate-by-tmle.html#cb77-2" tabindex="-1"></a><span class="fu">library</span>(hal9001)</span>
+<span id="cb77-3"><a href="estimate-the-ate-by-tmle.html#cb77-3" tabindex="-1"></a><span class="co"># Below, we use the same ltmle() function than previously, </span></span>
+<span id="cb77-4"><a href="estimate-the-ate-by-tmle.html#cb77-4" tabindex="-1"></a><span class="co"># and specify a family of algorithms to be used with the SuperLearner</span></span>
+<span id="cb77-5"><a href="estimate-the-ate-by-tmle.html#cb77-5" tabindex="-1"></a></span>
+<span id="cb77-6"><a href="estimate-the-ate-by-tmle.html#cb77-6" tabindex="-1"></a><span class="do">## we can change the default argument of the SL.xgboost algorithm and the </span></span>
+<span id="cb77-7"><a href="estimate-the-ate-by-tmle.html#cb77-7" tabindex="-1"></a><span class="do">## SL.step.interaction algorithm</span></span>
+<span id="cb77-8"><a href="estimate-the-ate-by-tmle.html#cb77-8" tabindex="-1"></a></span>
+<span id="cb77-9"><a href="estimate-the-ate-by-tmle.html#cb77-9" tabindex="-1"></a><span class="co"># We can check how arguments are used in the pre-specified algorithms</span></span>
+<span id="cb77-10"><a href="estimate-the-ate-by-tmle.html#cb77-10" tabindex="-1"></a>SL.step.interaction</span></code></pre></div>
+<pre><code>## function (Y, X, newX, family, direction = &quot;both&quot;, trace = 0, 
+##     k = 2, ...) 
+## {
+##     fit.glm &lt;- glm(Y ~ ., data = X, family = family)
+##     fit.step &lt;- step(fit.glm, scope = Y ~ .^2, direction = direction, 
+##         trace = trace, k = k)
+##     pred &lt;- predict(fit.step, newdata = newX, type = &quot;response&quot;)
+##     fit &lt;- list(object = fit.step)
+##     out &lt;- list(pred = pred, fit = fit)
+##     class(out$fit) &lt;- c(&quot;SL.step&quot;)
+##     return(out)
+## }
+## &lt;bytecode: 0x0000023670277d60&gt;
+## &lt;environment: namespace:SuperLearner&gt;</code></pre>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="estimate-the-ate-by-tmle.html#cb79-1" tabindex="-1"></a><span class="co"># function (Y, X, newX, family, direction = &quot;both&quot;, trace = 0, </span></span>
+<span id="cb79-2"><a href="estimate-the-ate-by-tmle.html#cb79-2" tabindex="-1"></a><span class="co">#     k = 2, ...) </span></span>
+<span id="cb79-3"><a href="estimate-the-ate-by-tmle.html#cb79-3" tabindex="-1"></a><span class="co"># {</span></span>
+<span id="cb79-4"><a href="estimate-the-ate-by-tmle.html#cb79-4" tabindex="-1"></a><span class="co">#     fit.glm &lt;- glm(Y ~ ., data = X, family = family)</span></span>
+<span id="cb79-5"><a href="estimate-the-ate-by-tmle.html#cb79-5" tabindex="-1"></a><span class="co">#     fit.step &lt;- step(fit.glm, scope = Y ~ .^2, direction = direction, </span></span>
+<span id="cb79-6"><a href="estimate-the-ate-by-tmle.html#cb79-6" tabindex="-1"></a><span class="co">#         trace = trace, k = k)</span></span>
+<span id="cb79-7"><a href="estimate-the-ate-by-tmle.html#cb79-7" tabindex="-1"></a><span class="co">#     pred &lt;- predict(fit.step, newdata = newX, type = &quot;response&quot;)</span></span>
+<span id="cb79-8"><a href="estimate-the-ate-by-tmle.html#cb79-8" tabindex="-1"></a><span class="co">#     fit &lt;- list(object = fit.step)</span></span>
+<span id="cb79-9"><a href="estimate-the-ate-by-tmle.html#cb79-9" tabindex="-1"></a><span class="co">#     out &lt;- list(pred = pred, fit = fit)</span></span>
+<span id="cb79-10"><a href="estimate-the-ate-by-tmle.html#cb79-10" tabindex="-1"></a><span class="co">#     class(out$fit) &lt;- c(&quot;SL.step&quot;)</span></span>
+<span id="cb79-11"><a href="estimate-the-ate-by-tmle.html#cb79-11" tabindex="-1"></a><span class="co">#     return(out)</span></span>
+<span id="cb79-12"><a href="estimate-the-ate-by-tmle.html#cb79-12" tabindex="-1"></a><span class="co"># }</span></span>
+<span id="cb79-13"><a href="estimate-the-ate-by-tmle.html#cb79-13" tabindex="-1"></a><span class="co"># &lt;bytecode: 0x000001b965ed0dc0&gt;</span></span>
+<span id="cb79-14"><a href="estimate-the-ate-by-tmle.html#cb79-14" tabindex="-1"></a><span class="co"># &lt;environment: namespace:SuperLearner&gt;</span></span>
+<span id="cb79-15"><a href="estimate-the-ate-by-tmle.html#cb79-15" tabindex="-1"></a></span>
+<span id="cb79-16"><a href="estimate-the-ate-by-tmle.html#cb79-16" tabindex="-1"></a><span class="co"># the SL.step.interaction can be adapted, changing some arguments:</span></span>
+<span id="cb79-17"><a href="estimate-the-ate-by-tmle.html#cb79-17" tabindex="-1"></a>SL.interaction.back <span class="ot">=</span> <span class="cf">function</span>(...) {</span>
+<span id="cb79-18"><a href="estimate-the-ate-by-tmle.html#cb79-18" tabindex="-1"></a>  <span class="fu">SL.step.interaction</span>(..., <span class="at">direction =</span> <span class="st">&quot;backward&quot;</span>)</span>
+<span id="cb79-19"><a href="estimate-the-ate-by-tmle.html#cb79-19" tabindex="-1"></a>}</span>
+<span id="cb79-20"><a href="estimate-the-ate-by-tmle.html#cb79-20" tabindex="-1"></a></span>
+<span id="cb79-21"><a href="estimate-the-ate-by-tmle.html#cb79-21" tabindex="-1"></a><span class="do">## The HAL algorithm implemented by default does not deal correctly with </span></span>
+<span id="cb79-22"><a href="estimate-the-ate-by-tmle.html#cb79-22" tabindex="-1"></a><span class="do">## continuous outcome, </span></span>
+<span id="cb79-23"><a href="estimate-the-ate-by-tmle.html#cb79-23" tabindex="-1"></a><span class="do">## However, we can define your own learner algorithm, following the template:</span></span>
+<span id="cb79-24"><a href="estimate-the-ate-by-tmle.html#cb79-24" tabindex="-1"></a>SL.template</span></code></pre></div>
+<pre><code>## function (Y, X, newX, family, obsWeights, id, ...) 
+## {
+##     if (family$family == &quot;gaussian&quot;) {
+##     }
+##     if (family$family == &quot;binomial&quot;) {
+##     }
+##     pred &lt;- numeric()
+##     fit &lt;- vector(&quot;list&quot;, length = 0)
+##     class(fit) &lt;- c(&quot;SL.template&quot;)
+##     out &lt;- list(pred = pred, fit = fit)
+##     return(out)
+## }
+## &lt;bytecode: 0x0000023670007150&gt;
+## &lt;environment: namespace:SuperLearner&gt;</code></pre>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="estimate-the-ate-by-tmle.html#cb81-1" tabindex="-1"></a><span class="co"># function (Y, X, newX, family, obsWeights, id, ...) </span></span>
+<span id="cb81-2"><a href="estimate-the-ate-by-tmle.html#cb81-2" tabindex="-1"></a><span class="co"># {</span></span>
+<span id="cb81-3"><a href="estimate-the-ate-by-tmle.html#cb81-3" tabindex="-1"></a><span class="co">#     if (family$family == &quot;gaussian&quot;) {</span></span>
+<span id="cb81-4"><a href="estimate-the-ate-by-tmle.html#cb81-4" tabindex="-1"></a><span class="co">#     }</span></span>
+<span id="cb81-5"><a href="estimate-the-ate-by-tmle.html#cb81-5" tabindex="-1"></a><span class="co">#     if (family$family == &quot;binomial&quot;) {</span></span>
+<span id="cb81-6"><a href="estimate-the-ate-by-tmle.html#cb81-6" tabindex="-1"></a><span class="co">#     }</span></span>
+<span id="cb81-7"><a href="estimate-the-ate-by-tmle.html#cb81-7" tabindex="-1"></a><span class="co">#     pred &lt;- numeric()</span></span>
+<span id="cb81-8"><a href="estimate-the-ate-by-tmle.html#cb81-8" tabindex="-1"></a><span class="co">#     fit &lt;- vector(&quot;list&quot;, length = 0)</span></span>
+<span id="cb81-9"><a href="estimate-the-ate-by-tmle.html#cb81-9" tabindex="-1"></a><span class="co">#     class(fit) &lt;- c(&quot;SL.template&quot;)</span></span>
+<span id="cb81-10"><a href="estimate-the-ate-by-tmle.html#cb81-10" tabindex="-1"></a><span class="co">#     out &lt;- list(pred = pred, fit = fit)</span></span>
+<span id="cb81-11"><a href="estimate-the-ate-by-tmle.html#cb81-11" tabindex="-1"></a><span class="co">#     return(out)</span></span>
+<span id="cb81-12"><a href="estimate-the-ate-by-tmle.html#cb81-12" tabindex="-1"></a><span class="co"># }</span></span>
+<span id="cb81-13"><a href="estimate-the-ate-by-tmle.html#cb81-13" tabindex="-1"></a><span class="co"># &lt;bytecode: 0x00000291b737f2e0&gt;</span></span>
+<span id="cb81-14"><a href="estimate-the-ate-by-tmle.html#cb81-14" tabindex="-1"></a><span class="co"># &lt;environment: namespace:SuperLearner&gt;</span></span>
+<span id="cb81-15"><a href="estimate-the-ate-by-tmle.html#cb81-15" tabindex="-1"></a></span>
+<span id="cb81-16"><a href="estimate-the-ate-by-tmle.html#cb81-16" tabindex="-1"></a><span class="do">## We define your own HAL algorithm that can run on both continuous and binary outcomes</span></span>
+<span id="cb81-17"><a href="estimate-the-ate-by-tmle.html#cb81-17" tabindex="-1"></a>SL.hal9001.Qbar <span class="ot">&lt;-</span> <span class="cf">function</span> (Y, X, newX, family, obsWeights, id, <span class="at">max_degree =</span> <span class="dv">2</span>, </span>
+<span id="cb81-18"><a href="estimate-the-ate-by-tmle.html#cb81-18" tabindex="-1"></a>                             <span class="at">smoothness_orders =</span> <span class="dv">1</span>, <span class="at">num_knots =</span> <span class="dv">5</span>, ...) {</span>
+<span id="cb81-19"><a href="estimate-the-ate-by-tmle.html#cb81-19" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.matrix</span>(X)) </span>
+<span id="cb81-20"><a href="estimate-the-ate-by-tmle.html#cb81-20" tabindex="-1"></a>    X <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(X)</span>
+<span id="cb81-21"><a href="estimate-the-ate-by-tmle.html#cb81-21" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(newX) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.matrix</span>(newX)) </span>
+<span id="cb81-22"><a href="estimate-the-ate-by-tmle.html#cb81-22" tabindex="-1"></a>    newX <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(newX)</span>
+<span id="cb81-23"><a href="estimate-the-ate-by-tmle.html#cb81-23" tabindex="-1"></a>  </span>
+<span id="cb81-24"><a href="estimate-the-ate-by-tmle.html#cb81-24" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(<span class="fu">unique</span>(Y)) <span class="sc">==</span> <span class="dv">2</span>) { <span class="co"># for binomial family</span></span>
+<span id="cb81-25"><a href="estimate-the-ate-by-tmle.html#cb81-25" tabindex="-1"></a>    hal_fit <span class="ot">&lt;-</span> hal9001<span class="sc">::</span><span class="fu">fit_hal</span>(<span class="at">Y =</span> Y, <span class="at">X =</span> X, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>, </span>
+<span id="cb81-26"><a href="estimate-the-ate-by-tmle.html#cb81-26" tabindex="-1"></a>                                <span class="at">weights =</span> obsWeights, <span class="at">id =</span> id, <span class="at">max_degree =</span> max_degree, </span>
+<span id="cb81-27"><a href="estimate-the-ate-by-tmle.html#cb81-27" tabindex="-1"></a>                                <span class="at">smoothness_orders =</span> smoothness_orders, <span class="at">num_knots =</span> num_knots, </span>
+<span id="cb81-28"><a href="estimate-the-ate-by-tmle.html#cb81-28" tabindex="-1"></a>                                ...)</span>
+<span id="cb81-29"><a href="estimate-the-ate-by-tmle.html#cb81-29" tabindex="-1"></a>  }</span>
+<span id="cb81-30"><a href="estimate-the-ate-by-tmle.html#cb81-30" tabindex="-1"></a>  </span>
+<span id="cb81-31"><a href="estimate-the-ate-by-tmle.html#cb81-31" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(<span class="fu">unique</span>(Y)) <span class="sc">&gt;</span> <span class="dv">2</span>) { <span class="co"># for quasibinomial family</span></span>
+<span id="cb81-32"><a href="estimate-the-ate-by-tmle.html#cb81-32" tabindex="-1"></a>    hal_fit <span class="ot">&lt;-</span> hal9001<span class="sc">::</span><span class="fu">fit_hal</span>(<span class="at">Y =</span> Y, <span class="at">X =</span> X, <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>, </span>
+<span id="cb81-33"><a href="estimate-the-ate-by-tmle.html#cb81-33" tabindex="-1"></a>                                <span class="at">weights =</span> obsWeights, <span class="at">id =</span> id, <span class="at">max_degree =</span> max_degree, </span>
+<span id="cb81-34"><a href="estimate-the-ate-by-tmle.html#cb81-34" tabindex="-1"></a>                                <span class="at">smoothness_orders =</span> smoothness_orders, <span class="at">num_knots =</span> num_knots, </span>
+<span id="cb81-35"><a href="estimate-the-ate-by-tmle.html#cb81-35" tabindex="-1"></a>                                ...)</span>
+<span id="cb81-36"><a href="estimate-the-ate-by-tmle.html#cb81-36" tabindex="-1"></a>  }</span>
+<span id="cb81-37"><a href="estimate-the-ate-by-tmle.html#cb81-37" tabindex="-1"></a>  </span>
+<span id="cb81-38"><a href="estimate-the-ate-by-tmle.html#cb81-38" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(newX)) {</span>
+<span id="cb81-39"><a href="estimate-the-ate-by-tmle.html#cb81-39" tabindex="-1"></a>    pred <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">predict</span>(hal_fit, <span class="at">new_data =</span> newX)</span>
+<span id="cb81-40"><a href="estimate-the-ate-by-tmle.html#cb81-40" tabindex="-1"></a>  }</span>
+<span id="cb81-41"><a href="estimate-the-ate-by-tmle.html#cb81-41" tabindex="-1"></a>  <span class="cf">else</span> {</span>
+<span id="cb81-42"><a href="estimate-the-ate-by-tmle.html#cb81-42" tabindex="-1"></a>    pred <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">predict</span>(hal_fit, <span class="at">new_data =</span> X)</span>
+<span id="cb81-43"><a href="estimate-the-ate-by-tmle.html#cb81-43" tabindex="-1"></a>  }</span>
+<span id="cb81-44"><a href="estimate-the-ate-by-tmle.html#cb81-44" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">object =</span> hal_fit)</span>
+<span id="cb81-45"><a href="estimate-the-ate-by-tmle.html#cb81-45" tabindex="-1"></a>  <span class="fu">class</span>(fit) <span class="ot">&lt;-</span> <span class="st">&quot;SL.hal9001&quot;</span></span>
+<span id="cb81-46"><a href="estimate-the-ate-by-tmle.html#cb81-46" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">pred =</span> pred, <span class="at">fit =</span> fit)</span>
+<span id="cb81-47"><a href="estimate-the-ate-by-tmle.html#cb81-47" tabindex="-1"></a>  <span class="fu">return</span>(out)</span>
+<span id="cb81-48"><a href="estimate-the-ate-by-tmle.html#cb81-48" tabindex="-1"></a>}</span>
+<span id="cb81-49"><a href="estimate-the-ate-by-tmle.html#cb81-49" tabindex="-1"></a><span class="fu">environment</span>(SL.hal9001.Qbar) <span class="ot">&lt;-</span><span class="fu">asNamespace</span>(<span class="st">&quot;SuperLearner&quot;</span>)</span>
+<span id="cb81-50"><a href="estimate-the-ate-by-tmle.html#cb81-50" tabindex="-1"></a></span>
+<span id="cb81-51"><a href="estimate-the-ate-by-tmle.html#cb81-51" tabindex="-1"></a><span class="do">## the algorithms we would like to use can be specified separately for the Q and </span></span>
+<span id="cb81-52"><a href="estimate-the-ate-by-tmle.html#cb81-52" tabindex="-1"></a><span class="co"># g functions</span></span>
+<span id="cb81-53"><a href="estimate-the-ate-by-tmle.html#cb81-53" tabindex="-1"></a>SL.library <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">Q=</span><span class="fu">list</span>(<span class="st">&quot;SL.mean&quot;</span>, <span class="st">&quot;SL.glm&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;SL.glm&quot;</span>, <span class="st">&quot;screen.corP&quot;</span>), </span>
+<span id="cb81-54"><a href="estimate-the-ate-by-tmle.html#cb81-54" tabindex="-1"></a>                       <span class="st">&quot;SL.interaction.back&quot;</span>, <span class="st">&quot;SL.hal9001&quot;</span>),</span>
+<span id="cb81-55"><a href="estimate-the-ate-by-tmle.html#cb81-55" tabindex="-1"></a>                   <span class="at">g=</span><span class="fu">list</span>(<span class="st">&quot;SL.mean&quot;</span>, <span class="st">&quot;SL.glm&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;SL.glm&quot;</span>, <span class="st">&quot;screen.corP&quot;</span>), </span>
+<span id="cb81-56"><a href="estimate-the-ate-by-tmle.html#cb81-56" tabindex="-1"></a>                       <span class="st">&quot;SL.interaction.back&quot;</span>, <span class="st">&quot;SL.hal9001&quot;</span>))</span>
+<span id="cb81-57"><a href="estimate-the-ate-by-tmle.html#cb81-57" tabindex="-1"></a></span>
+<span id="cb81-58"><a href="estimate-the-ate-by-tmle.html#cb81-58" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb81-59"><a href="estimate-the-ate-by-tmle.html#cb81-59" tabindex="-1"></a>Psi_ATE_tmle <span class="ot">&lt;-</span> <span class="fu">ltmle</span>(<span class="at">data =</span> data_ltmle,</span>
+<span id="cb81-60"><a href="estimate-the-ate-by-tmle.html#cb81-60" tabindex="-1"></a>                      <span class="at">Anodes =</span> <span class="st">&quot;edu&quot;</span>,</span>
+<span id="cb81-61"><a href="estimate-the-ate-by-tmle.html#cb81-61" tabindex="-1"></a>                      <span class="at">Ynodes =</span> <span class="st">&quot;death&quot;</span>,</span>
+<span id="cb81-62"><a href="estimate-the-ate-by-tmle.html#cb81-62" tabindex="-1"></a>                      <span class="at">Qform =</span> Qform,</span>
+<span id="cb81-63"><a href="estimate-the-ate-by-tmle.html#cb81-63" tabindex="-1"></a>                      <span class="at">gform =</span> gform,</span>
+<span id="cb81-64"><a href="estimate-the-ate-by-tmle.html#cb81-64" tabindex="-1"></a>                      <span class="at">gbounds =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="dv">1</span>),</span>
+<span id="cb81-65"><a href="estimate-the-ate-by-tmle.html#cb81-65" tabindex="-1"></a>                      <span class="at">abar =</span> <span class="fu">list</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="co"># vector of the counterfactual treatment</span></span>
+<span id="cb81-66"><a href="estimate-the-ate-by-tmle.html#cb81-66" tabindex="-1"></a>                      <span class="at">SL.library =</span> SL.library,</span>
+<span id="cb81-67"><a href="estimate-the-ate-by-tmle.html#cb81-67" tabindex="-1"></a>                      <span class="at">variance.method =</span> <span class="st">&quot;ic&quot;</span>)</span>
+<span id="cb81-68"><a href="estimate-the-ate-by-tmle.html#cb81-68" tabindex="-1"></a><span class="co"># The estimation is more computer intensive</span></span>
+<span id="cb81-69"><a href="estimate-the-ate-by-tmle.html#cb81-69" tabindex="-1"></a><span class="co"># The function give the ATE on the difference scale (as well, as RR and OR)</span></span>
+<span id="cb81-70"><a href="estimate-the-ate-by-tmle.html#cb81-70" tabindex="-1"></a><span class="fu">summary</span>(Psi_ATE_tmle, <span class="at">estimator =</span> <span class="st">&quot;tmle&quot;</span>)</span></code></pre></div>
+<pre><code>## Estimator:  tmle 
+## Call:
+## ltmle(data = data_ltmle, Anodes = &quot;edu&quot;, Ynodes = &quot;death&quot;, Qform = Qform, 
+##     gform = gform, abar = list(1, 0), gbounds = c(0.01, 1), SL.library = SL.library, 
+##     variance.method = &quot;ic&quot;)
+## 
+## Treatment Estimate:
+##    Parameter Estimate:  0.33064 
+##     Estimated Std Err:  0.0060897 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (0.3187, 0.34258) 
+## 
+## Control Estimate:
+##    Parameter Estimate:  0.14418 
+##     Estimated Std Err:  0.0056066 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (0.13319, 0.15517) 
+## 
+## Additive Treatment Effect:
+##    Parameter Estimate:  0.18646 
+##     Estimated Std Err:  0.0082369 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (0.17031, 0.2026) 
+## 
+## Relative Risk:
+##    Parameter Estimate:  2.2932 
+##   Est Std Err log(RR):  0.042862 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (2.1084, 2.4942) 
+## 
+## Odds Ratio:
+##    Parameter Estimate:  2.932 
+##   Est Std Err log(OR):  0.052886 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (2.6433, 3.2522)</code></pre>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="estimate-the-ate-by-tmle.html#cb83-1" tabindex="-1"></a><span class="co"># Additive Treatment Effect:</span></span>
+<span id="cb83-2"><a href="estimate-the-ate-by-tmle.html#cb83-2" tabindex="-1"></a><span class="co">#    Parameter Estimate:  0.18646 </span></span>
+<span id="cb83-3"><a href="estimate-the-ate-by-tmle.html#cb83-3" tabindex="-1"></a><span class="co">#     Estimated Std Err:  0.0082369 </span></span>
+<span id="cb83-4"><a href="estimate-the-ate-by-tmle.html#cb83-4" tabindex="-1"></a><span class="co">#               p-value:  &lt;2e-16 </span></span>
+<span id="cb83-5"><a href="estimate-the-ate-by-tmle.html#cb83-5" tabindex="-1"></a><span class="co">#     95% Conf Interval: (0.17031, 0.2026) </span></span>
+<span id="cb83-6"><a href="estimate-the-ate-by-tmle.html#cb83-6" tabindex="-1"></a>    </span>
+<span id="cb83-7"><a href="estimate-the-ate-by-tmle.html#cb83-7" tabindex="-1"></a><span class="do">## We can see how the SuperLearner used the algorithms for the g function</span></span>
+<span id="cb83-8"><a href="estimate-the-ate-by-tmle.html#cb83-8" tabindex="-1"></a><span class="co"># we see that the Risk is high for the bad model (SL.mean)</span></span>
+<span id="cb83-9"><a href="estimate-the-ate-by-tmle.html#cb83-9" tabindex="-1"></a><span class="co"># and very similar for the other models</span></span>
+<span id="cb83-10"><a href="estimate-the-ate-by-tmle.html#cb83-10" tabindex="-1"></a>Psi_ATE_tmle<span class="sc">$</span>fit<span class="sc">$</span>g[[<span class="dv">1</span>]]</span></code></pre></div>
+<pre><code>## $edu
+##                              Risk        Coef
+## SL.mean_All             0.2409651 0.004074661
+## SL.glm_All              0.2358587 0.000000000
+## SL.glm_screen.corP      0.2358587 0.995925339
+## SL.interaction.back_All 0.2358587 0.000000000
+## SL.hal9001_All          0.2358824 0.000000000</code></pre>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="estimate-the-ate-by-tmle.html#cb85-1" tabindex="-1"></a><span class="do">## We can see how the SuperLearner used the algorithms for the Q function</span></span>
+<span id="cb85-2"><a href="estimate-the-ate-by-tmle.html#cb85-2" tabindex="-1"></a>Psi_ATE_tmle<span class="sc">$</span>fit<span class="sc">$</span>Q</span></code></pre></div>
+<pre><code>## [[1]]
+## [[1]]$death
+##                              Risk      Coef
+## SL.mean_All             0.1905554 0.0000000
+## SL.glm_All              0.1775983 0.6619501
+## SL.glm_screen.corP      0.1775983 0.0000000
+## SL.interaction.back_All 0.1775983 0.0000000
+## SL.hal9001_All          0.1776157 0.3380499
+## 
+## 
+## [[2]]
+## [[2]]$death
+##                              Risk      Coef
+## SL.mean_All             0.1905554 0.0000000
+## SL.glm_All              0.1775983 0.6619501
+## SL.glm_screen.corP      0.1775983 0.0000000
+## SL.interaction.back_All 0.1775983 0.0000000
+## SL.hal9001_All          0.1776157 0.3380499</code></pre>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="estimate-the-ate-by-tmle.html#cb87-1" tabindex="-1"></a><span class="co"># The SuperLearner predicts the Q function using a mix between the glm and </span></span>
+<span id="cb87-2"><a href="estimate-the-ate-by-tmle.html#cb87-2" tabindex="-1"></a><span class="co"># the HAL algorithm. </span></span>
+<span id="cb87-3"><a href="estimate-the-ate-by-tmle.html#cb87-3" tabindex="-1"></a><span class="co"># However, the choice between the 2 SL.glm and SL.interaction.back </span></span>
+<span id="cb87-4"><a href="estimate-the-ate-by-tmle.html#cb87-4" tabindex="-1"></a><span class="co"># was arbitrary: as we can see the Risk is exactly the same for the 3 </span></span>
+<span id="cb87-5"><a href="estimate-the-ate-by-tmle.html#cb87-5" tabindex="-1"></a><span class="co"># algorithms. The final model from the step-by-step procedure and the glm after</span></span>
+<span id="cb87-6"><a href="estimate-the-ate-by-tmle.html#cb87-6" tabindex="-1"></a><span class="co"># the screening procedure were probably the same &quot;main term&quot; glm.</span></span>
+<span id="cb87-7"><a href="estimate-the-ate-by-tmle.html#cb87-7" tabindex="-1"></a></span>
+<span id="cb87-8"><a href="estimate-the-ate-by-tmle.html#cb87-8" tabindex="-1"></a></span>
+<span id="cb87-9"><a href="estimate-the-ate-by-tmle.html#cb87-9" tabindex="-1"></a><span class="do">## The `ltmle` package can also be used to estimate the effect of categorical </span></span>
+<span id="cb87-10"><a href="estimate-the-ate-by-tmle.html#cb87-10" tabindex="-1"></a><span class="do">## exposures on continous outcomes</span></span>
+<span id="cb87-11"><a href="estimate-the-ate-by-tmle.html#cb87-11" tabindex="-1"></a>Qform <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">score=</span><span class="st">&quot;Q.kplus1 ~ sex + low_par_edu + edu&quot;</span>)</span>
+<span id="cb87-12"><a href="estimate-the-ate-by-tmle.html#cb87-12" tabindex="-1"></a>gform <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;edu ~ sex + low_par_edu&quot;</span>)</span>
+<span id="cb87-13"><a href="estimate-the-ate-by-tmle.html#cb87-13" tabindex="-1"></a></span>
+<span id="cb87-14"><a href="estimate-the-ate-by-tmle.html#cb87-14" tabindex="-1"></a>SL.library <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">Q=</span><span class="fu">c</span>(<span class="st">&quot;SL.mean&quot;</span>,<span class="st">&quot;SL.glm&quot;</span>,<span class="st">&quot;SL.interaction.back&quot;</span>, <span class="st">&quot;SL.hal9001.Qbar&quot;</span>),</span>
+<span id="cb87-15"><a href="estimate-the-ate-by-tmle.html#cb87-15" tabindex="-1"></a>                   <span class="at">g=</span><span class="fu">c</span>(<span class="st">&quot;SL.mean&quot;</span>,<span class="st">&quot;SL.glm&quot;</span>,<span class="st">&quot;SL.interaction.back&quot;</span>, <span class="st">&quot;SL.hal9001&quot;</span>))</span>
+<span id="cb87-16"><a href="estimate-the-ate-by-tmle.html#cb87-16" tabindex="-1"></a></span>
+<span id="cb87-17"><a href="estimate-the-ate-by-tmle.html#cb87-17" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb87-18"><a href="estimate-the-ate-by-tmle.html#cb87-18" tabindex="-1"></a>Psi_ATE_tmle_score <span class="ot">&lt;-</span> <span class="fu">ltmle</span>(<span class="at">data =</span> <span class="fu">subset</span>(df, </span>
+<span id="cb87-19"><a href="estimate-the-ate-by-tmle.html#cb87-19" tabindex="-1"></a>                                          <span class="at">select =</span> <span class="fu">c</span>(sex, low_par_edu,</span>
+<span id="cb87-20"><a href="estimate-the-ate-by-tmle.html#cb87-20" tabindex="-1"></a>                                                     edu,</span>
+<span id="cb87-21"><a href="estimate-the-ate-by-tmle.html#cb87-21" tabindex="-1"></a>                                                     score)),</span>
+<span id="cb87-22"><a href="estimate-the-ate-by-tmle.html#cb87-22" tabindex="-1"></a>                      <span class="at">Anodes =</span> <span class="st">&quot;edu&quot;</span>,</span>
+<span id="cb87-23"><a href="estimate-the-ate-by-tmle.html#cb87-23" tabindex="-1"></a>                      <span class="at">Ynodes =</span> <span class="st">&quot;score&quot;</span>,</span>
+<span id="cb87-24"><a href="estimate-the-ate-by-tmle.html#cb87-24" tabindex="-1"></a>                      <span class="at">Qform =</span> Qform,</span>
+<span id="cb87-25"><a href="estimate-the-ate-by-tmle.html#cb87-25" tabindex="-1"></a>                      <span class="at">gform =</span> gform,</span>
+<span id="cb87-26"><a href="estimate-the-ate-by-tmle.html#cb87-26" tabindex="-1"></a>                      <span class="at">gbounds =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="dv">1</span>),</span>
+<span id="cb87-27"><a href="estimate-the-ate-by-tmle.html#cb87-27" tabindex="-1"></a>                      <span class="at">abar =</span> <span class="fu">list</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="co"># vector of the counterfactual treatment </span></span>
+<span id="cb87-28"><a href="estimate-the-ate-by-tmle.html#cb87-28" tabindex="-1"></a>                      <span class="at">SL.library =</span> SL.library,</span>
+<span id="cb87-29"><a href="estimate-the-ate-by-tmle.html#cb87-29" tabindex="-1"></a>                      <span class="at">variance.method =</span> <span class="st">&quot;ic&quot;</span>)</span>
+<span id="cb87-30"><a href="estimate-the-ate-by-tmle.html#cb87-30" tabindex="-1"></a><span class="fu">summary</span>(Psi_ATE_tmle_score, <span class="at">estimator =</span> <span class="st">&quot;tmle&quot;</span>)</span></code></pre></div>
+<pre><code>## Estimator:  tmle 
+## Call:
+## ltmle(data = subset(df, select = c(sex, low_par_edu, edu, score)), 
+##     Anodes = &quot;edu&quot;, Ynodes = &quot;score&quot;, Qform = Qform, gform = gform, 
+##     abar = list(1, 0), gbounds = c(0.01, 1), SL.library = SL.library, 
+##     variance.method = &quot;ic&quot;)
+## 
+## Treatment Estimate:
+##    Parameter Estimate:  22.496 
+##     Estimated Std Err:  0.25199 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (22.002, 22.989) 
+## 
+## Control Estimate:
+##    Parameter Estimate:  42.256 
+##     Estimated Std Err:  0.28487 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (41.698, 42.814) 
+## 
+## Additive Treatment Effect:
+##    Parameter Estimate:  -19.76 
+##     Estimated Std Err:  0.37746 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (-20.5, -19.021)</code></pre>
+<p>On the difference scale, the TMLE estimation of the ATE from the <code>ltmle</code> package for death probability and quantitative score is +18.65% (95% CI=[17.03%, +20.26%]) and -19.76 [-20.5, -19.021] respectively.</p>
 <p>Note that the <code>ltmle</code> package can also be used to calculate the IPTW estimation of the ATE and the CDE.</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="estimate-the-ate-by-tmle.html#cb66-1" tabindex="-1"></a><span class="co"># using the output from the previous ltmle() procedure</span></span>
-<span id="cb66-2"><a href="estimate-the-ate-by-tmle.html#cb66-2" tabindex="-1"></a><span class="fu">summary</span>(Psi_ATE_tmle, <span class="at">estimator =</span> <span class="st">&quot;iptw&quot;</span>)</span>
-<span id="cb66-3"><a href="estimate-the-ate-by-tmle.html#cb66-3" tabindex="-1"></a><span class="co"># Additive Treatment Effect:</span></span>
-<span id="cb66-4"><a href="estimate-the-ate-by-tmle.html#cb66-4" tabindex="-1"></a><span class="co">#    Parameter Estimate:  0.18659 </span></span>
-<span id="cb66-5"><a href="estimate-the-ate-by-tmle.html#cb66-5" tabindex="-1"></a><span class="co">#     Estimated Std Err:  0.0083201 </span></span>
-<span id="cb66-6"><a href="estimate-the-ate-by-tmle.html#cb66-6" tabindex="-1"></a><span class="co">#               p-value:  &lt;2e-16 </span></span>
-<span id="cb66-7"><a href="estimate-the-ate-by-tmle.html#cb66-7" tabindex="-1"></a><span class="co">#     95% Conf Interval: (0.17029, 0.2029) </span></span>
-<span id="cb66-8"><a href="estimate-the-ate-by-tmle.html#cb66-8" tabindex="-1"></a></span>
-<span id="cb66-9"><a href="estimate-the-ate-by-tmle.html#cb66-9" tabindex="-1"></a><span class="fu">summary</span>(Psi_ATE_tmle_score, <span class="at">estimator =</span> <span class="st">&quot;iptw&quot;</span>)</span>
-<span id="cb66-10"><a href="estimate-the-ate-by-tmle.html#cb66-10" tabindex="-1"></a><span class="co"># Additive Treatment Effect:</span></span>
-<span id="cb66-11"><a href="estimate-the-ate-by-tmle.html#cb66-11" tabindex="-1"></a><span class="co">#    Parameter Estimate:  -19.763 </span></span>
-<span id="cb66-12"><a href="estimate-the-ate-by-tmle.html#cb66-12" tabindex="-1"></a><span class="co">#     Estimated Std Err:  0.38341 </span></span>
-<span id="cb66-13"><a href="estimate-the-ate-by-tmle.html#cb66-13" tabindex="-1"></a><span class="co">#               p-value:  &lt;2e-16 </span></span>
-<span id="cb66-14"><a href="estimate-the-ate-by-tmle.html#cb66-14" tabindex="-1"></a><span class="co">#     95% Conf Interval: (-20.515, -19.012) </span></span></code></pre></div>
-<p>The IPTW estimation of the ATE from the <code>ltmle</code> package for death probability and mean quality of life is +18.66% (95% CI=[+17.03%, +20.29%]) and -19.76 [-20.52, -19.01].</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="estimate-the-ate-by-tmle.html#cb89-1" tabindex="-1"></a><span class="co"># using the output from the previous ltmle() procedure</span></span>
+<span id="cb89-2"><a href="estimate-the-ate-by-tmle.html#cb89-2" tabindex="-1"></a><span class="fu">summary</span>(Psi_ATE_tmle, <span class="at">estimator =</span> <span class="st">&quot;iptw&quot;</span>)</span></code></pre></div>
+<pre><code>## Estimator:  iptw 
+## Call:
+## ltmle(data = data_ltmle, Anodes = &quot;edu&quot;, Ynodes = &quot;death&quot;, Qform = Qform, 
+##     gform = gform, abar = list(1, 0), gbounds = c(0.01, 1), SL.library = SL.library, 
+##     variance.method = &quot;ic&quot;)
+## 
+## Treatment Estimate:
+##    Parameter Estimate:  0.33069 
+##     Estimated Std Err:  0.0061262 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (0.31868, 0.3427) 
+## 
+## Control Estimate:
+##    Parameter Estimate:  0.14409 
+##     Estimated Std Err:  0.0056297 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (0.13306, 0.15513) 
+## 
+## Additive Treatment Effect:
+##    Parameter Estimate:  0.18659 
+##     Estimated Std Err:  0.0083201 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (0.17029, 0.2029) 
+## 
+## Relative Risk:
+##    Parameter Estimate:  2.295 
+##   Est Std Err log(RR):  0.04324 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (2.1085, 2.4979) 
+## 
+## Odds Ratio:
+##    Parameter Estimate:  2.9348 
+##   Est Std Err log(OR):  0.053383 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (2.6432, 3.2585)</code></pre>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="estimate-the-ate-by-tmle.html#cb91-1" tabindex="-1"></a><span class="co"># Additive Treatment Effect:</span></span>
+<span id="cb91-2"><a href="estimate-the-ate-by-tmle.html#cb91-2" tabindex="-1"></a><span class="co">#    Parameter Estimate:  0.18659 </span></span>
+<span id="cb91-3"><a href="estimate-the-ate-by-tmle.html#cb91-3" tabindex="-1"></a><span class="co">#     Estimated Std Err:  0.0083201 </span></span>
+<span id="cb91-4"><a href="estimate-the-ate-by-tmle.html#cb91-4" tabindex="-1"></a><span class="co">#               p-value:  &lt;2e-16 </span></span>
+<span id="cb91-5"><a href="estimate-the-ate-by-tmle.html#cb91-5" tabindex="-1"></a><span class="co">#     95% Conf Interval: (0.17029, 0.2029) </span></span>
+<span id="cb91-6"><a href="estimate-the-ate-by-tmle.html#cb91-6" tabindex="-1"></a></span>
+<span id="cb91-7"><a href="estimate-the-ate-by-tmle.html#cb91-7" tabindex="-1"></a><span class="fu">summary</span>(Psi_ATE_tmle_score, <span class="at">estimator =</span> <span class="st">&quot;iptw&quot;</span>)</span></code></pre></div>
+<pre><code>## Estimator:  iptw 
+## Call:
+## ltmle(data = subset(df, select = c(sex, low_par_edu, edu, score)), 
+##     Anodes = &quot;edu&quot;, Ynodes = &quot;score&quot;, Qform = Qform, gform = gform, 
+##     abar = list(1, 0), gbounds = c(0.01, 1), SL.library = SL.library, 
+##     variance.method = &quot;ic&quot;)
+## 
+## Treatment Estimate:
+##    Parameter Estimate:  22.491 
+##     Estimated Std Err:  0.25389 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (21.993, 22.989) 
+## 
+## Control Estimate:
+##    Parameter Estimate:  42.254 
+##     Estimated Std Err:  0.2873 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (41.691, 42.817) 
+## 
+## Additive Treatment Effect:
+##    Parameter Estimate:  -19.763 
+##     Estimated Std Err:  0.38341 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (-20.515, -19.012)</code></pre>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="estimate-the-ate-by-tmle.html#cb93-1" tabindex="-1"></a><span class="co"># Additive Treatment Effect:</span></span>
+<span id="cb93-2"><a href="estimate-the-ate-by-tmle.html#cb93-2" tabindex="-1"></a><span class="co">#    Parameter Estimate:  -19.763 </span></span>
+<span id="cb93-3"><a href="estimate-the-ate-by-tmle.html#cb93-3" tabindex="-1"></a><span class="co">#     Estimated Std Err:  0.38341 </span></span>
+<span id="cb93-4"><a href="estimate-the-ate-by-tmle.html#cb93-4" tabindex="-1"></a><span class="co">#               p-value:  &lt;2e-16 </span></span>
+<span id="cb93-5"><a href="estimate-the-ate-by-tmle.html#cb93-5" tabindex="-1"></a><span class="co">#     95% Conf Interval: (-20.515, -19.012) </span></span></code></pre></div>
+<p>On a difference scale, the IPTW estimation of the ATE from the <code>ltmle</code> package for death probability and the quantitative score is +18.66% (95% CI=[+17.03%, +20.29%]) and -19.76 [-20.52, -19.01], respectively.</p>
 
 </div>
 </div>
-<h3> Estimate rNDE and rNIE by TMLE<a href="estimate-rnde-and-rnie-by-tmle.html#estimate-rnde-and-rnie-by-tmle" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<h3>References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-vanderlaan_book2011" class="csl-entry">
 Laan, Mark J. van der, and Sherri Rose. 2011. <em>Targeted Learning: Causal Inference for Observational and Experimental Data.</em> 1st ed. Springer Series in Statistics. New York, NY: Springer.

@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 7 ltmle package with interval censored survival data | Inserm Workshop 282 - practical session</title>
+  <meta name="description" content="Chapter 7 ltmle package with interval censored survival data | Inserm Workshop 282 - practical session" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 7 ltmle package with interval censored survival data | Inserm Workshop 282 - practical session" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Chapter 7 ltmle package with interval censored survival data | Inserm Workshop 282 - practical session" />
+  <meta name="github-repo" content="Inserm_workshop_282" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 7 ltmle package with interval censored survival data | Inserm Workshop 282 - practical session" />
+  
+  <meta name="twitter:description" content="Chapter 7 ltmle package with interval censored survival data | Inserm Workshop 282 - practical session" />
+  
+
+<meta name="author" content="Benoît Lepage" />
+
+
+<meta name="date" content="2025-10-12" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="estimate-rnde-and-rnie-by-double-robust-estimators.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Inserm_workshop_282</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#data-generating-system"><i class="fa fa-check"></i><b>1.1</b> Data generating system</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="reminders---estimate-the-ate.html"><a href="reminders---estimate-the-ate.html"><i class="fa fa-check"></i><b>2</b> Reminders - Estimate the ATE</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="reminders---estimate-the-ate.html"><a href="reminders---estimate-the-ate.html#estimation-of-the-average-total-effect-ate-by-g-computation"><i class="fa fa-check"></i><b>2.1</b> Estimation of the Average Total Effect (ATE) by g-computation</a></li>
+<li class="chapter" data-level="2.2" data-path="reminders---estimate-the-ate.html"><a href="reminders---estimate-the-ate.html#estimation-of-the-ate-by-iptw"><i class="fa fa-check"></i><b>2.2</b> Estimation of the ATE by IPTW</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="reminders---estimate-the-ate.html"><a href="reminders---estimate-the-ate.html#classic-horvitz-thompson-estimator"><i class="fa fa-check"></i><b>2.2.1</b> “Classic” Horvitz Thompson estimator</a></li>
+<li class="chapter" data-level="2.2.2" data-path="reminders---estimate-the-ate.html"><a href="reminders---estimate-the-ate.html#stabilized-iptw-for-the-ate"><i class="fa fa-check"></i><b>2.2.2</b> Stabilized IPTW for the ATE</a></li>
+<li class="chapter" data-level="2.2.3" data-path="reminders---estimate-the-ate.html"><a href="reminders---estimate-the-ate.html#using-an-msm-estimated-by-iptw"><i class="fa fa-check"></i><b>2.2.3</b> Using an MSM estimated by IPTW</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="applying-the-cmaverse.html"><a href="applying-the-cmaverse.html"><i class="fa fa-check"></i><b>3</b> Applying the CMAverse</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="applying-the-cmaverse.html"><a href="applying-the-cmaverse.html#estimation-by-parametric-g-computation"><i class="fa fa-check"></i><b>3.1</b> Estimation by “parametric” g-computation</a></li>
+<li class="chapter" data-level="3.2" data-path="applying-the-cmaverse.html"><a href="applying-the-cmaverse.html#estimation-by-msm-estimated-by-iptw"><i class="fa fa-check"></i><b>3.2</b> Estimation by MSM estimated by IPTW</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="estimate-the-ate-by-tmle.html"><a href="estimate-the-ate-by-tmle.html"><i class="fa fa-check"></i><b>4</b> Estimate the ATE by TMLE</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="estimate-the-ate-by-tmle.html"><a href="estimate-the-ate-by-tmle.html#tmle-for-the-ate"><i class="fa fa-check"></i><b>4.1</b> TMLE for the ATE</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html"><i class="fa fa-check"></i><b>5</b> Estimate the CDE using the <code>ltmle</code> package</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#ChapGcomp-CDE-ICE"><i class="fa fa-check"></i><b>5.1</b> G-computation by iterative conditional expectation</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#algorithm-and-manual-calculation"><i class="fa fa-check"></i><b>5.1.1</b> Algorithm and manual calculation</a></li>
+<li class="chapter" data-level="5.1.2" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#g-computation-by-ice-using-the-ltmle-package"><i class="fa fa-check"></i><b>5.1.2</b> G-computation by ICE using the <code>ltmle</code> package</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#iptw-estimator-of-the-cde"><i class="fa fa-check"></i><b>5.2</b> IPTW estimator of the CDE</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#estimation-of-the-msm-coefficients-by-iptw"><i class="fa fa-check"></i><b>5.2.1</b> Estimation of the MSM coefficients by IPTW</a></li>
+<li class="chapter" data-level="5.2.2" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#iptw-estmation-using-the-ltmle-package"><i class="fa fa-check"></i><b>5.2.2</b> IPTW estmation using the ltmle package</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#tmle-estimator-of-the-cde"><i class="fa fa-check"></i><b>5.3</b> TMLE estimator of the CDE</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#for-binary-outcomes"><i class="fa fa-check"></i><b>5.3.1</b> For binary outcomes</a></li>
+<li class="chapter" data-level="5.3.2" data-path="estimate-the-cde-using-the-ltmle-package.html"><a href="estimate-the-cde-using-the-ltmle-package.html#for-continuous-outcomes"><i class="fa fa-check"></i><b>5.3.2</b> For continuous outcomes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="estimate-rnde-and-rnie-by-double-robust-estimators.html"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html"><i class="fa fa-check"></i><b>6</b> Estimate rNDE and rNIE by double robust estimators</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="estimate-rnde-and-rnie-by-double-robust-estimators.html"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#g-computation-algorithm-to-compute-randomized-natural-direct-and-indirect-effects"><i class="fa fa-check"></i><b>6.1</b> G-computation algorithm to compute randomized Natural Direct and Indirect effects</a></li>
+<li class="chapter" data-level="6.2" data-path="estimate-rnde-and-rnie-by-double-robust-estimators.html"><a href="estimate-rnde-and-rnie-by-double-robust-estimators.html#packages-to-get-double-robust-estimations"><i class="fa fa-check"></i><b>6.2</b> Packages to get double robust estimations</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ltmle-package-with-interval-censored-survival-data.html"><a href="ltmle-package-with-interval-censored-survival-data.html"><i class="fa fa-check"></i><b>7</b> <code>ltmle</code> package with interval censored survival data</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="ltmle-package-with-interval-censored-survival-data.html"><a href="ltmle-package-with-interval-censored-survival-data.html#setting"><i class="fa fa-check"></i><b>7.1</b> Setting</a></li>
+<li class="chapter" data-level="7.2" data-path="ltmle-package-with-interval-censored-survival-data.html"><a href="ltmle-package-with-interval-censored-survival-data.html#data-generating-function"><i class="fa fa-check"></i><b>7.2</b> Data generating function</a></li>
+<li class="chapter" data-level="7.3" data-path="ltmle-package-with-interval-censored-survival-data.html"><a href="ltmle-package-with-interval-censored-survival-data.html#inspect-the-data-generated"><i class="fa fa-check"></i><b>7.3</b> Inspect the data generated</a></li>
+<li class="chapter" data-level="7.4" data-path="ltmle-package-with-interval-censored-survival-data.html"><a href="ltmle-package-with-interval-censored-survival-data.html#estimate-the-controlled-direct-effect"><i class="fa fa-check"></i><b>7.4</b> Estimate the controlled direct effect</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Inserm Workshop 282 - practical session</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ltmle-package-with-interval-censored-survival-data" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Chapter 7</span> <code>ltmle</code> package with interval censored survival data<a href="ltmle-package-with-interval-censored-survival-data.html#ltmle-package-with-interval-censored-survival-data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="setting" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Setting<a href="ltmle-package-with-interval-censored-survival-data.html#setting" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The <code>ltmle</code> package can be used to estimate a cumulative risk, with interval censored survival data.</p>
+<p>Here we simulate a simple example, based on 2 intervals between 3 visits.</p>
+<ul>
+<li>baseline confounders <span class="math inline">\(L(0)\)</span> and the exposure of interest <span class="math inline">\(A\)</span> is measured at visit 1.</li>
+<li>intermediate confounders <span class="math inline">\(L(1)\)</span> and the mediator <span class="math inline">\(M\)</span> are measured at visit 2. Death and censoring can occur before the mediator:</li>
+<li><span class="math inline">\(Y(1)\)</span> and <span class="math inline">\(Y(2)\)</span> are occurences of death between visits 1 and 2, and visits 2 and 3.</li>
+<li><span class="math inline">\(C(1)\)</span> and <span class="math inline">\(C(2)\)</span> are censoring occuring before visit 2 and before visite 3, respectively. They will be considered as exposure variables (treatment mechanisms) and counterfactual scenarios will be emulated under “no censoring”. Censoring can be informative (influenced by previous variables in the system).</li>
+</ul>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:figDAG2"></span>
+<img src="images/DAG_survival.jpg" alt="DAG with interval censored survival data" width="100%" />
+<p class="caption">
+Figure 7.1: DAG with interval censored survival data
+</p>
+</div>
+<p>In this example, we simulate the exposure and the mediator as 3-level categorical variables. In order to implement the <code>ltmle</code> function, each one needs to be recoded by 2 dummy variables. For example:</p>
+<ul>
+<li>The exposure <span class="math inline">\(A(1)= \{0,1,2\}\)</span> can be recoded by 2 dummy variables (<span class="math inline">\(A(1)_1\)</span> and <span class="math inline">\(A(1)_2\)</span>):
+<span class="math display">\[\begin{align*}
+A(1)_1 &amp;= \mathbb{I}(A(1) = 1) \\
+A(1)_2 &amp;= \mathbb{I}(A(1) = 2) \\
+  \end{align*}\]</span>
+and the distribution <span class="math inline">\(P(a(1)) = P(a(1)_1, a(1)_2) = P(a(1)_1) \times (P(a(1)_2 \mid a(1)_1)\)</span>. We also know that if the first dummy variable <span class="math inline">\(A(1)_1 = 1\)</span>, then <span class="math inline">\(A(1)_2 = 0\)</span> deterministically. However, if <span class="math inline">\(A(1)_1 = 0\)</span>, then we can apply the conditional probability <span class="math inline">\(P(A(1)_2 = 1 \mid L(0))\)</span>.</li>
+</ul>
+</div>
+<div id="data-generating-function" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Data generating function<a href="ltmle-package-with-interval-censored-survival-data.html#data-generating-function" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Here is a example of a function simulating data corresponding to this DAG.</p>
+<p>Note, in this example, we did not add “Exposures <span class="math inline">\(\times\)</span> mediator” interaction terms in the 2 outcome models, so that the controlled direct effects is expected to be independent of the value <span class="math inline">\(m\)</span> chosen, when setting <span class="math inline">\(M=m\)</span> for Controlled Direct Effects.</p>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-1" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb164-2"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-2" tabindex="-1"></a></span>
+<span id="cb164-3"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-3" tabindex="-1"></a><span class="do">## Data generating function ----</span></span>
+<span id="cb164-4"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-4" tabindex="-1"></a>GenerateData.CDE <span class="ot">&lt;-</span> <span class="cf">function</span>(N) { </span>
+<span id="cb164-5"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-5" tabindex="-1"></a>  <span class="co"># rexpit function</span></span>
+<span id="cb164-6"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-6" tabindex="-1"></a>  rexpit <span class="ot">&lt;-</span> <span class="cf">function</span> (x) <span class="fu">rbinom</span>(<span class="fu">length</span>(x), <span class="dv">1</span>, <span class="fu">plogis</span>(x))</span>
+<span id="cb164-7"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-7" tabindex="-1"></a>  </span>
+<span id="cb164-8"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-8" tabindex="-1"></a>  <span class="co"># baseline confounders L0</span></span>
+<span id="cb164-9"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-9" tabindex="-1"></a>  L0_1 <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(N, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.45</span>) </span>
+<span id="cb164-10"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-10" tabindex="-1"></a>  L0_2 <span class="ot">&lt;-</span> <span class="fu">rexpit</span>(<span class="fu">qlogis</span>(<span class="fl">0.6</span>) <span class="sc">+</span> <span class="fu">log</span>(<span class="fl">1.5</span>) <span class="sc">*</span> L0_1) </span>
+<span id="cb164-11"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-11" tabindex="-1"></a>  </span>
+<span id="cb164-12"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-12" tabindex="-1"></a>  <span class="co"># exposure A: treatment</span></span>
+<span id="cb164-13"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-13" tabindex="-1"></a>  A1_1 <span class="ot">&lt;-</span> <span class="fu">rexpit</span>(<span class="fu">qlogis</span>(<span class="fl">0.2</span>) <span class="sc">+</span> <span class="fu">log</span>(<span class="fl">0.9</span>) <span class="sc">*</span> L0_1  <span class="sc">+</span> <span class="fu">log</span>(<span class="fl">1.5</span>) <span class="sc">*</span> L0_2)</span>
+<span id="cb164-14"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-14" tabindex="-1"></a>  A1_2 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(A1_1 <span class="sc">==</span> <span class="dv">1</span>,</span>
+<span id="cb164-15"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-15" tabindex="-1"></a>                 <span class="dv">0</span>,</span>
+<span id="cb164-16"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-16" tabindex="-1"></a>                 <span class="fu">rexpit</span>(<span class="fu">qlogis</span>(<span class="fl">0.5</span>) <span class="sc">+</span> <span class="fu">log</span>(<span class="fl">0.8</span>) <span class="sc">*</span> L0_1  <span class="sc">+</span> <span class="fu">log</span>(<span class="dv">2</span>) <span class="sc">*</span> L0_2))</span>
+<span id="cb164-17"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-17" tabindex="-1"></a>  </span>
+<span id="cb164-18"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-18" tabindex="-1"></a>  <span class="co"># censoring C1</span></span>
+<span id="cb164-19"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-19" tabindex="-1"></a>  C1 <span class="ot">&lt;-</span> <span class="fu">rexpit</span>(<span class="fu">qlogis</span>(<span class="fl">0.03</span>) <span class="sc">+</span> <span class="fu">log</span>(<span class="fl">1.4</span>) <span class="sc">*</span> L0_1  <span class="sc">+</span> <span class="fu">log</span>(<span class="fl">1.4</span>) <span class="sc">*</span> L0_2 <span class="sc">+</span> </span>
+<span id="cb164-20"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-20" tabindex="-1"></a>                 <span class="fu">log</span>(<span class="fl">1.1</span>) <span class="sc">*</span> A1_1 <span class="sc">+</span> <span class="fu">log</span>(<span class="fl">1.4</span>) <span class="sc">*</span> A1_2)</span>
+<span id="cb164-21"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-21" tabindex="-1"></a>  </span>
+<span id="cb164-22"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-22" tabindex="-1"></a>  <span class="co"># death Y1</span></span>
+<span id="cb164-23"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-23" tabindex="-1"></a>  Y1 <span class="ot">&lt;-</span> <span class="fu">rexpit</span>(<span class="fu">qlogis</span>(<span class="fl">0.05</span>) <span class="sc">+</span> <span class="fu">log</span>(<span class="fl">1.2</span>) <span class="sc">*</span> L0_1  <span class="sc">+</span> <span class="fu">log</span>(<span class="fl">1.5</span>) <span class="sc">*</span> L0_2 <span class="sc">+</span> </span>
+<span id="cb164-24"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-24" tabindex="-1"></a>                 <span class="fu">log</span>(<span class="dv">2</span>) <span class="sc">*</span> A1_1 <span class="sc">+</span> <span class="fu">log</span>(<span class="dv">3</span>) <span class="sc">*</span> A1_2)  </span>
+<span id="cb164-25"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-25" tabindex="-1"></a>  </span>
+<span id="cb164-26"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-26" tabindex="-1"></a>  <span class="do">### intermediate counfounders L1</span></span>
+<span id="cb164-27"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-27" tabindex="-1"></a>  L1 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(Y1 <span class="sc">==</span> <span class="dv">1</span>,</span>
+<span id="cb164-28"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-28" tabindex="-1"></a>               <span class="cn">NA</span>,</span>
+<span id="cb164-29"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-29" tabindex="-1"></a>               <span class="fu">rnorm</span>(N, <span class="at">mean =</span> <span class="dv">50</span> <span class="sc">+</span> (<span class="dv">5</span> <span class="sc">*</span> L0_1) <span class="sc">+</span> </span>
+<span id="cb164-30"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-30" tabindex="-1"></a>                       (<span class="sc">-</span><span class="dv">3</span> <span class="sc">*</span> L0_2) <span class="sc">+</span> (<span class="dv">4</span> <span class="sc">*</span> A1_1) <span class="sc">+</span> (<span class="dv">10</span> <span class="sc">*</span> A1_2),</span>
+<span id="cb164-31"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-31" tabindex="-1"></a>                     <span class="at">sd =</span> <span class="dv">15</span>))</span>
+<span id="cb164-32"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-32" tabindex="-1"></a></span>
+<span id="cb164-33"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-33" tabindex="-1"></a>  <span class="co"># mediator M2: continue treatment</span></span>
+<span id="cb164-34"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-34" tabindex="-1"></a>  M2_1 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(Y1 <span class="sc">==</span> <span class="dv">1</span>, </span>
+<span id="cb164-35"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-35" tabindex="-1"></a>                 <span class="cn">NA</span>, </span>
+<span id="cb164-36"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-36" tabindex="-1"></a>                 <span class="fu">rexpit</span>(<span class="fu">qlogis</span>(<span class="fl">0.4</span>) <span class="sc">+</span> <span class="fu">log</span>(<span class="fl">0.9</span>) <span class="sc">*</span> L0_1[Y1 <span class="sc">==</span> <span class="dv">0</span>]  <span class="sc">+</span> </span>
+<span id="cb164-37"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-37" tabindex="-1"></a>                          <span class="fu">log</span>(<span class="fl">1.5</span>) <span class="sc">*</span> L0_2[Y1 <span class="sc">==</span> <span class="dv">0</span>] <span class="sc">+</span> </span>
+<span id="cb164-38"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-38" tabindex="-1"></a>                          <span class="fu">log</span>(<span class="fl">1.3</span>) <span class="sc">*</span> A1_1[Y1 <span class="sc">==</span> <span class="dv">0</span>] <span class="sc">+</span> <span class="fu">log</span>(<span class="fl">1.6</span>) <span class="sc">*</span> A1_2[Y1 <span class="sc">==</span> <span class="dv">0</span>] <span class="sc">+</span> </span>
+<span id="cb164-39"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-39" tabindex="-1"></a>                          <span class="fu">log</span>(<span class="fl">1.02</span>) <span class="sc">*</span> L1[Y1 <span class="sc">==</span> <span class="dv">0</span>]))</span>
+<span id="cb164-40"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-40" tabindex="-1"></a>  M2_2 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, N)</span>
+<span id="cb164-41"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-41" tabindex="-1"></a>  M2_2[Y1 <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb164-42"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-42" tabindex="-1"></a>  M2_2[Y1 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> M2_1 <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb164-43"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-43" tabindex="-1"></a>  M2_2[Y1 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> M2_1 <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="fu">rexpit</span>(<span class="fu">qlogis</span>(<span class="fl">0.4</span>) <span class="sc">+</span> </span>
+<span id="cb164-44"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-44" tabindex="-1"></a>                                        <span class="fu">log</span>(<span class="fl">0.9</span>) <span class="sc">*</span> L0_1[Y1 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> M2_1 <span class="sc">==</span> <span class="dv">0</span>]  <span class="sc">+</span> </span>
+<span id="cb164-45"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-45" tabindex="-1"></a>                                        <span class="fu">log</span>(<span class="fl">1.5</span>) <span class="sc">*</span> L0_2[Y1 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> M2_1 <span class="sc">==</span> <span class="dv">0</span>] <span class="sc">+</span> </span>
+<span id="cb164-46"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-46" tabindex="-1"></a>                                        <span class="fu">log</span>(<span class="fl">1.5</span>) <span class="sc">*</span> A1_1[Y1 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> M2_1 <span class="sc">==</span> <span class="dv">0</span>] <span class="sc">+</span> </span>
+<span id="cb164-47"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-47" tabindex="-1"></a>                                        <span class="fu">log</span>(<span class="dv">2</span>) <span class="sc">*</span> A1_2[Y1 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> M2_1 <span class="sc">==</span> <span class="dv">0</span>] <span class="sc">+</span> </span>
+<span id="cb164-48"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-48" tabindex="-1"></a>                                        <span class="fu">log</span>(<span class="fl">1.03</span>) <span class="sc">*</span> L1[Y1 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> M2_1 <span class="sc">==</span> <span class="dv">0</span>])</span>
+<span id="cb164-49"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-49" tabindex="-1"></a>  </span>
+<span id="cb164-50"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-50" tabindex="-1"></a>  <span class="co"># censoring C2</span></span>
+<span id="cb164-51"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-51" tabindex="-1"></a>  C2 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, N)</span>
+<span id="cb164-52"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-52" tabindex="-1"></a>  C2[Y1 <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb164-53"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-53" tabindex="-1"></a>  C2[Y1 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> C1 <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb164-54"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-54" tabindex="-1"></a>  C2[Y1 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> C1 <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="fu">rexpit</span>(<span class="fu">qlogis</span>(<span class="fl">0.03</span>) <span class="sc">+</span> </span>
+<span id="cb164-55"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-55" tabindex="-1"></a>                                    <span class="fu">log</span>(<span class="fl">1.4</span>) <span class="sc">*</span> L0_1[Y1 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> C1 <span class="sc">==</span> <span class="dv">0</span>] <span class="sc">+</span> </span>
+<span id="cb164-56"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-56" tabindex="-1"></a>                                    <span class="fu">log</span>(<span class="fl">1.4</span>) <span class="sc">*</span> L0_2[Y1 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> C1 <span class="sc">==</span> <span class="dv">0</span>] <span class="sc">+</span> </span>
+<span id="cb164-57"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-57" tabindex="-1"></a>                                    <span class="fu">log</span>(<span class="fl">1.05</span>) <span class="sc">*</span> A1_1[Y1 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> C1 <span class="sc">==</span> <span class="dv">0</span>] <span class="sc">+</span> </span>
+<span id="cb164-58"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-58" tabindex="-1"></a>                                    <span class="fu">log</span>(<span class="fl">1.2</span>) <span class="sc">*</span> A1_2[Y1 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> C1 <span class="sc">==</span> <span class="dv">0</span>] <span class="sc">+</span> </span>
+<span id="cb164-59"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-59" tabindex="-1"></a>                                    <span class="fu">log</span>(<span class="fl">1.01</span>) <span class="sc">*</span> L1[Y1 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> C1 <span class="sc">==</span> <span class="dv">0</span>] <span class="sc">+</span> </span>
+<span id="cb164-60"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-60" tabindex="-1"></a>                                    <span class="fu">log</span>(<span class="fl">1.1</span>) <span class="sc">*</span> M2_1[Y1 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> C1 <span class="sc">==</span> <span class="dv">0</span>] <span class="sc">+</span> </span>
+<span id="cb164-61"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-61" tabindex="-1"></a>                                    <span class="fu">log</span>(<span class="fl">1.4</span>) <span class="sc">*</span> M2_2[Y1 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> C1 <span class="sc">==</span> <span class="dv">0</span>])</span>
+<span id="cb164-62"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-62" tabindex="-1"></a></span>
+<span id="cb164-63"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-63" tabindex="-1"></a>  <span class="co"># death Y2</span></span>
+<span id="cb164-64"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-64" tabindex="-1"></a>  Y2 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, N)</span>
+<span id="cb164-65"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-65" tabindex="-1"></a>  Y2[Y1 <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb164-66"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-66" tabindex="-1"></a>  Y2[Y1 <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="fu">rexpit</span>(<span class="fu">qlogis</span>(<span class="fl">0.05</span>) <span class="sc">+</span> <span class="fu">log</span>(<span class="fl">1.2</span>) <span class="sc">*</span> L0_1[Y1 <span class="sc">==</span> <span class="dv">0</span>] <span class="sc">+</span> </span>
+<span id="cb164-67"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-67" tabindex="-1"></a>                          <span class="fu">log</span>(<span class="fl">1.5</span>) <span class="sc">*</span> L0_2[Y1 <span class="sc">==</span> <span class="dv">0</span>] <span class="sc">+</span> </span>
+<span id="cb164-68"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-68" tabindex="-1"></a>                          <span class="fu">log</span>(<span class="fl">1.5</span>) <span class="sc">*</span> A1_1[Y1 <span class="sc">==</span> <span class="dv">0</span>] <span class="sc">+</span> <span class="fu">log</span>(<span class="dv">2</span>) <span class="sc">*</span> A1_2[Y1 <span class="sc">==</span> <span class="dv">0</span>] <span class="sc">+</span> </span>
+<span id="cb164-69"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-69" tabindex="-1"></a>                          <span class="fu">log</span>(<span class="fl">1.01</span>) <span class="sc">*</span> L1[Y1 <span class="sc">==</span> <span class="dv">0</span>] <span class="sc">+</span> </span>
+<span id="cb164-70"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-70" tabindex="-1"></a>                          <span class="fu">log</span>(<span class="fl">1.5</span>) <span class="sc">*</span> M2_1[Y1 <span class="sc">==</span> <span class="dv">0</span>] <span class="sc">+</span> <span class="fu">log</span>(<span class="dv">2</span>) <span class="sc">*</span> M2_2[Y1 <span class="sc">==</span> <span class="dv">0</span>])  </span>
+<span id="cb164-71"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-71" tabindex="-1"></a>                               </span>
+<span id="cb164-72"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-72" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">L0_1 =</span> L0_1, <span class="at">L0_2 =</span> L0_2,</span>
+<span id="cb164-73"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-73" tabindex="-1"></a>                   <span class="at">A1_1 =</span> A1_1, <span class="at">A1_2 =</span> A1_2, C1,</span>
+<span id="cb164-74"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-74" tabindex="-1"></a>                   <span class="at">Y1 =</span> Y1, <span class="at">L1 =</span> L1,</span>
+<span id="cb164-75"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-75" tabindex="-1"></a>                   <span class="at">M2_1 =</span> M2_1, <span class="at">M2_2 =</span> M2_2, C2,</span>
+<span id="cb164-76"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-76" tabindex="-1"></a>                   <span class="at">Y2 =</span> Y2)</span>
+<span id="cb164-77"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-77" tabindex="-1"></a>  </span>
+<span id="cb164-78"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-78" tabindex="-1"></a>  df<span class="sc">$</span>Y1 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(df<span class="sc">$</span>C1 <span class="sc">==</span> <span class="dv">1</span>, <span class="cn">NA</span>, df<span class="sc">$</span>Y1)</span>
+<span id="cb164-79"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-79" tabindex="-1"></a>  df<span class="sc">$</span>L1 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(df<span class="sc">$</span>C1 <span class="sc">==</span> <span class="dv">1</span>, <span class="cn">NA</span>, df<span class="sc">$</span>L1)</span>
+<span id="cb164-80"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-80" tabindex="-1"></a>  df<span class="sc">$</span>M2_1 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(df<span class="sc">$</span>C1 <span class="sc">==</span> <span class="dv">1</span>, <span class="cn">NA</span>, df<span class="sc">$</span>M2_1)</span>
+<span id="cb164-81"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-81" tabindex="-1"></a>  df<span class="sc">$</span>M2_2 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(df<span class="sc">$</span>C1 <span class="sc">==</span> <span class="dv">1</span>, <span class="cn">NA</span>, df<span class="sc">$</span>M2_2)</span>
+<span id="cb164-82"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-82" tabindex="-1"></a>  df<span class="sc">$</span>C2 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(df<span class="sc">$</span>C1 <span class="sc">==</span> <span class="dv">1</span>, <span class="cn">NA</span>, df<span class="sc">$</span>C2)</span>
+<span id="cb164-83"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-83" tabindex="-1"></a>  df<span class="sc">$</span>Y2 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(df<span class="sc">$</span>C2 <span class="sc">==</span> <span class="dv">1</span>, <span class="cn">NA</span>, df<span class="sc">$</span>Y2)</span>
+<span id="cb164-84"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-84" tabindex="-1"></a></span>
+<span id="cb164-85"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-85" tabindex="-1"></a>  <span class="fu">return</span>(df)</span>
+<span id="cb164-86"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-86" tabindex="-1"></a>}</span>
+<span id="cb164-87"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-87" tabindex="-1"></a></span>
+<span id="cb164-88"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-88" tabindex="-1"></a><span class="do">## Generate 1 data frame, named df2 ----</span></span>
+<span id="cb164-89"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-89" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb164-90"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-90" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">GenerateData.CDE</span>(<span class="at">N =</span> <span class="dv">10000</span>)</span>
+<span id="cb164-91"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-91" tabindex="-1"></a><span class="fu">write.csv2</span>(df2, <span class="st">&quot;data/df2.csv&quot;</span>)</span>
+<span id="cb164-92"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-92" tabindex="-1"></a></span>
+<span id="cb164-93"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-93" tabindex="-1"></a><span class="do">## Import data df2</span></span>
+<span id="cb164-94"><a href="ltmle-package-with-interval-censored-survival-data.html#cb164-94" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(<span class="st">&quot;data/df2.csv&quot;</span>)</span></code></pre></div>
+</div>
+<div id="inspect-the-data-generated" class="section level2 hasAnchor" number="7.3">
+<h2><span class="header-section-number">7.3</span> Inspect the data generated<a href="ltmle-package-with-interval-censored-survival-data.html#inspect-the-data-generated" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let’s inspect the data.</p>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-1" tabindex="-1"></a><span class="fu">View</span>(df2)</span>
+<span id="cb165-2"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-2" tabindex="-1"></a>df2 <span class="sc">|&gt;</span> </span>
+<span id="cb165-3"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-3" tabindex="-1"></a>  <span class="fu">with</span>(<span class="fu">table</span>(A1_1, A1_2)) <span class="co"># distribution of the exposure</span></span>
+<span id="cb165-4"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-4" tabindex="-1"></a></span>
+<span id="cb165-5"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-5" tabindex="-1"></a>df2 <span class="sc">|&gt;</span> </span>
+<span id="cb165-6"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-6" tabindex="-1"></a>  <span class="fu">subset</span>(<span class="at">subset =</span> (C1 <span class="sc">==</span> <span class="dv">1</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb165-7"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-7" tabindex="-1"></a>  <span class="fu">summary</span>() <span class="co"># 519 censored after C1</span></span>
+<span id="cb165-8"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-8" tabindex="-1"></a></span>
+<span id="cb165-9"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-9" tabindex="-1"></a>df2 <span class="sc">|&gt;</span> </span>
+<span id="cb165-10"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-10" tabindex="-1"></a>  <span class="fu">subset</span>(<span class="at">subset =</span> (C1 <span class="sc">==</span> <span class="dv">0</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb165-11"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-11" tabindex="-1"></a>  <span class="fu">summary</span>() <span class="co"># distribution of variables uncensored after C1</span></span>
+<span id="cb165-12"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-12" tabindex="-1"></a></span>
+<span id="cb165-13"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-13" tabindex="-1"></a>df2 <span class="sc">|&gt;</span> </span>
+<span id="cb165-14"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-14" tabindex="-1"></a>  <span class="fu">subset</span>(<span class="at">subset =</span> (C1 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> Y1 <span class="sc">==</span> <span class="dv">1</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb165-15"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-15" tabindex="-1"></a>  <span class="fu">summary</span>() <span class="co"># among uncensored participants at C1, 1319 death at Y1</span></span>
+<span id="cb165-16"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-16" tabindex="-1"></a></span>
+<span id="cb165-17"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-17" tabindex="-1"></a>df2 <span class="sc">|&gt;</span> </span>
+<span id="cb165-18"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-18" tabindex="-1"></a>  <span class="fu">subset</span>(<span class="at">subset =</span> (C1 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> Y1 <span class="sc">==</span> <span class="dv">0</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb165-19"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-19" tabindex="-1"></a>  <span class="fu">summary</span>() <span class="co"># distribution of variables uncensored at C1 and alive at Y1</span></span>
+<span id="cb165-20"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-20" tabindex="-1"></a>            </span>
+<span id="cb165-21"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-21" tabindex="-1"></a></span>
+<span id="cb165-22"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-22" tabindex="-1"></a>df2 <span class="sc">|&gt;</span> </span>
+<span id="cb165-23"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-23" tabindex="-1"></a>  <span class="fu">subset</span>(<span class="at">subset =</span> (C1 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> Y1 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> C2 <span class="sc">==</span> <span class="dv">1</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb165-24"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-24" tabindex="-1"></a>  <span class="fu">summary</span>() <span class="co"># 754 censored at C2</span></span>
+<span id="cb165-25"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-25" tabindex="-1"></a></span>
+<span id="cb165-26"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-26" tabindex="-1"></a>df2 <span class="sc">|&gt;</span> </span>
+<span id="cb165-27"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-27" tabindex="-1"></a>  <span class="fu">subset</span>(<span class="at">subset =</span> (C1 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> Y1 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> C2 <span class="sc">==</span> <span class="dv">0</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb165-28"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-28" tabindex="-1"></a>  <span class="fu">summary</span>() <span class="co"># distribution of variable alive at Y1 and uncensored at C2</span></span>
+<span id="cb165-29"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-29" tabindex="-1"></a></span>
+<span id="cb165-30"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-30" tabindex="-1"></a>df2 <span class="sc">|&gt;</span> </span>
+<span id="cb165-31"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-31" tabindex="-1"></a>  <span class="fu">subset</span>(<span class="at">subset =</span> (C1 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> Y1 <span class="sc">==</span> <span class="dv">0</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb165-32"><a href="ltmle-package-with-interval-censored-survival-data.html#cb165-32" tabindex="-1"></a>  <span class="fu">with</span>(<span class="fu">table</span>(M2_1, M2_2)) <span class="co"># distribution of the mediator</span></span></code></pre></div>
+</div>
+<div id="estimate-the-controlled-direct-effect" class="section level2 hasAnchor" number="7.4">
+<h2><span class="header-section-number">7.4</span> Estimate the controlled direct effect<a href="ltmle-package-with-interval-censored-survival-data.html#estimate-the-controlled-direct-effect" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We can use the <code>ltmle</code> function to estimate a Controlled Direct Effect
+<span class="math display">\[\begin{equation*} \small
+  CDE(M=0) = \mathbb{E}\left(Y_{A=2, M=0} \right) - \mathbb{E}\left(Y_{A=0, M=0} \right) = \mathbb{E}\left(Y_{A(1)_1=0, A(1)_2 = 1, M_1 = 0, M_2 = 0} \right) - \mathbb{E}\left(Y_{A(1)_1=0, A(1)_2 = 0, M_1 = 0, M_2 = 0} \right)
+\end{equation*}\]</span>
+We will also estimate the Average Total Effect:
+<span class="math display">\[\begin{equation*}
+  ATE_{A=2 vs A=0} = \mathbb{E}\left(Y_{A=2} \right) - \mathbb{E}\left(Y_{A=0} \right) = \mathbb{E}\left(Y_{A(1)_1=0, A(1)_2 = 1} \right) - \mathbb{E}\left(Y_{A(1)_1=0, A(1)_2 = 0} \right)
+\end{equation*}\]</span></p>
+<p>Before :</p>
+<ul>
+<li>We need to format the censoring variables, using the <code>BinoryToCensoring</code> function which converts binary censoring variables to character vectors of <code>censored/uncensored</code> values.</li>
+<li>We can define a determinist g-function to use with the 3-level exposure and mediator.</li>
+</ul>
+<p>Note 1: in this example, we let the <code>ltmle</code> function define automatically the variables to include in the Q-formulas and g-formulas.</p>
+<p>Note 2: g-formulas should include censoring mechanisms, in addition to the exposure and mediator.</p>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="ltmle-package-with-interval-censored-survival-data.html#cb166-1" tabindex="-1"></a><span class="fu">library</span>(ltmle)</span>
+<span id="cb166-2"><a href="ltmle-package-with-interval-censored-survival-data.html#cb166-2" tabindex="-1"></a>df_ltmle <span class="ot">&lt;-</span> df2</span>
+<span id="cb166-3"><a href="ltmle-package-with-interval-censored-survival-data.html#cb166-3" tabindex="-1"></a></span>
+<span id="cb166-4"><a href="ltmle-package-with-interval-censored-survival-data.html#cb166-4" tabindex="-1"></a><span class="do">## format censoring variables:</span></span>
+<span id="cb166-5"><a href="ltmle-package-with-interval-censored-survival-data.html#cb166-5" tabindex="-1"></a>df_ltmle<span class="sc">$</span>C1 <span class="ot">&lt;-</span> <span class="fu">BinaryToCensoring</span>(<span class="at">is.censored =</span> df_ltmle<span class="sc">$</span>C1)</span>
+<span id="cb166-6"><a href="ltmle-package-with-interval-censored-survival-data.html#cb166-6" tabindex="-1"></a>df_ltmle<span class="sc">$</span>C2 <span class="ot">&lt;-</span> <span class="fu">BinaryToCensoring</span>(<span class="at">is.censored =</span> df_ltmle<span class="sc">$</span>C2)</span>
+<span id="cb166-7"><a href="ltmle-package-with-interval-censored-survival-data.html#cb166-7" tabindex="-1"></a></span>
+<span id="cb166-8"><a href="ltmle-package-with-interval-censored-survival-data.html#cb166-8" tabindex="-1"></a><span class="do">## format the outcome (see the ltmle documation ?ltmle):</span></span>
+<span id="cb166-9"><a href="ltmle-package-with-interval-censored-survival-data.html#cb166-9" tabindex="-1"></a><span class="co"># once a Ynode jumps to 1 (e.g. death), all subsequent Ynode values should be 1</span></span>
+<span id="cb166-10"><a href="ltmle-package-with-interval-censored-survival-data.html#cb166-10" tabindex="-1"></a>df_ltmle<span class="sc">$</span>Y2 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(df_ltmle<span class="sc">$</span>Y1 <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, df_ltmle<span class="sc">$</span>Y2) </span>
+<span id="cb166-11"><a href="ltmle-package-with-interval-censored-survival-data.html#cb166-11" tabindex="-1"></a></span>
+<span id="cb166-12"><a href="ltmle-package-with-interval-censored-survival-data.html#cb166-12" tabindex="-1"></a><span class="fu">head</span>(df_ltmle, <span class="dv">13</span>)</span></code></pre></div>
+<pre><code>##     X L0_1 L0_2 A1_1 A1_2         C1 Y1       L1 M2_1 M2_2         C2 Y2
+## 1   1    0    1    0    0 uncensored  0 84.37728    1    0 uncensored  0
+## 2   2    1    1    1    0 uncensored  0 56.79832    0    1 uncensored  1
+## 3   3    1    1    0    1 uncensored  0 68.84374    1    0   censored NA
+## 4   4    1    0    0    0 uncensored  0 78.65583    1    0 uncensored  0
+## 5   5    1    1    0    0 uncensored  0 61.33529    1    0 uncensored  0
+## 6   6    1    1    0    0 uncensored  0 69.81963    0    1 uncensored  0
+## 7   7    0    1    0    0 uncensored  0 42.79730    1    0 uncensored  0
+## 8   8    0    1    0    0 uncensored  0 26.72749    1    0 uncensored  0
+## 9   9    1    1    1    0 uncensored  0 51.65862    1    0 uncensored  0
+## 10 10    0    1    0    0 uncensored  0 29.31751    1    0 uncensored  0
+## 11 11    1    0    0    0 uncensored  1       NA   NA   NA       &lt;NA&gt;  1
+## 12 12    0    0    0    0 uncensored  0 54.69811    0    0 uncensored  0
+## 13 13    0    0    0    1 uncensored  0 36.30073    1    0 uncensored  0</code></pre>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-1" tabindex="-1"></a><span class="do">## Define an SuperLearner library (choose a various set of learner in practice)</span></span>
+<span id="cb168-2"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-2" tabindex="-1"></a>SL.library <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;SL.glm&quot;</span>, <span class="st">&quot;SL.mean&quot;</span>)</span>
+<span id="cb168-3"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-3" tabindex="-1"></a></span>
+<span id="cb168-4"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-4" tabindex="-1"></a><span class="do">## Dealing with multicategorical exposures and mediators</span></span>
+<span id="cb168-5"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-5" tabindex="-1"></a><span class="do">## we can incorporate deterministic knowledge that can be used with the </span></span>
+<span id="cb168-6"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-6" tabindex="-1"></a><span class="do">## &quot;deterministic.g.function&quot; argument of the ltmle function:</span></span>
+<span id="cb168-7"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-7" tabindex="-1"></a>det.g <span class="ot">&lt;-</span> <span class="cf">function</span>(data, current.node, nodes) {</span>
+<span id="cb168-8"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-8" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">names</span>(data)[current.node] <span class="sc">!=</span> <span class="st">&quot;A1_2&quot;</span> <span class="sc">&amp;</span>  <span class="fu">names</span>(data)[current.node] <span class="sc">!=</span> <span class="st">&quot;M2_2&quot;</span>) {</span>
+<span id="cb168-9"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-9" tabindex="-1"></a>    <span class="fu">return</span>(<span class="cn">NULL</span>) <span class="co"># for other variables</span></span>
+<span id="cb168-10"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-10" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (<span class="fu">names</span>(data)[current.node] <span class="sc">==</span> <span class="st">&quot;A1_2&quot;</span>) {</span>
+<span id="cb168-11"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-11" tabindex="-1"></a>    is.deterministic <span class="ot">&lt;-</span> data<span class="sc">$</span>A1_1 <span class="sc">==</span> <span class="dv">1</span> <span class="co"># if we&#39;re regressing A1_2, </span></span>
+<span id="cb168-12"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-12" tabindex="-1"></a>                                       <span class="co"># then: if A1_1=1 then P(A1_2 = 1) = 0</span></span>
+<span id="cb168-13"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-13" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">is.deterministic =</span> is.deterministic, <span class="at">prob1 =</span> <span class="dv">0</span>))</span>
+<span id="cb168-14"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-14" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (<span class="fu">names</span>(data)[current.node] <span class="sc">==</span> <span class="st">&quot;M2_2&quot;</span>) {</span>
+<span id="cb168-15"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-15" tabindex="-1"></a>    is.deterministic <span class="ot">&lt;-</span> data<span class="sc">$</span>M2_1 <span class="sc">==</span> <span class="dv">1</span> <span class="co"># if we&#39;re regressing M2_2, </span></span>
+<span id="cb168-16"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-16" tabindex="-1"></a>                                       <span class="co"># then: if M2_1=1 then P(M2_2 = 1) = 0</span></span>
+<span id="cb168-17"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-17" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">is.deterministic =</span> is.deterministic, <span class="at">prob1 =</span> <span class="dv">0</span>))</span>
+<span id="cb168-18"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-18" tabindex="-1"></a>  }</span>
+<span id="cb168-19"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-19" tabindex="-1"></a>    <span class="cf">else</span> {</span>
+<span id="cb168-20"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-20" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">&quot;something went wrong!&quot;</span>) <span class="co"># defensive programming</span></span>
+<span id="cb168-21"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-21" tabindex="-1"></a>  }</span>
+<span id="cb168-22"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-22" tabindex="-1"></a>}</span>
+<span id="cb168-23"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-23" tabindex="-1"></a></span>
+<span id="cb168-24"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-24" tabindex="-1"></a><span class="do">## run the ltmle function</span></span>
+<span id="cb168-25"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-25" tabindex="-1"></a>CDE_A2vA0_M0 <span class="ot">&lt;-</span> <span class="fu">ltmle</span>(<span class="at">data =</span> df_ltmle,</span>
+<span id="cb168-26"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-26" tabindex="-1"></a>                <span class="at">Anodes =</span> <span class="fu">c</span>(<span class="st">&quot;A1_1&quot;</span>, <span class="st">&quot;A1_2&quot;</span>, <span class="st">&quot;M2_1&quot;</span>, <span class="st">&quot;M2_2&quot;</span>), <span class="co"># exposure and mediator</span></span>
+<span id="cb168-27"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-27" tabindex="-1"></a>                <span class="at">Cnodes =</span> <span class="fu">c</span>(<span class="st">&quot;C1&quot;</span>, <span class="st">&quot;C2&quot;</span>),</span>
+<span id="cb168-28"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-28" tabindex="-1"></a>                <span class="at">Lnodes =</span> <span class="fu">c</span>(<span class="st">&quot;L1&quot;</span>),</span>
+<span id="cb168-29"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-29" tabindex="-1"></a>                <span class="at">Ynodes =</span> <span class="fu">c</span>(<span class="st">&quot;Y1&quot;</span>, <span class="st">&quot;Y2&quot;</span>),</span>
+<span id="cb168-30"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-30" tabindex="-1"></a>                <span class="at">survivalOutcome =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb168-31"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-31" tabindex="-1"></a>                <span class="at">abar =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="co"># A1 = 2 # EY(A=2,M=0)</span></span>
+<span id="cb168-32"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-32" tabindex="-1"></a>                            <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)), <span class="co"># M2 = 0 # EY(A=0,M=0)</span></span>
+<span id="cb168-33"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-33" tabindex="-1"></a>                <span class="at">deterministic.g.function =</span> det.g,</span>
+<span id="cb168-34"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-34" tabindex="-1"></a>                <span class="at">SL.library =</span> SL.library,</span>
+<span id="cb168-35"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-35" tabindex="-1"></a>                <span class="at">gcomp =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb168-36"><a href="ltmle-package-with-interval-censored-survival-data.html#cb168-36" tabindex="-1"></a>                <span class="at">variance.method =</span> <span class="st">&quot;ic&quot;</span>)</span></code></pre></div>
+<pre><code>## Qform not specified, using defaults:</code></pre>
+<pre><code>## formula for Y1:</code></pre>
+<pre><code>## Q.kplus1 ~ X + L0_1 + L0_2 + A1_1 + A1_2</code></pre>
+<pre><code>## formula for Y2:</code></pre>
+<pre><code>## Q.kplus1 ~ X + L0_1 + L0_2 + A1_1 + A1_2 + L1 + M2_1 + M2_2</code></pre>
+<pre><code>## </code></pre>
+<pre><code>## gform not specified, using defaults:</code></pre>
+<pre><code>## formula for A1_1:</code></pre>
+<pre><code>## A1_1 ~ X + L0_1 + L0_2</code></pre>
+<pre><code>## formula for A1_2:</code></pre>
+<pre><code>## A1_2 ~ X + L0_1 + L0_2 + A1_1</code></pre>
+<pre><code>## formula for C1:</code></pre>
+<pre><code>## C1 ~ X + L0_1 + L0_2 + A1_1 + A1_2</code></pre>
+<pre><code>## formula for M2_1:</code></pre>
+<pre><code>## M2_1 ~ X + L0_1 + L0_2 + A1_1 + A1_2 + L1</code></pre>
+<pre><code>## formula for M2_2:</code></pre>
+<pre><code>## M2_2 ~ X + L0_1 + L0_2 + A1_1 + A1_2 + L1 + M2_1</code></pre>
+<pre><code>## formula for C2:</code></pre>
+<pre><code>## C2 ~ X + L0_1 + L0_2 + A1_1 + A1_2 + L1 + M2_1 + M2_2</code></pre>
+<pre><code>## </code></pre>
+<pre><code>## Estimate of time to completion: 1 to 2 minutes</code></pre>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="ltmle-package-with-interval-censored-survival-data.html#cb190-1" tabindex="-1"></a><span class="fu">summary</span>(CDE_A2vA0_M0)</span></code></pre></div>
+<pre><code>## Estimator:  tmle 
+## Call:
+## ltmle(data = df_ltmle, Anodes = c(&quot;A1_1&quot;, &quot;A1_2&quot;, &quot;M2_1&quot;, &quot;M2_2&quot;), 
+##     Cnodes = c(&quot;C1&quot;, &quot;C2&quot;), Lnodes = c(&quot;L1&quot;), Ynodes = c(&quot;Y1&quot;, 
+##         &quot;Y2&quot;), survivalOutcome = TRUE, abar = list(c(0, 1, 0, 
+##         0), c(0, 0, 0, 0)), deterministic.g.function = det.g, 
+##     SL.library = SL.library, gcomp = FALSE, variance.method = &quot;ic&quot;)
+## 
+## Treatment Estimate:
+##    Parameter Estimate:  0.4033 
+##     Estimated Std Err:  0.033428 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (0.33778, 0.46882) 
+## 
+## Control Estimate:
+##    Parameter Estimate:  0.15786 
+##     Estimated Std Err:  0.02203 
+##               p-value:  7.7231e-13 
+##     95% Conf Interval: (0.11469, 0.20104) 
+## 
+## Additive Treatment Effect:
+##    Parameter Estimate:  0.24544 
+##     Estimated Std Err:  0.040026 
+##               p-value:  8.6843e-10 
+##     95% Conf Interval: (0.16699, 0.32389) 
+## 
+## Relative Risk:
+##    Parameter Estimate:  2.5547 
+##   Est Std Err log(RR):  0.16228 
+##               p-value:  7.4749e-09 
+##     95% Conf Interval: (1.8587, 3.5114) 
+## 
+## Odds Ratio:
+##    Parameter Estimate:  3.6056 
+##   Est Std Err log(OR):  0.21618 
+##               p-value:  2.9857e-09 
+##     95% Conf Interval: (2.3602, 5.5079)</code></pre>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="ltmle-package-with-interval-censored-survival-data.html#cb192-1" tabindex="-1"></a>CDE_A2vA0_M0<span class="sc">$</span>fit<span class="sc">$</span>g</span></code></pre></div>
+<pre><code>## [[1]]
+## [[1]]$A1_1
+##                  Risk      Coef
+## SL.glm_All  0.1828096 0.9600873
+## SL.mean_All 0.1839670 0.0399127
+## 
+## [[1]]$A1_2
+##                  Risk       Coef
+## SL.glm_All  0.2358587 0.98738181
+## SL.mean_All 0.2438133 0.01261819
+## 
+## [[1]]$C1
+##                   Risk      Coef
+## SL.glm_All  0.04905206 0.9073443
+## SL.mean_All 0.04922034 0.0926557
+## 
+## [[1]]$M2_1
+##                  Risk      Coef
+## SL.glm_All  0.1839150 0.2953515
+## SL.mean_All 0.1838302 0.7046485
+## 
+## [[1]]$M2_2
+##                  Risk       Coef
+## SL.glm_All  0.1302708 0.92939499
+## SL.mean_All 0.1376532 0.07060501
+## 
+## [[1]]$C2
+##                   Risk       Coef
+## SL.glm_All  0.08307675 0.91616088
+## SL.mean_All 0.08385440 0.08383912
+## 
+## 
+## [[2]]
+## [[2]]$A1_1
+##                  Risk      Coef
+## SL.glm_All  0.1828096 0.9600873
+## SL.mean_All 0.1839670 0.0399127
+## 
+## [[2]]$A1_2
+##                  Risk       Coef
+## SL.glm_All  0.2358587 0.98738181
+## SL.mean_All 0.2438133 0.01261819
+## 
+## [[2]]$C1
+##                   Risk      Coef
+## SL.glm_All  0.04905206 0.9073443
+## SL.mean_All 0.04922034 0.0926557
+## 
+## [[2]]$M2_1
+##                  Risk      Coef
+## SL.glm_All  0.1839150 0.2953515
+## SL.mean_All 0.1838302 0.7046485
+## 
+## [[2]]$M2_2
+##                  Risk       Coef
+## SL.glm_All  0.1302708 0.92939499
+## SL.mean_All 0.1376532 0.07060501
+## 
+## [[2]]$C2
+##                   Risk       Coef
+## SL.glm_All  0.08307675 0.91616088
+## SL.mean_All 0.08385440 0.08383912</code></pre>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="ltmle-package-with-interval-censored-survival-data.html#cb194-1" tabindex="-1"></a>CDE_A2vA0_M0<span class="sc">$</span>fit<span class="sc">$</span>Q</span></code></pre></div>
+<pre><code>## [[1]]
+## [[1]]$Y1
+##                   Risk        Coef
+## SL.glm_All  0.06307006 0.994996871
+## SL.mean_All 0.06833395 0.005003129
+## 
+## [[1]]$Y2
+##                  Risk       Coef
+## SL.glm_All  0.1708663 0.98570313
+## SL.mean_All 0.1770992 0.01429687
+## 
+## 
+## [[2]]
+## [[2]]$Y1
+##                   Risk       Coef
+## SL.glm_All  0.09451827 0.98460715
+## SL.mean_All 0.09865130 0.01539285
+## 
+## [[2]]$Y2
+##                  Risk       Coef
+## SL.glm_All  0.1708663 0.98570313
+## SL.mean_All 0.1770992 0.01429687</code></pre>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="ltmle-package-with-interval-censored-survival-data.html#cb196-1" tabindex="-1"></a><span class="do">## Average total effect</span></span>
+<span id="cb196-2"><a href="ltmle-package-with-interval-censored-survival-data.html#cb196-2" tabindex="-1"></a><span class="do">## we do not need the mediators, but we need the censoring variables</span></span>
+<span id="cb196-3"><a href="ltmle-package-with-interval-censored-survival-data.html#cb196-3" tabindex="-1"></a><span class="do">## (which are considered as exposures)</span></span>
+<span id="cb196-4"><a href="ltmle-package-with-interval-censored-survival-data.html#cb196-4" tabindex="-1"></a>ATE_A2vA0 <span class="ot">&lt;-</span> <span class="fu">ltmle</span>(<span class="at">data =</span> <span class="fu">subset</span>(df_ltmle, <span class="at">select =</span> <span class="sc">-</span><span class="fu">c</span>(M2_1, M2_2)),</span>
+<span id="cb196-5"><a href="ltmle-package-with-interval-censored-survival-data.html#cb196-5" tabindex="-1"></a>                      <span class="at">Anodes =</span> <span class="fu">c</span>(<span class="st">&quot;A1_1&quot;</span>, <span class="st">&quot;A1_2&quot;</span>), <span class="co"># exposure and mediator</span></span>
+<span id="cb196-6"><a href="ltmle-package-with-interval-censored-survival-data.html#cb196-6" tabindex="-1"></a>                      <span class="at">Cnodes =</span> <span class="fu">c</span>(<span class="st">&quot;C1&quot;</span>, <span class="st">&quot;C2&quot;</span>),</span>
+<span id="cb196-7"><a href="ltmle-package-with-interval-censored-survival-data.html#cb196-7" tabindex="-1"></a>                      <span class="at">Lnodes =</span> <span class="fu">c</span>(<span class="st">&quot;L1&quot;</span>),</span>
+<span id="cb196-8"><a href="ltmle-package-with-interval-censored-survival-data.html#cb196-8" tabindex="-1"></a>                      <span class="at">Ynodes =</span> <span class="fu">c</span>(<span class="st">&quot;Y1&quot;</span>, <span class="st">&quot;Y2&quot;</span>),</span>
+<span id="cb196-9"><a href="ltmle-package-with-interval-censored-survival-data.html#cb196-9" tabindex="-1"></a>                      <span class="at">survivalOutcome =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb196-10"><a href="ltmle-package-with-interval-censored-survival-data.html#cb196-10" tabindex="-1"></a>                      <span class="at">abar =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="co"># A1 = 2 # EY(A=2)</span></span>
+<span id="cb196-11"><a href="ltmle-package-with-interval-censored-survival-data.html#cb196-11" tabindex="-1"></a>                                  <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)), <span class="co"># M2 = 0 # EY(A=0)</span></span>
+<span id="cb196-12"><a href="ltmle-package-with-interval-censored-survival-data.html#cb196-12" tabindex="-1"></a>                      <span class="at">deterministic.g.function =</span> det.g,</span>
+<span id="cb196-13"><a href="ltmle-package-with-interval-censored-survival-data.html#cb196-13" tabindex="-1"></a>                      <span class="at">SL.library =</span> SL.library,</span>
+<span id="cb196-14"><a href="ltmle-package-with-interval-censored-survival-data.html#cb196-14" tabindex="-1"></a>                      <span class="at">gcomp =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb196-15"><a href="ltmle-package-with-interval-censored-survival-data.html#cb196-15" tabindex="-1"></a>                      <span class="at">variance.method =</span> <span class="st">&quot;ic&quot;</span>)</span></code></pre></div>
+<pre><code>## Qform not specified, using defaults:</code></pre>
+<pre><code>## formula for Y1:</code></pre>
+<pre><code>## Q.kplus1 ~ X + L0_1 + L0_2 + A1_1 + A1_2</code></pre>
+<pre><code>## formula for Y2:</code></pre>
+<pre><code>## Q.kplus1 ~ X + L0_1 + L0_2 + A1_1 + A1_2 + L1</code></pre>
+<pre><code>## </code></pre>
+<pre><code>## gform not specified, using defaults:</code></pre>
+<pre><code>## formula for A1_1:</code></pre>
+<pre><code>## A1_1 ~ X + L0_1 + L0_2</code></pre>
+<pre><code>## formula for A1_2:</code></pre>
+<pre><code>## A1_2 ~ X + L0_1 + L0_2 + A1_1</code></pre>
+<pre><code>## formula for C1:</code></pre>
+<pre><code>## C1 ~ X + L0_1 + L0_2 + A1_1 + A1_2</code></pre>
+<pre><code>## formula for C2:</code></pre>
+<pre><code>## C2 ~ X + L0_1 + L0_2 + A1_1 + A1_2 + L1</code></pre>
+<pre><code>## </code></pre>
+<pre><code>## Estimate of time to completion: 1 minute</code></pre>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="ltmle-package-with-interval-censored-survival-data.html#cb214-1" tabindex="-1"></a><span class="fu">summary</span>(ATE_A2vA0)</span></code></pre></div>
+<pre><code>## Estimator:  tmle 
+## Call:
+## ltmle(data = subset(df_ltmle, select = -c(M2_1, M2_2)), Anodes = c(&quot;A1_1&quot;, 
+##     &quot;A1_2&quot;), Cnodes = c(&quot;C1&quot;, &quot;C2&quot;), Lnodes = c(&quot;L1&quot;), Ynodes = c(&quot;Y1&quot;, 
+##     &quot;Y2&quot;), survivalOutcome = TRUE, abar = list(c(0, 1), c(0, 
+##     0)), deterministic.g.function = det.g, SL.library = SL.library, 
+##     gcomp = FALSE, variance.method = &quot;ic&quot;)
+## 
+## Treatment Estimate:
+##    Parameter Estimate:  0.42858 
+##     Estimated Std Err:  0.0080164 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (0.41287, 0.4443) 
+## 
+## Control Estimate:
+##    Parameter Estimate:  0.22137 
+##     Estimated Std Err:  0.0081064 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (0.20548, 0.23726) 
+## 
+## Additive Treatment Effect:
+##    Parameter Estimate:  0.20721 
+##     Estimated Std Err:  0.01138 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (0.18491, 0.22952) 
+## 
+## Relative Risk:
+##    Parameter Estimate:  1.936 
+##   Est Std Err log(RR):  0.041059 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (1.7863, 2.0983) 
+## 
+## Odds Ratio:
+##    Parameter Estimate:  2.6381 
+##   Est Std Err log(OR):  0.057203 
+##               p-value:  &lt;2e-16 
+##     95% Conf Interval: (2.3583, 2.9511)</code></pre>
+<p>In this example,</p>
+<ul>
+<li>the g-computation algorithm estimates the <span class="math inline">\(\bar{Q}\)</span> function among the uncensored participants (and the censoring mechanism is not taken into account by g-computation). The estimation can be biased because of attrition;</li>
+<li>however, the censoring mechanism is still taken into account with the IPTW estimator (similarly to an estimation by Inverse Probability of Censoring Weighting, <em>IPCW</em>).</li>
+</ul>
+
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div class="csl-entry">
+Díaz, I, N S Hejazi, K E Rudolph, and M J van Der Laan. 2020. <span>“<span class="nocase">Nonparametric efficient causal mediation with intermediate confounders</span>.”</span> <em>Biometrika</em> 108 (3): 627–41. <a href="https://doi.org/10.1093/biomet/asaa085">https://doi.org/10.1093/biomet/asaa085</a>.
+</div>
+<div class="csl-entry">
+Díaz, Iván, Nicholas Williams, and Kara E Rudolph. 2023. <span>“<span class="nocase">Efficient and flexible mediation analysis with time-varying mediators, treatments, and confounders</span>.”</span> <em>Journal of Causal Inference</em> 11 (1): 20220077. <a href="https://doi.org/10.1515/jci-2022-0077">https://doi.org/10.1515/jci-2022-0077</a>.
+</div>
+<div class="csl-entry">
+Hejazi, Nima S., Kara E. Rudolph, and Iván Díaz. 2022. <span>“‘Medoutcon‘: Nonparametric Efficient Causal Mediation Analysis with Machine Learning in ‘r‘.”</span> <em>Journal of Open Source Software</em> 7 (69): 3979. <a href="https://doi.org/10.21105/joss.03979">https://doi.org/10.21105/joss.03979</a>.
+</div>
+<div class="csl-entry">
+Laan, Mark J. van der, and Sherri Rose. 2011. <em>Targeted Learning: Causal Inference for Observational and Experimental Data.</em> 1st ed. Springer Series in Statistics. New York, NY: Springer.
+</div>
+<div class="csl-entry">
+VanderWeele, Tyler J. 2009. <span>“Marginal Structural Models for the Estimation of Direct and Indirect Effects.”</span> <em>Epidemiology</em> 20: 18–26.
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="estimate-rnde-and-rnie-by-double-robust-estimators.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": false,
+    "twitter": false,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/benoitlepage/Inserm_workshop_282/06-ltmle_with_survival_setting.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["_main.pdf"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -28,7 +28,7 @@ library(r2symbols)
 
 # Introduction  
 
-```{r qrcode, echo=FALSE, fig.align="center", out.width="30%", fig.cap="QR code towards the github repository of the workshop"}
+```{r qrcode, echo=FALSE, fig.align="center", out.width="30%", fig.cap="QR code towards the [github repository](https://github.com/chupverse/causal-workshop) of the workshop"}
 knitr::include_graphics("./images/url.jpg")    
 ```
 
