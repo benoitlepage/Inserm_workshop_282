@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="estimate-rnde-and-rnie-by-double-robust-estimators.html"/>
-
+<link rel="next" href="references.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -217,6 +217,7 @@ div.csl-indent {
 <li class="chapter" data-level="7.3" data-path="ltmle-package-with-interval-censored-survival-data.html"><a href="ltmle-package-with-interval-censored-survival-data.html#inspect-the-data-generated"><i class="fa fa-check"></i><b>7.3</b> Inspect the data generated</a></li>
 <li class="chapter" data-level="7.4" data-path="ltmle-package-with-interval-censored-survival-data.html"><a href="ltmle-package-with-interval-censored-survival-data.html#estimate-the-controlled-direct-effect"><i class="fa fa-check"></i><b>7.4</b> Estimate the controlled direct effect</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -499,7 +500,7 @@ We will also estimate the Average Total Effect:
 <pre><code>## formula for C2:</code></pre>
 <pre><code>## C2 ~ X + L0_1 + L0_2 + A1_1 + A1_2 + L1 + M2_1 + M2_2</code></pre>
 <pre><code>## </code></pre>
-<pre><code>## Estimate of time to completion: 1 to 2 minutes</code></pre>
+<pre><code>## Estimate of time to completion: 2 to 2 minutes</code></pre>
 <div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="ltmle-package-with-interval-censored-survival-data.html#cb190-1" tabindex="-1"></a><span class="fu">summary</span>(CDE_A2vA0_M0)</span></code></pre></div>
 <pre><code>## Estimator:  tmle 
 ## Call:
@@ -655,7 +656,7 @@ We will also estimate the Average Total Effect:
 <pre><code>## formula for C2:</code></pre>
 <pre><code>## C2 ~ X + L0_1 + L0_2 + A1_1 + A1_2 + L1</code></pre>
 <pre><code>## </code></pre>
-<pre><code>## Estimate of time to completion: 1 minute</code></pre>
+<pre><code>## Estimate of time to completion: 1 to 2 minutes</code></pre>
 <div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="ltmle-package-with-interval-censored-survival-data.html#cb214-1" tabindex="-1"></a><span class="fu">summary</span>(ATE_A2vA0)</span></code></pre></div>
 <pre><code>## Estimator:  tmle 
 ## Call:
@@ -700,23 +701,6 @@ We will also estimate the Average Total Effect:
 <li>however, the censoring mechanism is still taken into account with the IPTW estimator (similarly to an estimation by Inverse Probability of Censoring Weighting, <em>IPCW</em>).</li>
 </ul>
 
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
-<div class="csl-entry">
-Díaz, I, N S Hejazi, K E Rudolph, and M J van Der Laan. 2020. <span>“<span class="nocase">Nonparametric efficient causal mediation with intermediate confounders</span>.”</span> <em>Biometrika</em> 108 (3): 627–41. <a href="https://doi.org/10.1093/biomet/asaa085">https://doi.org/10.1093/biomet/asaa085</a>.
-</div>
-<div class="csl-entry">
-Díaz, Iván, Nicholas Williams, and Kara E Rudolph. 2023. <span>“<span class="nocase">Efficient and flexible mediation analysis with time-varying mediators, treatments, and confounders</span>.”</span> <em>Journal of Causal Inference</em> 11 (1): 20220077. <a href="https://doi.org/10.1515/jci-2022-0077">https://doi.org/10.1515/jci-2022-0077</a>.
-</div>
-<div class="csl-entry">
-Hejazi, Nima S., Kara E. Rudolph, and Iván Díaz. 2022. <span>“‘Medoutcon‘: Nonparametric Efficient Causal Mediation Analysis with Machine Learning in ‘r‘.”</span> <em>Journal of Open Source Software</em> 7 (69): 3979. <a href="https://doi.org/10.21105/joss.03979">https://doi.org/10.21105/joss.03979</a>.
-</div>
-<div class="csl-entry">
-Laan, Mark J. van der, and Sherri Rose. 2011. <em>Targeted Learning: Causal Inference for Observational and Experimental Data.</em> 1st ed. Springer Series in Statistics. New York, NY: Springer.
-</div>
-<div class="csl-entry">
-VanderWeele, Tyler J. 2009. <span>“Marginal Structural Models for the Estimation of Direct and Indirect Effects.”</span> <em>Epidemiology</em> 20: 18–26.
-</div>
-</div>
 </div>
 </div>
             </section>
@@ -724,8 +708,8 @@ VanderWeele, Tyler J. 2009. <span>“Marginal Structural Models for the Estimati
           </div>
         </div>
       </div>
-<a href="estimate-rnde-and-rnie-by-double-robust-estimators.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="estimate-rnde-and-rnie-by-double-robust-estimators.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
